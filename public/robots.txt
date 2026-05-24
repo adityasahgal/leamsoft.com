@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /admin/login/
+Disallow: /admin/register/
+Allow: /
+Allow: /public/
+Sitemap: https://dev.worldwebrobotics.com/sitemap.xml

@@ -1,0 +1,30 @@
+Make input fields smaller on mobile screens @media (max-width: 767px) {
+    .search-form {
+        width: 100%;
+    }
+
+    .search-form .row .col-lg-4,
+    .search-form .row .col-lg-3,
+    .search-form .row .col-lg-2,
+    .search-form .row .col-md-6,
+    .search-form .row .col-sm-4,
+    .search-form .row .col-sm-3,
+    .search-form .row .col-sm-2 {
+        flex: 1;
+        min-width: 25%;
+        /* Ensures each element takes 25% width, adjusting for the inline layout */
+    }
+
+    .heading-title h4 {
+        font-size: 16px;
+    }
+
+    .heading-title a {
+        font-size: 14px;
+    }
+
+    .product-card {
+        min-width: 100%;
+    }
+
+}
