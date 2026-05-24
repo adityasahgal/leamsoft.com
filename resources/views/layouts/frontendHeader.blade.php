@@ -1,3 +1,8 @@
+@php
+    $navCategories = \App\Models\Category::with(['subcategories' => function($q) {
+        $q->where('status', 1)->orderBy('sort_order')->take(6);
+    }])->where('status', 1)->orderBy('sort_order')->take(6)->get();
+@endphp
 <style>
     /* ─── TOP BAR ─── */
     .leam-topbar {
@@ -311,29 +316,38 @@
             <li><a href="{{ url('about-us') }}" class="{{ request()->is('about-us') ? 'active' : '' }}">About</a></li>
 
             <li>
-                <a href="#">Services <span class="arr">▼</span></a>
+                <a href="{{ url('services') }}" class="{{ request()->is('services*') || request()->is('villas') ? 'active' : '' }}">Services <span class="arr">▼</span></a>
+                @if($navCategories->count() > 0)
                 <div class="leam-dropdown">
                     <div class="leam-dd-left">
-                        <a class="leam-dd-left-item" href="{{ url('villas') }}"><span class="leam-dd-icon">🌐</span> Web Development</a>
-                        <a class="leam-dd-left-item" href="{{ url('villas') }}"><span class="leam-dd-icon">📱</span> App Development</a>
-                        <a class="leam-dd-left-item" href="{{ url('villas') }}"><span class="leam-dd-icon">🤖</span> AI & Machine Learning</a>
-                        <a class="leam-dd-left-item" href="{{ url('villas') }}"><span class="leam-dd-icon">☁️</span> Cloud Solutions</a>
-                        <a class="leam-dd-left-item" href="{{ url('villas') }}"><span class="leam-dd-icon">🛡️</span> Cyber Security</a>
-                        <a class="leam-dd-left-item" href="{{ url('villas') }}"><span class="leam-dd-icon">📈</span> Digital Marketing</a>
+                        @foreach($navCategories as $navCat)
+                            <a class="leam-dd-left-item" href="{{ url($navCat->slug) }}" data-cat="{{ $navCat->slug }}" onmouseenter="leamShowCatFeatures('{{ $navCat->slug }}')">
+                                <span class="leam-dd-icon">{{ $navCat->icon ?? '🔧' }}</span> {{ $navCat->name }}
+                            </a>
+                        @endforeach
                     </div>
                     <div class="leam-dd-right">
-                        <a class="leam-dd-feature" href="{{ url('villas') }}">
-                            <div class="leam-dd-feature-title">🔌 API & System Integration</div>
-                            <div class="leam-dd-feature-desc">Robust REST/GraphQL APIs and seamless integrations across your stack.</div>
-                            <span class="leam-dd-feature-link">Learn More →</span>
-                        </a>
-                        <a class="leam-dd-feature" href="{{ url('villas') }}">
-                            <div class="leam-dd-feature-title">💼 IT Consulting</div>
-                            <div class="leam-dd-feature-desc">Strategic technology advisory to align IT with business outcomes.</div>
-                            <span class="leam-dd-feature-link">Explore →</span>
-                        </a>
+                        @foreach($navCategories as $idx => $navCat)
+                            <div class="leam-dd-features-group" data-cat="{{ $navCat->slug }}" style="display: {{ $idx === 0 ? 'flex' : 'none' }}; flex-direction: column; gap: 6px;">
+                                @foreach($navCat->subcategories->take(3) as $sub)
+                                    <a class="leam-dd-feature" href="{{ url($sub->slug) }}">
+                                        <div class="leam-dd-feature-title">{{ $sub->icon ?? '•' }} {{ $sub->name }}</div>
+                                        <div class="leam-dd-feature-desc">{{ \Illuminate\Support\Str::limit($sub->short_description, 80) }}</div>
+                                        <span class="leam-dd-feature-link">Learn More →</span>
+                                    </a>
+                                @endforeach
+                                @if($navCat->subcategories->count() === 0)
+                                    <a class="leam-dd-feature" href="{{ url($navCat->slug) }}">
+                                        <div class="leam-dd-feature-title">{{ $navCat->icon }} {{ $navCat->name }}</div>
+                                        <div class="leam-dd-feature-desc">{{ \Illuminate\Support\Str::limit($navCat->short_description, 100) }}</div>
+                                        <span class="leam-dd-feature-link">Explore →</span>
+                                    </a>
+                                @endif
+                            </div>
+                        @endforeach
                     </div>
                 </div>
+                @endif
             </li>
 
             <li><a href="{{ url('blog') }}" class="{{ request()->is('blog*') ? 'active' : '' }}">Blog</a></li>
@@ -354,7 +368,10 @@
     <div class="leam-mobile-menu" id="leamMobileMenu">
         <a href="{{ url('/') }}">Home</a>
         <a href="{{ url('about-us') }}">About</a>
-        <a href="{{ url('villas') }}">Services</a>
+        <a href="{{ url('services') }}">Services</a>
+        @foreach($navCategories as $navCat)
+            <a href="{{ url($navCat->slug) }}" style="padding-left:30px; font-size:13px; color: var(--muted);">↳ {{ $navCat->name }}</a>
+        @endforeach
         <a href="{{ url('blog') }}">Blog</a>
         <a href="{{ url('gallery') }}">Projects</a>
         <a href="{{ url('faq') }}">FAQ</a>
@@ -364,3 +381,17 @@
 </nav>
 
 <div class="rainbow-divider"></div>
+
+<script>
+function leamShowCatFeatures(slug) {
+    document.querySelectorAll('.leam-dd-features-group').forEach(g => g.style.display = 'none');
+    var target = document.querySelector('.leam-dd-features-group[data-cat="' + slug + '"]');
+    if (target) target.style.display = 'flex';
+    document.querySelectorAll('.leam-dd-left-item').forEach(a => a.classList.remove('active'));
+    var activeLink = document.querySelector('.leam-dd-left-item[data-cat="' + slug + '"]');
+    if (activeLink) activeLink.classList.add('active');
+}
+</script>
+<style>
+    .leam-dd-left-item.active { background: rgba(0,180,255,0.08); color: #00b4ff; }
+</style>
