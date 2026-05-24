@@ -19,6 +19,7 @@ Route::group(['middleware' => 'XssSanitizer'], function () {
     Route::get('/', [MainController::class, 'index'])->name('index');
     Route::get('/about-us', [MainController::class, 'about_us']);
     Route::get('/villas', [MainController::class, 'villas'])->name('villas');
+    Route::get('/services', [MainController::class, 'villas'])->name('services');
     Route::get('/near_by', [MainController::class, 'near_by'])->name('near_by');
     Route::get('/privacy-policy', [MainController::class, 'privacy_policy']);
     Route::get('/contact-us', [MainController::class, 'contact_us']);
