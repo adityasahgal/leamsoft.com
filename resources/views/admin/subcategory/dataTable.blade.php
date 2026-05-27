@@ -2,120 +2,98 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>Category Name</th>
-            <th>Name</th>
-            <th>Banner</th>
             <th>Icon</th>
-            <th>Update Date</th>
-            <th>Update By</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Slug</th>
+            <th>Thumbnail</th>
+            <th>Services</th>
+            <th>Sort</th>
+            <th>Updated</th>
+            <th>By</th>
             @can('subcategory-publish')
-            <th>Featured</th>
-            <th>Top</th>
-            <th>Status</th>
+                <th>Status</th>
             @endcan
-            <th>Action</th>
+            @canany(['subcategory-edit','subcategory-delete'])
+                <th>Action</th>
+            @endcanany
         </tr>
     </thead>
     <tbody>
-        @foreach($data as $key => $row)
+        @forelse($data as $key => $row)
         <tr>
-
-            <th>{{ ($key+1) + ($data->currentPage() - 1)*$data->perPage() }}</th>
-            <td>{{ $row->categories->name }}</td>
+            <th>{{ ($key+1) + ($data->currentPage() - 1) * $data->perPage() }}</th>
+            <td class="icon-cell">{{ $row->icon }}</td>
             <td>{{ $row->name }}</td>
+            <td>{{ $row->category->name ?? '-' }}</td>
+            <td><code>{{ $row->slug }}</code></td>
             <td>
-                @if(file_exists('storage/' . $row->banner) && !empty($row->banner))
-                <img class="img-md" src="{{ url('storage/'.$row->banner) }}" alt="banner">
+                @if(!empty($row->thumbnail_img) && file_exists('storage/' . $row->thumbnail_img))
+                    <img src="{{ url('storage/' . $row->thumbnail_img) }}" alt="{{ $row->name }}" class="img-md">
+                @else
+                    <span class="text-muted">—</span>
                 @endif
             </td>
-            <td>
-                @if(file_exists('storage/' . $row->icon) && !empty($row->icon))
-                <img class="img-xs" src="{{ url('storage/'.$row->icon) }}" alt="icon">
-                @endif
-            </td>
-            <td>{{ $row->updated_at->format('j F, Y') }}</td>
-            <td>{{ $row->users->name }}</td>
+            <td>{{ $row->services_count }}</td>
+            <td>{{ $row->sort_order }}</td>
+            <td>{{ $row->updated_at?->format('j M, Y') }}</td>
+            <td>{{ $row->users->name ?? '-' }}</td>
             @can('subcategory-publish')
             <td>
                 <label class="switch">
-                    <input onchange="update_featured(this)" value="{{ $row->id }}" type="checkbox" <?php if ($row->featured == 1) echo "checked"; ?>>
-                    <span class="slider round"></span>
-                </label>
-            </td>
-            <td>
-                <label class="switch">
-                    <input onchange="update_top(this)" value="{{ $row->id }}" type="checkbox" <?php if ($row->top == 1) echo "checked"; ?>>
-                    <span class="slider round"></span>
-                </label>
-            </td>
-            <td>
-                <label class="switch">
-                    <input onchange="update_status(this)" value="{{ $row->id }}" type="checkbox" <?php if ($row->status == 1) echo "checked"; ?>>
+                    <input onchange="update_status(this)" value="{{ $row->id }}" type="checkbox" @if($row->status == 1) checked @endif>
                     <span class="slider round"></span>
                 </label>
             </td>
             @endcan
+            @canany(['subcategory-edit','subcategory-delete'])
             <td>
                 <div class="btn-group">
                     @can('subcategory-edit')
-                    <button type="button" class="btn btn-primary btn-sm" onclick='getSubcategoryDetails("<?= $row->id ?>")'>
+                    <button type="button" class="btn btn-primary btn-sm" onclick='getSubcategoryDetails("{{ $row->id }}")' title="Edit">
                         <i class="fas fa-edit"></i>
                     </button>
                     @endcan
-
                     @can('subcategory-delete')
-                    <button type="button" class="btn btn-danger btn-sm" onclick='deleteSubcategoryData("<?= $row->id ?>")'>
+                    <button type="button" class="btn btn-danger btn-sm" onclick='deleteSubcategoryData("{{ $row->id }}")' title="Delete">
                         <i class="far fa-trash-alt"></i>
                     </button>
                     @endcan
                 </div>
             </td>
+            @endcanany
         </tr>
-        @endforeach
-
+        @empty
+        <tr><td colspan="12" class="text-center text-muted py-4">No subcategories yet. Click <strong>Add Subcategory</strong> to create one.</td></tr>
+        @endforelse
     </tbody>
-
 </table>
 <hr>
 <div class="row">
     <div class="col-md-3" style="margin-top:10px;">
         <p class="text-sm text-gray-700 leading-5">
-            Showing
-            <span class="font-medium">{{ $data->firstItem() }}</span>
-            to
-            <span class="font-medium">{{ $data->lastItem() }}</span>
-            of
-            <span class="font-medium">{{ $data->total() }}</span>
-            results
+            Showing <span class="font-medium">{{ $data->firstItem() }}</span>
+            to <span class="font-medium">{{ $data->lastItem() }}</span>
+            of <span class="font-medium">{{ $data->total() }}</span> results
         </p>
-
     </div>
     <div class="col-md-9">
         {{ $data->links('pagination::bootstrap-4') }}
     </div>
 </div>
-<input type="hidden" value="{{ $data->path()."?page=".$data->currentPage() }}" id="pageUrl">
-<!-- .modal -->
+
+{{-- EDIT MODAL --}}
 <div class="modal fade" id="subcategoryUpdateModel">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content card-primary card-outline" id="subcategoryData">
-
-        </div>
-        <!-- /.modal-content -->
+        <div class="modal-content card-primary card-outline" id="subcategoryData"></div>
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
-
 
 <script>
     function getSubcategoryDetails(id) {
         $.ajax({
             url: "{{ route('subcategory.edit') }}",
-            data: {
-                '_token': "{{ csrf_token() }}",
-                'id': id
-            },
+            data: { '_token': "{{ csrf_token() }}", 'id': id },
             type: 'POST',
             success: function(result) {
                 $("#subcategoryData").html(result);
@@ -123,7 +101,6 @@
             }
         });
     }
-
 
     function deleteSubcategoryData(id) {
         Swal.fire({
@@ -138,132 +115,29 @@
             if (result.isConfirmed) {
                 $.ajax({
                     url: "{{ route('subcategory.destroy') }}",
-                    data: {
-                        '_token': "{{ csrf_token() }}",
-                        'id': id
-                    },
+                    data: { '_token': "{{ csrf_token() }}", 'id': id },
                     type: 'POST',
                     success: function(results) {
-
-                        if (results.status == "success") {
-                            Swal.fire(
-                                'Deleted!',
-                                results.message,
-                                results.status
-                            ).then(() => {
-                                location.reload();
-                            });
-                        } else {
-                            Swal.fire(
-                                'Error!',
-                                results.message,
-                                results.status
-                            );
-                        }
+                        Swal.fire(results.status === 'success' ? 'Deleted!' : 'Error!', results.message, results.status)
+                            .then(() => { if (results.status === 'success') location.reload(); });
                     }
                 });
-
             }
-        })
-
-
+        });
     }
 
     function update_status(el) {
-        if (el.checked) {
-            var status = 1;
-        } else {
-            var status = 0;
-        }
+        var status = el.checked ? 1 : 0;
         $.ajax({
             url: "{{ route('subcategory.status') }}",
-            data: {
-                '_token': "{{ csrf_token() }}",
-                'id': el.value,
-                'status': status,
-                'type': 'status'
-            },
+            data: { '_token': "{{ csrf_token() }}", 'id': el.value, 'status': status },
             type: 'POST',
             success: function(results) {
-                if (results.status == "success") {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: "Subcategory Status Successfully Changed !."
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'danger',
-                        title: 'Danger!',
-                        text: "Subcategory Status Not Changed !."
-                    });
-                }
-            }
-        });
-    }
-
-    function update_featured(el) {
-        if (el.checked) {
-            var status = 1;
-        } else {
-            var status = 0;
-        }
-        $.ajax({
-            url: "{{ route('subcategory.status') }}",
-            data: {
-                '_token': "{{ csrf_token() }}",
-                'id': el.value,
-                'status': status,
-                'type': 'featured'
-            },
-            type: 'POST',
-            success: function(results) {
-                if (results.status == "success") {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: "Featured subcategories updated successfully !."
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'danger',
-                        title: 'Danger!',
-                        text: "Something went wrong !."
-                    });
-                }
-            }
-        });
-    }
-
-    function update_top(el) {
-        if (el.checked) {
-            var status = 1;
-        } else {
-            var status = 0;
-        }
-        $.ajax({
-            url: "{{ route('subcategory.status') }}",
-            data: {
-                '_token': "{{ csrf_token() }}",
-                'id': el.value,
-                'status': status,
-                'type': 'top'
-            },
-            type: 'POST',
-            success: function(results) {
-                if (results.status == "success") {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: "Top subcategories updated successfully !."
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'danger',
-                        title: 'Danger!',
-                        text: "Something went wrong !."
-                    });
-                }
+                Swal.fire({
+                    icon: results.status === 'success' ? 'success' : 'error',
+                    title: results.status === 'success' ? 'Success!' : 'Error!',
+                    text: results.status === 'success' ? 'Subcategory status updated.' : 'Status not changed.'
+                });
             }
         });
     }

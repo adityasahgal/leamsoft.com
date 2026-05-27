@@ -1,8 +1,8 @@
 @extends('layouts.master')
 @php
-$meta_title = "Our Services | LEAMSOFT — Smart Technology Solutions";
-$meta_description = "Explore LEAMSOFT's full range of IT services — software development, AI, cloud, cyber security, digital marketing, and consulting.";
-$keywords = "leamsoft services, IT services, software development, AI, cloud, cyber security";
+$meta_title = "Our Services | Leamsoft Pvt Ltd. — AI, Cloud, Blockchain & SaaS";
+$meta_description = "Explore Leamsoft's full service stack — AI-powered software, web development, blockchain, cloud & DevOps, CRM/ERP, SaaS products, API integrations, and UI/UX.";
+$keywords = "Leamsoft services, AI software, blockchain development, cloud devops, SaaS, CRM ERP, API integrations, UI UX, web development Delhi NCR";
 @endphp
 @section('meta_title'){{ $meta_title }}@stop
 @section('meta_description'){{ $meta_description }}@stop
@@ -240,7 +240,7 @@ $keywords = "leamsoft services, IT services, software development, AI, cloud, cy
 <!-- BANNER -->
 <section class="leam-page-banner">
     <h1>Our <span class="rainbow-text">Services</span></h1>
-    <p>Smart technology solutions across software, AI, cloud, security, and growth — built by senior teams for results.</p>
+    <p>AI-powered software, blockchain platforms, cloud infrastructure, enterprise web, CRM/ERP, and SaaS products — built end-to-end by Leamsoft.</p>
     <div class="crumbs"><a href="{{ url('/') }}">Home</a> &nbsp;›&nbsp; Services</div>
 </section>
 
@@ -302,13 +302,86 @@ $keywords = "leamsoft services, IT services, software development, AI, cloud, cy
     </div>
 </section>
 @else
+<!-- STATIC SERVICE BLOCKS (master content fallback) -->
 <section class="leam-section">
-    <div class="leam-container leam-empty">
-        <h3>No services published yet</h3>
-        <p>Categories are being prepared. Check back soon, or get in touch.</p>
-        <div style="margin-top:24px;">
-            <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-primary">Contact Us</a>
-        </div>
+    <div class="leam-container">
+        @php
+            $staticServices = [
+                [
+                    'icon' => '🤖',
+                    'name' => 'AI-Powered Software Development',
+                    'desc' => 'Intelligent software solutions that automate workflows, reduce manual operations, and improve business efficiency.',
+                    'items' => ['AI Workflow Automation','AI Chat Systems','AI Business Tools','Data Automation Systems','AI Dashboard Integrations','Intelligent CRM Solutions','Business Analytics Systems'],
+                ],
+                [
+                    'icon' => '💻',
+                    'name' => 'Web Design &amp; Development',
+                    'desc' => 'Modern, responsive, high-performance websites and enterprise-grade web applications.',
+                    'items' => ['Corporate Websites','Business Websites','Custom Web Applications','Admin Panels','Landing Pages','Enterprise Portals','Dashboard Systems','Progressive Web Apps'],
+                ],
+                [
+                    'icon' => '⛓️',
+                    'name' => 'Blockchain Development',
+                    'desc' => 'Secure and scalable blockchain applications for modern digital ecosystems.',
+                    'items' => ['Smart Contract Development','Web3 Applications','Crypto Platforms','NFT Platforms','Decentralized Applications (DApps)','Blockchain Wallet Integration','Token Development','Blockchain APIs','Web3 Dashboards'],
+                ],
+                [
+                    'icon' => '☁️',
+                    'name' => 'Cloud Solutions &amp; DevOps',
+                    'desc' => 'Deploy, scale, secure, and automate infrastructure using modern cloud technologies.',
+                    'items' => ['CI/CD Pipeline Setup','Server Management','Docker Deployment','Kubernetes Infrastructure','AWS Cloud Solutions','DigitalOcean Setup','VPS Configuration','NGINX Optimization','Load Balancing','Monitoring &amp; Logging','Infrastructure Automation'],
+                ],
+                [
+                    'icon' => '🗂️',
+                    'name' => 'CRM &amp; ERP Development',
+                    'desc' => 'Custom business management systems designed to streamline operations and improve productivity.',
+                    'items' => ['Employee Management','Customer Management','Lead Tracking','Sales Automation','Billing Systems','Inventory Management','Workflow Automation','Reporting Dashboards'],
+                ],
+                [
+                    'icon' => '🚀',
+                    'name' => 'SaaS Development',
+                    'desc' => 'Transform startup ideas into scalable SaaS products with end-to-end engineering.',
+                    'items' => ['Multi-Tenant Applications','Subscription Systems','User Management','API Integrations','Billing Systems','SaaS Dashboards','Cloud Hosting','Product Scaling'],
+                ],
+                [
+                    'icon' => '🔌',
+                    'name' => 'API Development &amp; Integrations',
+                    'desc' => 'Secure and scalable APIs for modern software ecosystems.',
+                    'items' => ['Payment Gateway Integration','Email Infrastructure','WhatsApp APIs','Third-Party APIs','SMS APIs','CRM Integrations','Cloud APIs','AI APIs'],
+                ],
+                [
+                    'icon' => '🎨',
+                    'name' => 'UI / UX Design',
+                    'desc' => 'Modern user-focused interfaces designed for better engagement and conversions.',
+                    'items' => ['UI Design','UX Research','Wireframing','Dashboard Design','SaaS UI Systems','Mobile Responsive Design'],
+                ],
+            ];
+        @endphp
+
+        @foreach($staticServices as $svc)
+            <div class="leam-cat-block">
+                <div class="leam-cat-head">
+                    <div class="leam-cat-icon">{{ $svc['icon'] }}</div>
+                    <div class="leam-cat-head-text">
+                        <h2>{!! $svc['name'] !!}</h2>
+                        <p>{{ $svc['desc'] }}</p>
+                    </div>
+                    <div class="leam-cat-head-cta">
+                        <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-ghost" style="padding:10px 20px; font-size:13px;">Get Quote →</a>
+                    </div>
+                </div>
+                <div class="leam-sub-grid">
+                    @foreach($svc['items'] as $item)
+                        <div class="leam-sub-card" style="cursor:default;">
+                            <div class="leam-sub-icon">•</div>
+                            <div class="leam-sub-body">
+                                <h4>{!! $item !!}</h4>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endforeach
     </div>
 </section>
 @endif

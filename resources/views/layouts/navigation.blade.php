@@ -15,18 +15,24 @@
             </a>
         </li>
         @endcanany
-        @canany(['service-create','service-edit','service-delete','service-publish'])
         <li class="nav-item">
-            <a href="{{ route('service.index') }}" class="nav-link">
-                <i class="nav-icon fas fa-building"></i>
-                <p>Properties</p>
+            <a href="{{ route('category.index') }}" class="nav-link">
+                <i class="nav-icon fas fa-th-large"></i>
+                <p>Categories</p>
             </a>
         </li>
-        @endcanany
-        @canany(['blog-create','blog-edit','blog-delete','blog-publish'])
+
+        <li class="nav-item">
+            <a href="{{ route('subcategory.index') }}" class="nav-link">
+                <i class="nav-icon fas fa-tags"></i>
+                <p>Subcategories</p>
+            </a>
+        </li>
+
+        @canany(['gallery-create','gallery-edit','gallery-delete','gallery-publish'])
         <li class="nav-item">
             <a href="{{ route('gallery.index') }}" class="nav-link">
-                <i class="nav-icon fas fa-table"></i>
+                <i class="nav-icon fas fa-images"></i>
                 <p>Gallery</p>
             </a>
         </li>
@@ -50,7 +56,6 @@
         </li>
         @endcanany
 
-        @hasanyrole('CEO|Admin|Super Admin')
         <li class="nav-item">
             <a href="{{ route('setting.index') }}" class="nav-link">
                 <i class="nav-icon fas fa-table"></i>
@@ -61,19 +66,15 @@
                 </p>
             </a>
             <ul class="nav nav-treeview">
-                @can('general-setting')
                 <li class="nav-item">
                     <a href="{{ route('setting.index') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>General Setting</p>
                     </a>
                 </li>
-                @endcan
             </ul>
         </li>
-        @endhasanyrole
 
-        @hasrole('CEO')
         <li class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-table"></i>
@@ -84,33 +85,27 @@
                 </p>
             </a>
             <ul class="nav nav-treeview">
-                @canany(['role-create','role-edit','role-delete','role-publish'])
                 <li class="nav-item">
                     <a href="{{ route('roles.index') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Roles</p>
                     </a>
                 </li>
-                @endcanany
-                @canany(['permission-create','permission-edit','permission-delete','permission-publish'])
                 <li class="nav-item">
                     <a href="{{ route('permission.index') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Permission</p>
                     </a>
                 </li>
-                @endcanany
-                @canany(['user-create','user-edit','user-delete','user-publish'])
                 <li class="nav-item">
                     <a href="{{ route('users.index') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Users</p>
                     </a>
                 </li>
-                @endcanany
+
             </ul>
         </li>
-        @endhasrole
         <li class="nav-item">
             <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

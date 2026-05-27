@@ -1,220 +1,124 @@
-<?php
-$genSetting = \App\Models\Setting::first();
-?>
 @extends('layouts.master')
 @php
-$meta_title = "Privacy Policy | Karinya Villas - One, Two, and Three-Bedroom Villas in Nainital";
-$meta_description = "Read the privacy policy of Karinya Villas to understand how we protect your personal information when booking one, two, or three-bedroom villas in Nainital. Your privacy is our priority.";
-$keywords = "Karinya Villas privacy policy, privacy practices, villa booking privacy, one-bedroom villa privacy, two-bedroom villa privacy, three-bedroom villa privacy, data protection, Nainital villa privacy, Karinya Villas policies";
+$meta_title = "Privacy Policy | LEAMSOFT";
+$meta_description = "How LEAMSOFT collects, uses, and protects your personal data — written in plain English.";
 @endphp
 @section('meta_title'){{ $meta_title }}@stop
 @section('meta_description'){{ $meta_description }}@stop
-@section('meta_keywords'){{ $keywords }}@stop
+
 @section('content')
-
 <style>
-    .about-banner {
-        background: url('<?php echo url('assets/image/kk.jpg'); ?>') center center / cover no-repeat;
-        height: 400px;
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .leam-page-banner {
+        padding: 80px 24px 60px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid var(--border);
     }
-
-    .about-banner h1 {
-        font-size: 3rem;
-        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        font-weight: bold;
+    .leam-page-banner::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(0,180,255,0.08) 0%, transparent 70%);
+        pointer-events: none;
     }
-
-    @media (max-width: 768px) {
-        .about-banner h1 {
-            font-size: 2rem;
-        }
-    }
-
-    .page-title-row {
-        background: url('assets/images/img5.jpg') no-repeat center center;
-        background-size: cover;
-        padding: 60px 0;
+    .leam-page-banner h1 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: clamp(40px, 6vw, 68px);
+        letter-spacing: 2px;
+        line-height: 1;
+        margin: 0;
+        position: relative;
+        z-index: 1;
         color: #fff;
     }
-
-    .bg-darkgrey {
-        background-color: #333;
+    .leam-page-banner .crumbs {
+        position: relative;
+        z-index: 1;
+        margin-top: 14px;
+        font-size: 13px;
+        color: var(--muted);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+    .leam-page-banner .crumbs a { color: var(--muted); text-decoration: none; }
+    .leam-policy-meta {
+        position: relative;
+        z-index: 1;
+        margin-top: 10px;
+        color: var(--muted2);
+        font-size: 12px;
     }
 
-    .info-item {
-        height: 200px;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        /* Initial shadow */
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
+    .leam-policy {
+        max-width: 820px;
+        margin: 0 auto;
+        padding: 60px 24px 80px;
+        color: rgba(255,255,255,0.82);
+        font-size: 15.5px;
+        line-height: 1.8;
+        font-weight: 300;
     }
-
-    .info-item:hover {
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        /* Shadow on hover */
-        transform: translateY(-5px);
-        /* Slight lift on hover */
+    .leam-policy h2 {
+        color: #fff;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 28px;
+        letter-spacing: 1px;
+        margin-top: 40px;
+        margin-bottom: 12px;
     }
-
-    .text-red {
-        color: red;
-    }
-
-    .link-unstyled {
-        text-decoration: none;
-    }
-
-    .icon-style {
-        color: red;
-        background-color: #f8f9fa;
-        padding: 10px;
-        border-radius: 50%;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
+    .leam-policy h2:first-of-type { margin-top: 0; }
+    .leam-policy p { margin-bottom: 14px; }
+    .leam-policy ul { padding-left: 22px; margin: 12px 0 18px; }
+    .leam-policy li { margin-bottom: 8px; }
+    .leam-policy strong { color: #fff; }
+    .leam-policy a { color: #00b4ff; }
 </style>
 
-<!-- Banner Section -->
-<section class="about-banner home-banner">
-    <h1 style=" font-size: 32px; color: #fff; text-shadow: 2px 2px black; font-weight: 700;">Privacy Policy</h1>
+<section class="leam-page-banner">
+    <h1>Privacy <span class="rainbow-text">Policy</span></h1>
+    <div class="crumbs"><a href="{{ url('/') }}">Home</a> &nbsp;›&nbsp; Privacy Policy</div>
+    <div class="leam-policy-meta">Last updated: {{ date('F d, Y') }}</div>
 </section>
 
+<article class="leam-policy">
+    <p>This Privacy Policy explains how <strong>LEAMSOFT</strong> ("we", "us", "our") collects, uses, and protects information when you visit our website, use our services, or communicate with us.</p>
 
-<!-- Main Content Start -->
-<div class="site-main py-5">
+    <h2>1. Information We Collect</h2>
+    <p>We collect information you provide directly — such as name, email, phone number, and project details when you fill in an enquiry form. We also collect technical information automatically: IP address, browser type, pages visited, referrer URL, and timestamps.</p>
 
-    <!-- Services Section Start -->
-    <section class="services-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <p class="lead text-center">Our values your
-                        privacy and is committed to safeguarding the personal information you share with
-                        us. This Privacy Policy explains how we collect, use, disclose, and protect your
-                        information when you visit our website or use our services.</p>
+    <h2>2. How We Use Your Information</h2>
+    <ul>
+        <li>To respond to enquiries and deliver requested services</li>
+        <li>To send transactional communication about active projects</li>
+        <li>To improve our website and service offerings through aggregate analytics</li>
+        <li>To comply with legal obligations</li>
+    </ul>
+    <p>We do not sell your personal information to third parties.</p>
 
-                    <div class="mb-4">
-                        <h4>1. Information We Collect</h4>
-                        <p>We may collect personal information about you in the following ways:</p>
-                        <ul>
-                            <li><strong>Personal Information:</strong> This includes information such as
-                                your name, email address, phone number, and other details you provide
-                                when filling out forms on our website or contacting us.</li>
-                            <li><strong>Automatically Collected Information:</strong> We automatically
-                                collect information when you visit our website, such as your IP address,
-                                browser type, access times, pages visited, and referring website.</li>
-                            <li><strong>Cookies and Tracking Technologies:</strong> We use cookies to
-                                enhance user experience, track visitor traffic, and analyze site usage.
-                                You can adjust your browser settings to refuse cookies.</li>
-                        </ul>
-                    </div>
+    <h2>3. Cookies & Tracking</h2>
+    <p>We use first-party cookies for session management and essential functionality, plus privacy-respecting analytics (no cross-site tracking) to understand which content is useful. You can disable cookies in your browser; the site will continue to function.</p>
 
-                    <div class="mb-4">
-                        <h4>2. How We Use Your Information</h4>
-                        <p>We use the information we collect for the following purposes:</p>
-                        <ul>
-                            <li>To respond to your inquiries, process requests, and provide customer
-                                service.</li>
-                            <li>To improve and personalize your experience on our website.</li>
-                            <li>To communicate with you about new services, promotions, or updates.</li>
-                            <li>For analytics, including monitoring trends and traffic to better
-                                understand user behavior.</li>
-                        </ul>
-                    </div>
+    <h2>4. Data Security</h2>
+    <p>Data in transit is encrypted with TLS. At rest, sensitive data is encrypted with industry-standard algorithms. Access to production systems is least-privilege and audited. We follow OWASP Top 10 in our engineering practices and operational controls aligned with SOC2.</p>
 
-                    <div class="mb-4">
-                        <h4>3. Information Sharing and Disclosure</h4>
-                        <p>We do not sell, rent, or share your personal information with third parties
-                            except in the following circumstances:</p>
-                        <ul>
-                            <li><strong>With Your Consent:</strong> We may share your information with
-                                third parties if you provide explicit consent.</li>
-                            <li><strong>Service Providers:</strong> We may employ third-party service
-                                providers to assist in operating our website and conducting business
-                                operations.</li>
-                            <li><strong>Legal Compliance:</strong> We may disclose information if
-                                required by law or to protect the rights, property, or safety of our
-                                company and others.</li>
-                        </ul>
-                    </div>
+    <h2>5. Data Retention</h2>
+    <p>We retain enquiry data for as long as is necessary to provide our services and comply with legal obligations. You may request deletion at any time by emailing us.</p>
 
-                    <div class="mb-4">
-                        <h4>4. Data Security</h4>
-                        <p>We implement security measures to protect your personal information from
-                            unauthorized access, alteration, or disclosure. However, no internet-based
-                            system can be entirely secure. While we strive to use commercially
-                            acceptable methods to protect your personal information, we cannot guarantee
-                            its absolute security.</p>
-                    </div>
+    <h2>6. Your Rights</h2>
+    <p>Under GDPR and similar regulations, you have the right to access, correct, export, or delete your personal data, and to object to processing. To exercise these rights, contact us using the details below.</p>
 
-                    <div class="mb-4">
-                        <h4>5. Third-Party Links</h4>
-                        <p>Our website may contain links to external sites operated by third parties. We
-                            are not responsible for the privacy practices or content of these
-                            third-party websites. We recommend reviewing the privacy policies of any
-                            external websites you visit.</p>
-                    </div>
+    <h2>7. Third-Party Services</h2>
+    <p>We use a small number of trusted vendors (hosting, email delivery, analytics, reCAPTCHA) — each is bound by data-processing agreements and only receives the minimum data needed.</p>
 
-                    <div class="mb-4">
-                        <h4>6. Children’s Privacy</h4>
-                        <p>Our website and services are not intended for children under the age of 13.
-                            We do not knowingly collect personal information from children. If we become
-                            aware of any information collected from children, we will take steps to
-                            delete it promptly.</p>
-                    </div>
+    <h2>8. Children's Privacy</h2>
+    <p>Our services are not directed at individuals under 16. We do not knowingly collect personal data from children.</p>
 
-                    <div class="mb-4">
-                        <h4>7. Changes to This Privacy Policy</h4>
-                        <p>We may update this Privacy Policy from time to time. Changes will be posted
-                            on this page, and the effective date will be updated. We encourage you to
-                            review this Privacy Policy periodically.</p>
-                    </div>
+    <h2>9. Changes to This Policy</h2>
+    <p>We may update this policy from time to time. Material changes will be highlighted on this page with a new "Last updated" date.</p>
 
-                    <div class="mb-4">
-                        <div class="more-info reservation-info py-5">
-                            <p>If you have any questions about this Privacy Policy or your personal
-                                information, please contact us at:</p>
-                            <div class="more-info reservation-info py-5">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-lg-4 col-sm-6 mb-4">
-                                            <div class="info-item text-center p-3 border rounded shadow">
-                                                <i class="fa fa-phone icon-style fs-3 mb-3"></i>
-                                                <h4>Contact Us Now</h4>
-                                                <a href="tel:{{ $genSetting['phone'] }}" class="text-red link-unstyled">{{ $genSetting['phone'] }}</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-sm-6 text-center mb-4">
-                                            <div class="info-item">
-                                                <i class="fa fa-envelope icon-style fs-3 mb-3"></i>
-                                                <h4>Contact Us via Email</h4>
-                                                <a href="mailto:{{ $genSetting['email'] }}" class="text-red link-unstyled">{{ $genSetting['email'] }}</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-sm-6 text-center mb-4">
-                                            <div class="info-item">
-                                                <i class="fa fa-map-marker icon-style fs-3 mb-3"></i>
-                                                <h4>Visit Our Offices</h4>
-                                                <a href="#" class="text-red link-unstyled">{{ $genSetting['address'] }}</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-</div>
-</section>
-<!-- Services Section End -->
-
-</div>
+    <h2>10. Contact Us</h2>
+    <p>Questions or requests about this policy? Reach us via the <a href="{{ url('contact-us') }}">contact page</a> or email directly.</p>
+</article>
 
 @endsection

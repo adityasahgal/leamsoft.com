@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
 @php
-$meta_title = "LEAMSOFT | Empowering Business with Smart Technology";
-$meta_description = "LEAMSOFT delivers advanced digital solutions — web platforms, enterprise software, AI systems, cloud, cyber security, and modern technology integration for global businesses.";
-$keywords = "LEAMSOFT, software development, web development, app development, AI, machine learning, cloud solutions, cyber security, IT consulting, digital marketing";
+$meta_title = "Leamsoft Pvt Ltd. | AI-Powered Software, Cloud & Blockchain Solutions";
+$meta_description = "Leamsoft Pvt Ltd. builds AI-powered software, cloud infrastructure, blockchain platforms, CRM/ERP, and SaaS products for startups and enterprises across Delhi, Noida & Greater Noida.";
+$keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps, SaaS development, CRM ERP, custom software Delhi Noida, enterprise web applications";
 @endphp
 @section('meta_title'){{ $meta_title }}@stop
 @section('meta_description'){{ $meta_description }}@stop
@@ -408,6 +408,61 @@ $keywords = "LEAMSOFT, software development, web development, app development, A
     }
     .leam-cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
+    /* ─── INDUSTRIES ─── */
+    .leam-industries-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 14px;
+    }
+    .leam-industry-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 22px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: all .25s;
+        position: relative;
+        overflow: hidden;
+    }
+    .leam-industry-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 2px;
+        background: var(--rainbow);
+        background-size: 200%;
+        animation: shift 4s linear infinite;
+        opacity: 0;
+        transition: opacity .25s;
+    }
+    .leam-industry-card:hover {
+        transform: translateY(-3px);
+        border-color: rgba(0,180,255,0.25);
+        background: var(--card2);
+    }
+    .leam-industry-card:hover::after { opacity: 1; }
+    .leam-industry-icon {
+        font-size: 24px;
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        background: rgba(255,255,255,0.04);
+        flex-shrink: 0;
+    }
+    .leam-industry-name {
+        font-family: 'Barlow Condensed', sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        color: #fff;
+    }
+
     /* ─── PARTNERS ─── */
     .leam-partners {
         padding: 48px 24px;
@@ -461,22 +516,24 @@ $keywords = "LEAMSOFT, software development, web development, app development, A
     <div class="leam-hero-inner">
         <div>
             <div class="leam-hero-badge">
-                <span class="dot"></span> Trusted by 100+ Global Businesses
+                <span class="dot"></span> AI · Cloud · Blockchain · SaaS · Delhi NCR
             </div>
             <h1>
-                <em>Empowering</em>
-                <em>Your Business</em>
-                <em class="rainbow-text">With Smart Tech</em>
+                <em>We Build</em>
+                <em>AI-Powered</em>
+                <em class="rainbow-text">Digital Systems</em>
+                <em>For Modern Businesses</em>
             </h1>
-            <p>We deliver advanced digital solutions — from web platforms and enterprise software to AI systems, APIs, and modern technology integration for global businesses.</p>
+            <p>Leamsoft Pvt Ltd. helps startups, enterprises, and growing businesses automate operations using AI-powered software, cloud infrastructure, blockchain systems, and scalable digital solutions across Delhi, Noida, and Greater Noida.</p>
             <div class="leam-hero-btns">
-                <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-lg leam-btn-primary">Get Free Consultation ↗</a>
-                <a href="#leam-services" class="leam-btn leam-btn-lg leam-btn-ghost">Explore Services</a>
+                <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-lg leam-btn-primary">Book Free Consultation ↗</a>
+                <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-lg leam-btn-ghost">Start Your Project</a>
+                <a href="#leam-services" class="leam-btn leam-btn-lg leam-btn-ghost">Talk To Our Team</a>
             </div>
             <div class="leam-hero-stats">
                 <div>
                     <div class="leam-stat-num">100+</div>
-                    <div class="leam-stat-label">Projects Done</div>
+                    <div class="leam-stat-label">Projects Delivered</div>
                 </div>
                 <div>
                     <div class="leam-stat-num">04+</div>
@@ -484,11 +541,11 @@ $keywords = "LEAMSOFT, software development, web development, app development, A
                 </div>
                 <div>
                     <div class="leam-stat-num">97%</div>
-                    <div class="leam-stat-label">Happy Clients</div>
+                    <div class="leam-stat-label">Client Satisfaction</div>
                 </div>
                 <div>
                     <div class="leam-stat-num">24/7</div>
-                    <div class="leam-stat-label">Support</div>
+                    <div class="leam-stat-label">Tech Support</div>
                 </div>
             </div>
         </div>
@@ -516,28 +573,28 @@ $keywords = "LEAMSOFT, software development, web development, app development, A
             @endif
             <div class="leam-floating-card leam-fc1">
                 <span class="leam-fc-dot" style="background:#39d353"></span>
-                <strong>AI Systems</strong> Online
+                <strong>AI Workflows</strong> Live
             </div>
             <div class="leam-floating-card leam-fc2">
                 <span class="leam-fc-dot" style="background:#00b4ff"></span>
-                +97% Client Satisfaction
+                Blockchain · Cloud · SaaS
             </div>
         </div>
     </div>
 </section>
 
-<!-- PARTNERS -->
+<!-- TRUST / QUICK HIGHLIGHTS -->
 <div class="leam-partners">
     <div class="leam-partners-inner">
-        <div class="leam-partners-label">Trusted by leading organizations worldwide</div>
+        <div class="leam-partners-label">Trusted Technology Partner For Modern Businesses</div>
         <div class="leam-partners-logos">
-            <div class="leam-partner-logo">Lexmark</div>
-            <div class="leam-partner-logo">Walmart</div>
-            <div class="leam-partner-logo">Agility</div>
-            <div class="leam-partner-logo">Thompson</div>
-            <div class="leam-partner-logo">Starters</div>
-            <div class="leam-partner-logo">Zantis</div>
-            <div class="leam-partner-logo">NexGen</div>
+            <div class="leam-partner-logo">AI Software</div>
+            <div class="leam-partner-logo">Blockchain</div>
+            <div class="leam-partner-logo">Cloud · DevOps</div>
+            <div class="leam-partner-logo">Enterprise Web</div>
+            <div class="leam-partner-logo">CRM &amp; ERP</div>
+            <div class="leam-partner-logo">SaaS Products</div>
+            <div class="leam-partner-logo">UI / UX</div>
         </div>
     </div>
 </div>
@@ -548,45 +605,41 @@ $keywords = "LEAMSOFT, software development, web development, app development, A
         <div class="leam-section-head">
             <div class="leam-section-label">What We Do</div>
             <h2 class="leam-section-title">Our <span class="rainbow-text">Core Services</span></h2>
-            <p class="leam-section-sub">From strategy to execution, we deliver end-to-end technology solutions that drive growth and innovation for businesses worldwide.</p>
+            <p class="leam-section-sub">From AI automation and blockchain to scalable cloud platforms and enterprise software — we build the systems that run modern businesses.</p>
         </div>
         <div class="leam-services-grid">
             @php
-                $servicesList = \App\Models\Service::where('status', 1)->take(9)->get();
-                $serviceIcons = ['🌐','📱','🤖','☁️','🛡️','📈','🔌','🛒','💼'];
+                $homeCats = isset($categories) && $categories->count() ? $categories : \App\Models\Category::where('status', 1)->orderBy('sort_order')->take(9)->get();
                 $serviceColors = [
                     'rgba(0,180,255,0.1)','rgba(168,85,247,0.1)','rgba(57,211,83,0.1)',
-                    'rgba(255,215,0,0.1)','rgba(255,59,92,0.1)','rgba(0,180,255,0.1)',
-                    'rgba(168,85,247,0.1)','rgba(57,211,83,0.1)','rgba(255,140,0,0.1)'
+                    'rgba(255,215,0,0.1)','rgba(255,59,92,0.1)','rgba(255,140,0,0.1)',
+                    'rgba(0,180,255,0.1)','rgba(168,85,247,0.1)','rgba(57,211,83,0.1)'
                 ];
-                $defaultServices = [
-                    ['name'=>'Web Development','desc'=>'High-performance web platforms built with modern frameworks. Scalable, secure, and crafted to convert.'],
-                    ['name'=>'App Development','desc'=>'Native and cross-platform mobile apps for iOS and Android that users love, built to perform at scale.'],
-                    ['name'=>'AI & Machine Learning','desc'=>'Custom AI models, LLM integration, and intelligent automation that transforms how your business operates.'],
-                    ['name'=>'Cloud Solutions','desc'=>'AWS, Azure and GCP expertise. Migration, architecture, and managed cloud services for the modern enterprise.'],
-                    ['name'=>'Cyber Security','desc'=>'Comprehensive security solutions including pen testing, compliance frameworks, and incident response.'],
-                    ['name'=>'Digital Marketing','desc'=>'Data-driven digital marketing strategies — SEO, PPC, social media — that grow your brand\'s online reach.'],
-                    ['name'=>'API & System Integration','desc'=>'Seamless system integration and robust REST/GraphQL APIs connecting your entire tech ecosystem.'],
-                    ['name'=>'E-Commerce Development','desc'=>'High-converting online stores with custom checkout flows, payment gateways, and inventory systems.'],
-                    ['name'=>'IT Consulting','desc'=>'Strategic technology consulting to align your IT investments with your long-term business objectives.'],
+                $defaultCats = [
+                    ['name'=>'AI-Powered Software','slug'=>'services','icon'=>'🤖','desc'=>'Intelligent software systems with automation, ML integrations, and workflow optimization.'],
+                    ['name'=>'Custom Web Development','slug'=>'services','icon'=>'💻','desc'=>'Secure, scalable, modern web applications — from startup sites to enterprise platforms.'],
+                    ['name'=>'Blockchain Development','slug'=>'services','icon'=>'⛓️','desc'=>'Smart contracts, Web3 apps, NFT platforms, crypto-enabled and decentralized ecosystems.'],
+                    ['name'=>'Cloud &amp; DevOps','slug'=>'services','icon'=>'☁️','desc'=>'Scalable cloud infrastructure, CI/CD, deployment automation, monitoring, and server optimization.'],
+                    ['name'=>'CRM &amp; ERP Systems','slug'=>'services','icon'=>'🗂️','desc'=>'Custom business management systems built around your workflow and operations.'],
+                    ['name'=>'SaaS Product Development','slug'=>'services','icon'=>'🚀','desc'=>'End-to-end SaaS architecture, subscription systems, dashboards, APIs and scalable engineering.'],
                 ];
             @endphp
 
-            @if($servicesList->count() > 0)
-                @foreach($servicesList as $key => $service)
-                    <a href="{{ url($service->slug) }}" class="leam-service-card">
+            @if($homeCats->count() > 0)
+                @foreach($homeCats as $key => $cat)
+                    <a href="{{ url($cat->slug) }}" class="leam-service-card">
                         <div class="leam-service-icon" style="background:{{ $serviceColors[$key % 9] }};">
-                            {{ $serviceIcons[$key % 9] }}
+                            {{ $cat->icon ?? '🔧' }}
                         </div>
-                        <h3>{{ $service->name }}</h3>
-                        <p>{{ \Illuminate\Support\Str::limit(strip_tags($service->short_description ?? $service->description ?? 'Custom-built solution tailored to your business needs and growth goals.'), 130) }}</p>
-                        <span class="leam-service-link">Learn more →</span>
+                        <h3>{{ $cat->name }}</h3>
+                        <p>{{ \Illuminate\Support\Str::limit(strip_tags($cat->short_description ?? ''), 130) }}</p>
+                        <span class="leam-service-link">Explore category →</span>
                     </a>
                 @endforeach
             @else
-                @foreach($defaultServices as $key => $s)
-                    <a href="{{ url('contact-us') }}" class="leam-service-card">
-                        <div class="leam-service-icon" style="background:{{ $serviceColors[$key] }};">{{ $serviceIcons[$key] }}</div>
+                @foreach($defaultCats as $key => $s)
+                    <a href="{{ url($s['slug']) }}" class="leam-service-card">
+                        <div class="leam-service-icon" style="background:{{ $serviceColors[$key] }};">{{ $s['icon'] }}</div>
                         <h3>{{ $s['name'] }}</h3>
                         <p>{{ $s['desc'] }}</p>
                         <span class="leam-service-link">Learn more →</span>
@@ -597,41 +650,62 @@ $keywords = "LEAMSOFT, software development, web development, app development, A
     </div>
 </section>
 
-<!-- WHY US -->
+<!-- ABOUT INTRO -->
 <section class="leam-section">
+    <div class="leam-container">
+        <div class="leam-section-head">
+            <div class="leam-section-label">About Leamsoft</div>
+            <h2 class="leam-section-title">A Technology Company <span class="rainbow-text">Built For Modern Business</span></h2>
+            <p class="leam-section-sub">Leamsoft Pvt Ltd. is a technology-driven IT company focused on building scalable, secure, and intelligent software systems for startups, enterprises, and modern businesses. We specialize in AI automation, cloud infrastructure, blockchain applications, enterprise web development, and business process optimization — helping companies in Delhi, Noida, Greater Noida, and across India simplify operations, improve efficiency, and accelerate growth.</p>
+            <div style="margin-top:28px;">
+                <a href="{{ url('about-us') }}" class="leam-btn leam-btn-ghost">Learn More About Us →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WHY US -->
+<section class="leam-section leam-services-bg">
     <div class="leam-container">
         <div class="leam-why-grid">
             <div>
-                <div class="leam-section-label">Why LEAMSOFT</div>
-                <h2 class="leam-section-title">Built for <span class="rainbow-text">Results</span></h2>
-                <p class="leam-section-sub" style="margin-bottom:40px">We combine deep technical expertise with strategic thinking to deliver solutions that solve real business problems and create lasting value.</p>
+                <div class="leam-section-label">Why Leamsoft</div>
+                <h2 class="leam-section-title">Why Businesses <span class="rainbow-text">Choose Us</span></h2>
+                <p class="leam-section-sub" style="margin-bottom:40px">We don't just write code — we build systems that solve real operational challenges with long-term scalability, security, and performance in mind.</p>
                 <div class="leam-why-features">
                     <div class="leam-why-feat">
-                        <div class="leam-why-feat-icon" style="background:rgba(0,180,255,0.1);">⚡</div>
+                        <div class="leam-why-feat-icon" style="background:rgba(0,180,255,0.1);">🎯</div>
                         <div>
-                            <h4>Rapid Delivery</h4>
-                            <p>Agile development cycles with CI/CD pipelines that ship quality features faster without compromising standards.</p>
+                            <h4>Business-Focused Development</h4>
+                            <p>We build systems that solve real operational challenges — not just deliverables. Every feature is tied to a business outcome.</p>
                         </div>
                     </div>
                     <div class="leam-why-feat">
-                        <div class="leam-why-feat-icon" style="background:rgba(168,85,247,0.1);">🔒</div>
+                        <div class="leam-why-feat-icon" style="background:rgba(168,85,247,0.1);">📈</div>
                         <div>
-                            <h4>Security First</h4>
-                            <p>Every product is built with security baked in — not bolted on — following OWASP and industry best practices.</p>
+                            <h4>Scalable Architecture</h4>
+                            <p>Our solutions are built for long-term growth, high performance, and enterprise-grade scalability from day one.</p>
                         </div>
                     </div>
                     <div class="leam-why-feat">
-                        <div class="leam-why-feat-icon" style="background:rgba(57,211,83,0.1);">📊</div>
+                        <div class="leam-why-feat-icon" style="background:rgba(57,211,83,0.1);">⚙️</div>
                         <div>
-                            <h4>Data-Driven Decisions</h4>
-                            <p>Analytics-powered development and strategies that optimize for real business outcomes, not vanity metrics.</p>
+                            <h4>Modern Technology Stack</h4>
+                            <p>Modern frontend frameworks, robust backend architectures, cloud-native systems, and AI-ready automation tools.</p>
                         </div>
                     </div>
                     <div class="leam-why-feat">
-                        <div class="leam-why-feat-icon" style="background:rgba(255,215,0,0.1);">🌍</div>
+                        <div class="leam-why-feat-icon" style="background:rgba(255,215,0,0.1);">🤝</div>
                         <div>
-                            <h4>Global Expertise</h4>
-                            <p>A distributed team of 50+ specialists serving clients across 25+ countries with 24/7 support coverage.</p>
+                            <h4>Dedicated Technical Support</h4>
+                            <p>From deployment to scaling, our technical team stays with you — supporting your digital infrastructure long after launch.</p>
+                        </div>
+                    </div>
+                    <div class="leam-why-feat">
+                        <div class="leam-why-feat-icon" style="background:rgba(255,59,92,0.1);">🛡️</div>
+                        <div>
+                            <h4>Security &amp; Performance</h4>
+                            <p>Optimized performance, server hardening, data protection, and reliable deployments built into every project.</p>
                         </div>
                     </div>
                 </div>
@@ -651,15 +725,52 @@ $keywords = "LEAMSOFT, software development, web development, app development, A
     </div>
 </section>
 
-<!-- PROJECTS -->
-@php $projects = \App\Models\Service::where('status', 1)->take(6)->get(); @endphp
+<!-- INDUSTRIES WE SERVE -->
+<section class="leam-section">
+    <div class="leam-container">
+        <div class="leam-section-head">
+            <div class="leam-section-label">Industries We Serve</div>
+            <h2 class="leam-section-title">Industries We <span class="rainbow-text">Work With</span></h2>
+            <p class="leam-section-sub">From real estate to fintech, we build technology that powers diverse industries across India and beyond.</p>
+        </div>
+        <div class="leam-industries-grid">
+            @php
+                $industries = [
+                    ['name'=>'Real Estate','icon'=>'🏢'],
+                    ['name'=>'Healthcare','icon'=>'⚕️'],
+                    ['name'=>'Construction','icon'=>'🏗️'],
+                    ['name'=>'E-Commerce','icon'=>'🛒'],
+                    ['name'=>'Education','icon'=>'🎓'],
+                    ['name'=>'Finance','icon'=>'💰'],
+                    ['name'=>'Logistics','icon'=>'🚚'],
+                    ['name'=>'Startups','icon'=>'🚀'],
+                    ['name'=>'Manufacturing','icon'=>'🏭'],
+                    ['name'=>'Hospitality','icon'=>'🏨'],
+                    ['name'=>'SaaS Businesses','icon'=>'☁️'],
+                    ['name'=>'Agencies','icon'=>'🎯'],
+                ];
+            @endphp
+            @foreach($industries as $ind)
+                <div class="leam-industry-card">
+                    <span class="leam-industry-icon">{{ $ind['icon'] }}</span>
+                    <span class="leam-industry-name">{{ $ind['name'] }}</span>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<!-- FEATURED SERVICES -->
+@php
+    $projects = isset($featuredServices) && $featuredServices->count() ? $featuredServices : \App\Models\Service::where('status', 1)->where('featured', 1)->take(6)->get();
+@endphp
 @if($projects->count() > 0)
 <section class="leam-section leam-projects-bg">
     <div class="leam-container">
         <div class="leam-section-head">
-            <div class="leam-section-label">Our Work</div>
-            <h2 class="leam-section-title">Featured <span class="rainbow-text">Projects</span></h2>
-            <p class="leam-section-sub">A selection of recent work for clients across industries — from startups to enterprise.</p>
+            <div class="leam-section-label">Featured Work</div>
+            <h2 class="leam-section-title">Selected <span class="rainbow-text">Services</span></h2>
+            <p class="leam-section-sub">A handful of our most-requested capabilities — from web platforms to AI deployments.</p>
         </div>
         <div class="leam-projects-grid">
             @foreach($projects as $key => $project)
@@ -667,15 +778,57 @@ $keywords = "LEAMSOFT, software development, web development, app development, A
                 <div class="leam-project-thumb">
                     @if(!empty($project->thumbnail_img))
                         <img src="{{ url('storage/'.$project->thumbnail_img) }}" alt="{{ $project->image_alt ?? $project->name }}">
+                    @else
+                        <span class="rainbow-text" style="font-family:'Bebas Neue'; font-size:42px; letter-spacing:2px;">{{ $project->icon ?? 'SVC' }}</span>
                     @endif
                 </div>
                 <div class="leam-project-body">
-                    <span class="leam-project-tag">{{ ['Web','Mobile','AI','Cloud','Security','Marketing'][$key % 6] }}</span>
+                    <span class="leam-project-tag">{{ optional($project->category)->name ?? 'Service' }}</span>
                     <h3>{{ $project->name }}</h3>
-                    <p>{{ \Illuminate\Support\Str::limit(strip_tags($project->short_description ?? $project->description ?? 'Successfully delivered project showcasing our technical capabilities.'), 100) }}</p>
+                    <p>{{ \Illuminate\Support\Str::limit(strip_tags($project->short_description ?? $project->description ?? 'Successfully delivered service showcasing our technical capabilities.'), 100) }}</p>
                 </div>
             </a>
             @endforeach
+        </div>
+        <div style="text-align:center; margin-top: 40px;">
+            <a href="{{ url('services') }}" class="leam-btn leam-btn-ghost">View All Services →</a>
+        </div>
+    </div>
+</section>
+@endif
+
+<!-- LATEST BLOG POSTS -->
+@php
+    $homeBlogs = isset($latestBlogs) && $latestBlogs->count() ? $latestBlogs : \App\Models\Blog::where('status', 1)->latest()->take(3)->get();
+@endphp
+@if($homeBlogs->count() > 0)
+<section class="leam-section">
+    <div class="leam-container">
+        <div class="leam-section-head">
+            <div class="leam-section-label">From the blog</div>
+            <h2 class="leam-section-title">Latest <span class="rainbow-text">Insights</span></h2>
+            <p class="leam-section-sub">Engineering deep-dives, AI articles, and growth notes from our team.</p>
+        </div>
+        <div class="leam-projects-grid">
+            @foreach($homeBlogs as $blog)
+                <a href="{{ url('blog/'.$blog->slug) }}" class="leam-project-card">
+                    <div class="leam-project-thumb">
+                        @if(!empty($blog->thumbnail_img))
+                            <img src="{{ url('storage/'.$blog->thumbnail_img) }}" alt="{{ $blog->image_alt ?? $blog->title }}">
+                        @else
+                            <span class="rainbow-text" style="font-family:'Bebas Neue'; font-size:32px; letter-spacing:2px;">LEAMSOFT</span>
+                        @endif
+                    </div>
+                    <div class="leam-project-body">
+                        <span class="leam-project-tag">{{ $blog->created_at?->format('M d, Y') }}</span>
+                        <h3>{{ $blog->title ?? $blog->name }}</h3>
+                        <p>{{ \Illuminate\Support\Str::limit(strip_tags($blog->short_description ?? $blog->description ?? ''), 100) }}</p>
+                    </div>
+                </a>
+            @endforeach
+        </div>
+        <div style="text-align:center; margin-top: 40px;">
+            <a href="{{ url('blog') }}" class="leam-btn leam-btn-ghost">Read More Articles →</a>
         </div>
     </div>
 </section>
@@ -684,11 +837,11 @@ $keywords = "LEAMSOFT, software development, web development, app development, A
 <!-- CTA -->
 <section class="leam-cta-section">
     <div class="leam-cta-box">
-        <h2>Ready to Build <span class="rainbow-text">Something Great?</span></h2>
-        <p>Let's discuss how LEAMSOFT can help bring your vision to life with smart technology solutions tailored to your business.</p>
+        <h2>Transform Your Business <span class="rainbow-text">With Smart Technology</span></h2>
+        <p>Whether you need AI automation, enterprise software, blockchain systems, or scalable cloud infrastructure — Leamsoft is ready to build your next digital solution.</p>
         <div class="leam-cta-btns">
-            <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-lg leam-btn-primary">Start a Project ↗</a>
-            <a href="{{ url('about-us') }}" class="leam-btn leam-btn-lg leam-btn-ghost">Learn More About Us</a>
+            <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-lg leam-btn-primary">Schedule A Meeting ↗</a>
+            <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-lg leam-btn-ghost">Get Custom Quote</a>
         </div>
     </div>
 </section>

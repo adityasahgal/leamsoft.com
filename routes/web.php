@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EnquiryController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\HomeController;
@@ -108,6 +110,22 @@ Route::group(['middleware' => 'XssSanitizer'], function () {
             Route::post('permission/update', [PermissionController::class, 'update'])->name('permission.update');
             Route::post('permission/status', [PermissionController::class, 'status'])->name('permission.status');
             Route::post('permission/destroy', [PermissionController::class, 'destroy'])->name('permission.destroy');
+
+            // Category Routes
+            Route::get('category', [CategoryController::class, 'index'])->name('category.index');
+            Route::post('category/store', [CategoryController::class, 'store'])->name('category.store');
+            Route::post('category/edit', [CategoryController::class, 'edit'])->name('category.edit');
+            Route::post('category/update', [CategoryController::class, 'update'])->name('category.update');
+            Route::post('category/status', [CategoryController::class, 'status'])->name('category.status');
+            Route::post('category/destroy', [CategoryController::class, 'destroy'])->name('category.destroy');
+
+            // Subcategory Routes
+            Route::get('subcategory', [SubcategoryController::class, 'index'])->name('subcategory.index');
+            Route::post('subcategory/store', [SubcategoryController::class, 'store'])->name('subcategory.store');
+            Route::post('subcategory/edit', [SubcategoryController::class, 'edit'])->name('subcategory.edit');
+            Route::post('subcategory/update', [SubcategoryController::class, 'update'])->name('subcategory.update');
+            Route::post('subcategory/status', [SubcategoryController::class, 'status'])->name('subcategory.status');
+            Route::post('subcategory/destroy', [SubcategoryController::class, 'destroy'])->name('subcategory.destroy');
         });
     });
 

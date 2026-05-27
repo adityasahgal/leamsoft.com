@@ -157,7 +157,7 @@
                 <div class="leam-logo-box"><span>LS</span></div>
                 <span class="leam-logo-text">LEAMSOFT</span>
             </a>
-            <p>Empowering business with smart technology. We deliver advanced digital solutions — from web platforms and enterprise software to AI systems and modern technology integration for global businesses.</p>
+            <p>{{ $genSetting['description'] ?? 'Leamsoft Pvt Ltd. builds AI-powered software, cloud infrastructure, blockchain systems, and scalable digital platforms for startups and enterprises across Delhi, Noida, and Greater Noida.' }}</p>
 
             <div class="leam-footer-contact">
                 @if(!empty($genSetting['address']))
@@ -181,23 +181,45 @@
             </div>
 
             <div class="leam-footer-socials">
-                <a href="https://www.facebook.com/profile.php?id=61569806434158" target="_blank" class="leam-social-btn" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="https://x.com/Karinya_villas" target="_blank" class="leam-social-btn" title="X"><i class="fa-brands fa-x-twitter"></i></a>
-                <a href="https://www.linkedin.com/in/karinya-villas-870b42339/" target="_blank" class="leam-social-btn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-                <a href="https://www.instagram.com/karinyavillashotel/" target="_blank" class="leam-social-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://wa.me/97450434870" target="_blank" class="leam-social-btn" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                @if(!empty($genSetting['facebook']))
+                    <a href="{{ $genSetting['facebook'] }}" target="_blank" rel="noopener" class="leam-social-btn" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                @endif
+                @if(!empty($genSetting['twitter']))
+                    <a href="{{ $genSetting['twitter'] }}" target="_blank" rel="noopener" class="leam-social-btn" title="X"><i class="fa-brands fa-x-twitter"></i></a>
+                @endif
+                @if(!empty($genSetting['linkedin']))
+                    <a href="{{ $genSetting['linkedin'] }}" target="_blank" rel="noopener" class="leam-social-btn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                @endif
+                @if(!empty($genSetting['instagram']))
+                    <a href="{{ $genSetting['instagram'] }}" target="_blank" rel="noopener" class="leam-social-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                @endif
+                @if(!empty($genSetting['youtube']))
+                    <a href="{{ $genSetting['youtube'] }}" target="_blank" rel="noopener" class="leam-social-btn" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                @endif
+                @if(!empty($genSetting['phone']))
+                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $genSetting['phone']) }}" target="_blank" rel="noopener" class="leam-social-btn" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                @endif
             </div>
         </div>
 
         <div class="leam-footer-col">
             <h4>Services</h4>
             <ul>
-                <li><a href="{{ url('villas') }}">Web Development</a></li>
-                <li><a href="{{ url('villas') }}">App Development</a></li>
-                <li><a href="{{ url('villas') }}">AI & ML</a></li>
-                <li><a href="{{ url('villas') }}">Cloud Solutions</a></li>
-                <li><a href="{{ url('villas') }}">Cyber Security</a></li>
-                <li><a href="{{ url('villas') }}">Digital Marketing</a></li>
+                @php
+                    $footerCats = \App\Models\Category::where('status', 1)->orderBy('sort_order')->take(6)->get();
+                @endphp
+                @if($footerCats->count())
+                    @foreach($footerCats as $fc)
+                        <li><a href="{{ url($fc->slug) }}">{{ $fc->name }}</a></li>
+                    @endforeach
+                @else
+                    <li><a href="{{ url('services') }}">AI-Powered Software</a></li>
+                    <li><a href="{{ url('services') }}">Web Development</a></li>
+                    <li><a href="{{ url('services') }}">Blockchain Development</a></li>
+                    <li><a href="{{ url('services') }}">Cloud &amp; DevOps</a></li>
+                    <li><a href="{{ url('services') }}">CRM &amp; ERP Systems</a></li>
+                    <li><a href="{{ url('services') }}">SaaS Development</a></li>
+                @endif
             </ul>
         </div>
 

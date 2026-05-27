@@ -1,357 +1,231 @@
-<?php
-$genSetting = \App\Models\Setting::first();
-?>
 @extends('layouts.master')
 @php
-$meta_title = "Responsive Gallery | Karinya Villas - One, Two, and Three-Bedroom Villas in Nainital";
-$meta_description = "Explore the responsive gallery of Karinya Villas, showcasing our luxurious one, two, and three-bedroom villas in Nainital. View stunning images of the villas, interiors, and breathtaking landscapes that make your stay unforgettable.";
-$keywords = "Karinya Villas gallery, responsive gallery, one-bedroom villa images, two-bedroom villa gallery, three-bedroom villa photos, Nainital villa images, luxury villa photos, hill station villa gallery, Karinya Villas Nainital";
-
+$meta_title = "Projects & Portfolio | LEAMSOFT";
+$meta_description = "Explore selected projects from LEAMSOFT — web, mobile, AI, cloud, and security work for clients worldwide.";
+$keywords = "leamsoft projects, portfolio, case studies, client work";
 @endphp
 @section('meta_title'){{ $meta_title }}@stop
 @section('meta_description'){{ $meta_description }}@stop
 @section('meta_keywords'){{ $keywords }}@stop
+
 @section('content')
-
 <style>
-    .about-banner {
-        background: url('<?php echo url('assets/image/kk.jpg'); ?>') center center / cover no-repeat;
-        height: 400px;
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .leam-page-banner {
+        padding: 90px 24px 70px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid var(--border);
     }
-
-    .about-banner h1 {
-        font-size: 3rem;
-        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        font-weight: bold;
+    .leam-page-banner::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(168,85,247,0.10) 0%, transparent 70%),
+                    radial-gradient(ellipse 40% 40% at 30% 100%, rgba(0,180,255,0.08) 0%, transparent 70%);
+        pointer-events: none;
     }
-
-    @media (max-width: 768px) {
-        .about-banner h1 {
-            font-size: 2rem;
-        }
+    .leam-page-banner h1 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: clamp(48px, 7vw, 84px);
+        letter-spacing: 2px;
+        line-height: 1;
+        margin: 0;
+        position: relative;
+        z-index: 1;
+        color: #fff;
     }
-
-    @keyframes zoomin {
-        0% {
-            transform: scale(1);
-        }
-
-        50% {
-            transform: scale(1.05);
-        }
-
-        100% {
-            transform: scale(1);
-        }
+    .leam-page-banner p {
+        position: relative;
+        z-index: 1;
+        max-width: 600px;
+        margin: 18px auto 0;
+        color: var(--muted);
+        font-size: 16px;
+        font-weight: 300;
     }
+    .leam-page-banner .crumbs {
+        position: relative;
+        z-index: 1;
+        margin-top: 14px;
+        font-size: 13px;
+        color: var(--muted);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+    .leam-page-banner .crumbs a { color: var(--muted); text-decoration: none; }
 
-    .gallery-item {
+    .leam-portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 22px;
+    }
+    .leam-portfolio-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        overflow: hidden;
+        transition: all .25s;
+        text-decoration: none;
+        color: inherit;
         display: block;
     }
-
-    .gallery-item img {
-        height: 250px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        transition: box-shadow 0.2s;
-        border-radius: 5px;
+    .leam-portfolio-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(168,85,247,0.3);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        text-decoration: none;
+        color: inherit;
     }
-
-    .gallery-item:hover img {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-    }
-
-    .lightbox-modal .modal-content {
-        background-color: var(--lightbox);
-    }
-
-    .lightbox-modal .btn-close {
-        position: absolute;
-        top: 1.25rem;
-        right: 1.25rem;
-        font-size: 1.25rem;
-        z-index: 10;
-        filter: invert(1) grayscale(100);
-    }
-
-    .lightbox-modal .modal-body {
+    .leam-portfolio-thumb {
+        height: 240px;
+        background: linear-gradient(135deg, var(--card2) 0%, #1a1a2e 100%);
+        position: relative;
+        overflow: hidden;
         display: flex;
         align-items: center;
-        padding: 0;
+        justify-content: center;
+        font-size: 60px;
     }
-
-    .lightbox-modal .lightbox-content {
+    .leam-portfolio-thumb img {
         width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform .3s;
     }
-
-    .lightbox-modal .carousel-indicators {
-        margin-bottom: 0;
-    }
-
-    .lightbox-modal .carousel-indicators [data-bs-target] {
-        background-color: var(--carousel-text) !important;
-    }
-
-    .lightbox-modal .carousel-inner {
-        width: 75%;
-    }
-
-    .lightbox-modal .carousel-inner img {
-        animation: zoomin 10s linear infinite;
-        /* height: 80%; */
-        border-radius: 5px;
-    }
-
-    .lightbox-modal .carousel-item .carousel-caption {
-        right: 0;
-        bottom: 0;
-        left: 0;
-        padding-bottom: 2rem;
-        background-color: var(--lightbox);
-        color: var(--carousel-text) !important;
-    }
-
-    .lightbox-modal .carousel-control-prev,
-    .lightbox-modal .carousel-control-next {
-        width: auto;
-    }
-
-    .lightbox-modal .carousel-control-prev {
-        left: 1.25rem;
-    }
-
-    .lightbox-modal .carousel-control-next {
-        right: 1.25rem;
-    }
-
-    @media (min-width: 1400px) {
-        .lightbox-modal .carousel-inner {
-            max-width: 60%;
-        }
-    }
-
-    [data-bs-theme="dark"] .lightbox-modal .carousel-control-next-icon,
-    [data-bs-theme="dark"] .lightbox-modal .carousel-control-prev-icon {
-        filter: none;
-    }
-
-    .btn-fullscreen-enlarge,
-    .btn-fullscreen-exit {
+    .leam-portfolio-card:hover .leam-portfolio-thumb img { transform: scale(1.05); }
+    .leam-portfolio-thumb::after {
+        content: '';
         position: absolute;
-        top: 1.5rem;
-        right: 3.5rem;
-        z-index: 10;
-        border: 0;
-        background: transparent;
-        opacity: .6;
-        font-size: 1.25rem;
+        inset: 0;
+        background: var(--rainbow2);
+        opacity: 0;
+        transition: opacity .3s;
+    }
+    .leam-portfolio-card:hover .leam-portfolio-thumb::after { opacity: 0.1; }
+    .leam-portfolio-body { padding: 22px 24px 24px; }
+    .leam-portfolio-tag {
+        font-size: 11px;
+        padding: 3px 10px;
+        border-radius: 100px;
+        background: rgba(168,85,247,0.1);
+        color: #a855f7;
+        display: inline-block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+    .leam-portfolio-card h3 {
+        font-size: 17px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #fff;
+    }
+    .leam-portfolio-card p {
+        font-size: 13.5px;
+        color: var(--muted);
+        line-height: 1.6;
+        margin: 0;
     }
 
-    .bi {
-        display: inline-block;
-        width: 1em;
-        height: 1em;
-        vertical-align: -0.035em;
-        fill: #fff !important;
+    .leam-portfolio-filters {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 32px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .leam-portfolio-filter {
+        padding: 8px 16px;
+        border-radius: 100px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 12.5px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        transition: all .2s;
+        text-decoration: none;
+        font-family: 'Barlow', sans-serif;
+    }
+    .leam-portfolio-filter:hover, .leam-portfolio-filter.active {
+        background: rgba(0,180,255,0.1);
+        border-color: rgba(0,180,255,0.3);
+        color: #00b4ff;
+        text-decoration: none;
+    }
+
+    .leam-empty {
+        text-align: center;
+        padding: 80px 20px;
+        color: var(--muted);
+    }
+    .leam-empty h3 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 32px;
+        letter-spacing: 1px;
+        color: #fff;
+        margin-bottom: 10px;
     }
 </style>
 
-<!-- Banner Section -->
-<section class="about-banner home-banner">
-    <h1 style=" font-size: 32px; color: #fff; text-shadow: 2px 2px black; font-weight: 700;">Gallery</h1>
+<!-- BANNER -->
+<section class="leam-page-banner">
+    <h1>Our <span class="rainbow-text">Projects</span></h1>
+    <p>A selection of recent work for clients across industries — from startups to enterprise.</p>
+    <div class="crumbs"><a href="{{ url('/') }}">Home</a> &nbsp;›&nbsp; Projects</div>
 </section>
 
+<!-- PORTFOLIO -->
+<section class="leam-section">
+    <div class="leam-container">
+        @php
+            $portfolioServices = (isset($services) && $services->count()) ? $services : \App\Models\Service::where('status', 1)->latest()->get();
+            $cats = \App\Models\Category::where('status', 1)->orderBy('sort_order')->get();
+        @endphp
 
-
-<svg class="d-none" xmlns="http://www.w3.org/2000/svg">
-    <symbol id="enlarge" viewBox="0 0 16 16">
-        <path
-            d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z" />
-    </symbol>
-    <symbol id="exit" viewBox="0 0 16 16">
-        <path
-            d="M5.5 0a.5.5 0 0 1 .5.5v4A1.5 1.5 0 0 1 4.5 6h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5zm5 0a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 10 4.5v-4a.5.5 0 0 1 .5-.5zM0 10.5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 6 11.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zm10 1a1.5 1.5 0 0 1 1.5-1.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4z" />
-    </symbol>
-</svg>
-
-
-<section class="photo-gallery py-5">
-    <div class="container">
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 gallery-grid">
-            @foreach(\App\Models\Gallery::where('status', 1)->orderBy('created_at', 'desc')->get() as $key => $photo)
-            <div class="col">
-                <a class="gallery-item" href="{{ url('storage/'.$photo->photo) }}">
-                    <img src="{{ url('storage/'.$photo->photo) }}" class="img-fluid"
-                        style="font-size: 32px; color: #fff !important; text-shadow: 2px 2px black; font-weight: 700;" alt="{{ $photo->name }}">
-                </a>
-            </div>
+        @if($cats->count() > 0)
+        <div class="leam-portfolio-filters">
+            <a href="{{ url('gallery') }}" class="leam-portfolio-filter {{ !request('cat') ? 'active' : '' }}">All</a>
+            @foreach($cats as $c)
+                <a href="{{ url('gallery?cat='.$c->slug) }}" class="leam-portfolio-filter {{ request('cat') === $c->slug ? 'active' : '' }}">{{ $c->icon }} {{ $c->name }}</a>
             @endforeach
         </div>
-    </div>
-</section>
+        @endif
 
-<div class="modal fade lightbox-modal" id="lightbox-modal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
-        <div class="modal-content">
-            <button type="button" class="btn-fullscreen-enlarge" aria-label="Enlarge fullscreen">
-                <svg class="bi">
-                    <use href="#enlarge"></use>
-                </svg>
-            </button>
-            <button type="button" class="btn-fullscreen-exit d-none" aria-label="Exit fullscreen">
-                <svg class="bi">
-                    <use href="#exit"></use>
-                </svg>
-            </button>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            <div class="modal-body">
-                <div class="lightbox-content">
-                    <!-- JS content here -->
+        @if($portfolioServices->count() > 0)
+            <div class="leam-portfolio-grid">
+                @foreach($portfolioServices as $key => $project)
+                    @if(request('cat') && optional($project->category)->slug !== request('cat'))
+                        @continue
+                    @endif
+                    <a href="{{ url($project->slug) }}" class="leam-portfolio-card">
+                        <div class="leam-portfolio-thumb">
+                            @if(!empty($project->thumbnail_img))
+                                <img src="{{ url('storage/'.$project->thumbnail_img) }}" alt="{{ $project->image_alt ?? $project->name }}">
+                            @else
+                                <span class="rainbow-text" style="font-family:'Bebas Neue'; font-size:42px; letter-spacing:2px;">{{ $project->icon ?? 'PROJ' }}</span>
+                            @endif
+                        </div>
+                        <div class="leam-portfolio-body">
+                            <span class="leam-portfolio-tag">{{ optional($project->category)->name ?? 'Project' }}</span>
+                            <h3>{{ $project->name }}</h3>
+                            <p>{{ \Illuminate\Support\Str::limit(strip_tags($project->short_description ?? ''), 110) }}</p>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        @else
+            <div class="leam-empty">
+                <h3>Projects coming soon</h3>
+                <p>We're curating recent client work to feature here.</p>
+                <div style="margin-top:24px;">
+                    <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-primary">Start a Project</a>
                 </div>
             </div>
-        </div>
+        @endif
     </div>
-</div>
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> -->
-
-<script>
-    const html = document.querySelector('html');
-    html.setAttribute('data-bs-theme', 'dark');
-
-    document.addEventListener('DOMContentLoaded', () => {
-        // --- Create LightBox
-        const galleryGrid = document.querySelector(".gallery-grid");
-        const links = galleryGrid.querySelectorAll("a");
-        const imgs = galleryGrid.querySelectorAll("img");
-        const lightboxModal = document.getElementById("lightbox-modal");
-        const bsModal = new bootstrap.Modal(lightboxModal);
-        const modalBody = lightboxModal.querySelector(".lightbox-content");
-
-        function createCaption(caption) {
-            return `<div class="carousel-caption d-none d-md-block">
-        <h4 class="m-0">${caption}</h4>
-      </div>`;
-        }
-
-        function createIndicators(img) {
-            let markup = "",
-                i, len;
-
-            const countSlides = links.length;
-            const parentCol = img.closest('.col');
-            const curIndex = [...parentCol.parentElement.children].indexOf(parentCol);
-
-            for (i = 0, len = countSlides; i < len; i++) {
-                markup += `
-        <button type="button" data-bs-target="#lightboxCarousel"
-          data-bs-slide-to="${i}"
-          ${i === curIndex ? 'class="active" aria-current="true"' : ''}
-          aria-label="Slide ${i + 1}">
-        </button>`;
-            }
-
-            return markup;
-        }
-
-        function createSlides(img) {
-            let markup = "";
-            const currentImgSrc = img.closest('.gallery-item').getAttribute("href");
-
-            for (const img of imgs) {
-                const imgSrc = img.closest('.gallery-item').getAttribute("href");
-                const imgAlt = img.getAttribute("alt");
-
-                markup += `
-        <div class="carousel-item${currentImgSrc === imgSrc ? " active" : ""}">
-          <img class="d-block img-fluid w-100" src=${imgSrc} alt="${imgAlt}">
-          ${imgAlt ? createCaption(imgAlt) : ""}
-        </div>`;
-            }
-
-            return markup;
-        }
-
-        function createCarousel(img) {
-            const markup = `
-      <!-- Lightbox Carousel -->
-      <div id="lightboxCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
-        <!-- Indicators/dots -->
-        <div class="carousel-indicators">
-          ${createIndicators(img)}
-        </div>
-        <!-- Wrapper for Slides -->
-        <div class="carousel-inner justify-content-center mx-auto">
-          ${createSlides(img)}
-        </div>
-        <!-- Controls/icons -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#lightboxCarousel" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#lightboxCarousel" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-      `;
-
-            modalBody.innerHTML = markup;
-            const lightboxCarousel = document.getElementById("lightboxCarousel");
-            new bootstrap.Carousel(lightboxCarousel); // Initialize the carousel
-        }
-
-        for (const link of links) {
-            link.addEventListener("click", function(e) {
-                e.preventDefault();
-                const currentImg = link.querySelector("img");
-                const lightboxCarousel = document.getElementById("lightboxCarousel");
-
-                if (lightboxCarousel) {
-                    const parentCol = link.closest('.col');
-                    const index = [...parentCol.parentElement.children].indexOf(parentCol);
-
-                    const bsCarousel = new bootstrap.Carousel(lightboxCarousel);
-                    bsCarousel.to(index);
-                } else {
-                    createCarousel(currentImg);
-                }
-
-                bsModal.show();
-            });
-        }
-
-        // --- Support Fullscreen
-        const fsEnlarge = document.querySelector(".btn-fullscreen-enlarge");
-        const fsExit = document.querySelector(".btn-fullscreen-exit");
-
-        function enterFS() {
-            lightboxModal.requestFullscreen().then({}).catch(err => {
-                alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-            });
-            fsEnlarge.classList.toggle("d-none");
-            fsExit.classList.toggle("d-none");
-        }
-
-        function exitFS() {
-            document.exitFullscreen();
-            fsExit.classList.toggle("d-none");
-            fsEnlarge.classList.toggle("d-none");
-        }
-
-        fsEnlarge.addEventListener("click", (e) => {
-            e.preventDefault();
-            enterFS();
-        });
-
-        fsExit.addEventListener("click", (e) => {
-            e.preventDefault();
-            exitFS();
-        });
-    })
-</script>
+</section>
 
 @endsection

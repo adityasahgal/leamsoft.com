@@ -1,245 +1,246 @@
-<?php
-$genSetting = \App\Models\Setting::first();
-?>
 @extends('layouts.master')
 @php
-$meta_title = "Explore Luxurious Villas in Nainital | Karinya Villas Latest Blogs";
-$meta_description = "Stay updated with the latest blogs from Karinya Villas. Discover insights, travel tips, and the luxury of one, two, and three-bedroom villas in Nainital.";
-$keywords = "Karinya Villas blog, luxury villas Nainital, latest villa updates, Nainital travel tips, one-bedroom villa, two-bedroom villa, three-bedroom villa, luxury stay, Nainital retreat, Karinya Villas updates";
+$meta_title = "Blog | LEAMSOFT — Insights on Tech, AI, and Growth";
+$meta_description = "Read the LEAMSOFT blog for engineering deep-dives, AI insights, and growth strategies for modern businesses.";
+$keywords = "leamsoft blog, tech insights, engineering blog, AI articles, cloud, security";
 @endphp
 @section('meta_title'){{ $meta_title }}@stop
 @section('meta_description'){{ $meta_description }}@stop
 @section('meta_keywords'){{ $keywords }}@stop
+
 @section('content')
 <style>
-    .about-banner {
-        background: url('<?php echo url('assets/image/kk.jpg'); ?>') center center / cover no-repeat;
-        height: 400px;
-        color: white;
+    .leam-page-banner {
+        padding: 90px 24px 70px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid var(--border);
+    }
+    .leam-page-banner::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(0,180,255,0.12) 0%, transparent 70%),
+                    radial-gradient(ellipse 40% 40% at 30% 100%, rgba(168,85,247,0.08) 0%, transparent 70%);
+        pointer-events: none;
+    }
+    .leam-page-banner h1 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: clamp(48px, 7vw, 84px);
+        letter-spacing: 2px;
+        line-height: 1;
+        margin: 0;
+        position: relative;
+        z-index: 1;
+        color: #fff;
+    }
+    .leam-page-banner p {
+        position: relative;
+        z-index: 1;
+        max-width: 600px;
+        margin: 18px auto 0;
+        color: var(--muted);
+        font-size: 16px;
+        font-weight: 300;
+    }
+    .leam-page-banner .crumbs {
+        position: relative;
+        z-index: 1;
+        margin-top: 14px;
+        font-size: 13px;
+        color: var(--muted);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+    .leam-page-banner .crumbs a { color: var(--muted); text-decoration: none; }
+    .leam-page-banner .crumbs a:hover { color: #fff; }
+
+    .leam-blog-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 26px;
+    }
+    .leam-blog-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        overflow: hidden;
+        transition: all .25s;
+        text-decoration: none;
+        color: inherit;
         display: flex;
+        flex-direction: column;
+    }
+    .leam-blog-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(0,180,255,0.25);
+        box-shadow: 0 18px 50px rgba(0,0,0,0.4);
+        text-decoration: none;
+        color: inherit;
+    }
+    .leam-blog-thumb {
+        height: 200px;
+        background: linear-gradient(135deg, var(--card2) 0%, #1a1a2e 100%);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
         justify-content: center;
+        font-size: 48px;
+    }
+    .leam-blog-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform .3s;
+    }
+    .leam-blog-card:hover .leam-blog-thumb img { transform: scale(1.06); }
+    .leam-blog-thumb::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: var(--rainbow2);
+        opacity: 0;
+        transition: opacity .3s;
+    }
+    .leam-blog-card:hover .leam-blog-thumb::after { opacity: 0.1; }
+    .leam-blog-body { padding: 22px 24px 24px; flex: 1; display: flex; flex-direction: column; }
+    .leam-blog-meta {
+        font-size: 11.5px;
+        color: var(--muted);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        display: flex;
+        gap: 14px;
         align-items: center;
     }
-
-    .about-banner h1 {
-        font-size: 3rem;
-        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        font-weight: bold;
+    .leam-blog-tag {
+        background: rgba(0,180,255,0.1);
+        color: #00b4ff;
+        padding: 2px 10px;
+        border-radius: 100px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        font-size: 10.5px;
+    }
+    .leam-blog-card h3 {
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1.4;
+        margin-bottom: 10px;
+        color: #fff;
+    }
+    .leam-blog-card p {
+        font-size: 13.5px;
+        color: var(--muted);
+        line-height: 1.6;
+        flex: 1;
+        margin: 0 0 14px;
+    }
+    .leam-blog-link {
+        font-size: 12.5px;
+        color: #00b4ff;
+        font-weight: 600;
+        letter-spacing: 0.5px;
     }
 
-    /* Centering the image inside the card */
-    .image-wrapper {
+    .leam-empty {
+        text-align: center;
+        padding: 80px 20px;
+        color: var(--muted);
+    }
+    .leam-empty h3 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 32px;
+        letter-spacing: 1px;
+        color: #fff;
+        margin-bottom: 10px;
+    }
+
+    .leam-pagination {
+        margin-top: 48px;
         display: flex;
         justify-content: center;
-        padding: 10px;
-
+        gap: 6px;
     }
-
-    .card-img-top {
-        width: 90%;
-        height: auto;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .service-box {
-        text-align: center;
-        padding: 20px;
+    .leam-pagination a, .leam-pagination span {
+        min-width: 38px;
+        height: 38px;
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--card);
+        border: 1px solid var(--border);
         border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 13px;
+        transition: all .2s;
     }
-
-    .service-box i {
-        font-size: 3rem;
-        color: #b10a0a;
-    }
-
-
-    .service-box h5 {
-        font-size: 1.2rem;
-        font-weight: bold;
-        margin-top: 10px;
-    }
-
-    .service-box:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    @media (max-width: 768px) {
-        .about-banner h1 {
-            font-size: 2rem;
-        }
-
-        .team-member img {
-            width: 120px;
-            height: 120px;
-        }
-
-        .service-box i {
-            font-size: 2rem;
-        }
-    }
-
-    .value-card {
-        transition: all 0.3s ease-in-out;
-    }
-
-    .value-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .shadow-sm {
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Team Member Card Styles */
-    .card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
-
-    .card-description {
-        color: #555;
-    }
-
-    /* Styling for the "Read More" button */
-    .btn-link {
-        font-weight: bold;
-        transition: color 0.2s ease;
-    }
-
-    .text-set:hover {
-        color: #b10a3a;
-        /* Change color on hover */
-        /* text-decoration: underline; */
-    }
-
-    .text-set {
-        color: #b10a0a;
-    }
-
-    .text-justify {
-        text-align: justify;
+    .leam-pagination a:hover { border-color: rgba(0,180,255,0.4); color: #fff; }
+    .leam-pagination .active span,
+    .leam-pagination span.active {
+        background: var(--rainbow);
+        background-size: 200%;
+        animation: shift 4s linear infinite;
+        color: #000;
+        font-weight: 700;
+        border-color: transparent;
     }
 </style>
 
-<!-- Banner Section -->
-<section class="about-banner home-banner">
-    <h1 style=" font-size: 32px; color: #fff; text-shadow: 2px 2px black; font-weight: 700;">Our Blogs</h1>
+<!-- BANNER -->
+<section class="leam-page-banner">
+    <h1>LEAMSOFT <span class="rainbow-text">Blog</span></h1>
+    <p>Engineering deep-dives, AI insights, growth strategies, and field notes from the trenches.</p>
+    <div class="crumbs"><a href="{{ url('/') }}">Home</a> &nbsp;›&nbsp; Blog</div>
 </section>
 
-<!-- About Section -->
-<!-- <section class="container my-5">
-    <h2 class="text-center mb-4" style=" font-size: 32px; font-weight: 700;">Welcome to Karinya Villas</h2>
-    <p class="text-center ">
-        Welcome to Karinya Villas, Nainital's top choice for luxury stays. Enjoy elegant villas, modern amenities, and stunning views for an unforgettable experience. Perfect for getaways and retreats!
-    </p>
-</section> -->
-
-<!-- Blog Start -->
-<div class="container-xxl py-5">
-    <div class="container">
-        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h6 class="section-title text-center text-color text-uppercase">Our Blogs</h6>
-            <h1 class="mb-5">Explore Our <span class="text-color text-uppercase">Blogs</span></h1>
-        </div>
-        <div class="row g-4">
-
-            @foreach (\App\Models\Blog::orderBy('id','DESC')->where('status', 1)->get() as $key => $row)
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="room-item shadow rounded overflow-hidden">
-                    <div class="position-relative">
-                        <img class="img-fluid" src="{{ url('storage/'.$row->banner) }}" alt="{{ $row->image_alt }}">
-
-                    </div>
-                    <div class="p-4 mt-2">
-                        <div class="d-flex justify-content-between mb-3">
-                            <h5 class="mb-0" style="font-weight: bold !important;">{{ $row->name }}</h5>
-
+<!-- BLOG GRID -->
+<section class="leam-section">
+    <div class="leam-container">
+        @if(isset($blogs) && $blogs->count() > 0)
+            <div class="leam-blog-grid">
+                @foreach($blogs as $blog)
+                    <a href="{{ url('blog/'.$blog->slug) }}" class="leam-blog-card">
+                        <div class="leam-blog-thumb">
+                            @if(!empty($blog->thumbnail_img))
+                                <img src="{{ url('storage/'.$blog->thumbnail_img) }}" alt="{{ $blog->image_alt ?? $blog->title }}">
+                            @else
+                                <span class="rainbow-text" style="font-family:'Bebas Neue'; font-size:42px; letter-spacing:2px;">LEAMSOFT</span>
+                            @endif
                         </div>
-
-                        <p class="text-body mb-3">{{ $row->short_description }}</p>
-                        <div class="d-flex justify-content-between">
-                            <a class="btn btn-sm btn-primary rounded py-2 px-4" href="{{ url('blog/'.$row->slug) }}">Read More</a>
-                            <!-- <a class="btn btn-sm btn-dark rounded py-2 px-4" href="">Book Now</a> -->
+                        <div class="leam-blog-body">
+                            <div class="leam-blog-meta">
+                                <span class="leam-blog-tag">Insights</span>
+                                <span>{{ $blog->created_at?->format('M d, Y') }}</span>
+                            </div>
+                            <h3>{{ $blog->title ?? $blog->name }}</h3>
+                            <p>{{ \Illuminate\Support\Str::limit(strip_tags($blog->short_description ?? $blog->description ?? ''), 130) }}</p>
+                            <span class="leam-blog-link">Read article →</span>
                         </div>
-                    </div>
+                    </a>
+                @endforeach
+            </div>
+
+            @if(method_exists($blogs, 'links'))
+                <div class="leam-pagination">
+                    {{ $blogs->links() }}
+                </div>
+            @endif
+        @else
+            <div class="leam-empty">
+                <h3>No posts published yet</h3>
+                <p>We're putting together our first articles. Stay tuned — or follow along on social.</p>
+                <div style="margin-top:24px;">
+                    <a href="{{ url('/') }}" class="leam-btn leam-btn-primary">Back to Home</a>
                 </div>
             </div>
-            @endforeach
-
-        </div>
-        <!-- <div class="row g-4 mt-2">
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="room-item shadow rounded overflow-hidden">
-                    <div class="position-relative">
-                        <img class="img-fluid" src="{{url('assets/image/room-3.jpg') }}" alt="">
-                    </div>
-                    <div class="p-4 mt-2">
-                        <div class="d-flex justify-content-between mb-3">
-                            <h5 class="mb-0">Junior Suite</h5>
-                        </div>
-
-                        <p class="text-body mb-3">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
-                            sed diam stet diam sed stet lorem.</p>
-                        <div class="d-flex justify-content-between">
-                            <a class="btn btn-sm btn-primary rounded py-2 px-4" href="#">View Detail</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="room-item shadow rounded overflow-hidden">
-                    <div class="position-relative">
-                        <img class="img-fluid" src="{{url('assets/image/room-1.jpg') }}" alt="">
-
-                    </div>
-                    <div class="p-4 mt-2">
-                        <div class="d-flex justify-content-between mb-3">
-                            <h5 class="mb-0">Executive Suite</h5>
-
-                        </div>
-
-                        <p class="text-body mb-3">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
-                            sed diam stet diam sed stet lorem.</p>
-                        <div class="d-flex justify-content-between">
-                            <a class="btn btn-sm btn-primary rounded py-2 px-4" href="#">View Detail</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
-                <div class="room-item shadow rounded overflow-hidden">
-                    <div class="position-relative">
-                        <img class="img-fluid" src="{{url('assets/image/room-2.jpg') }}" alt="">
-
-                    </div>
-                    <div class="p-4 mt-2">
-                        <div class="d-flex justify-content-between mb-3">
-                            <h5 class="mb-0">Super Deluxe</h5>
-
-                        </div>
-
-                        <p class="text-body mb-3">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
-                            sed diam stet diam sed stet lorem.</p>
-                        <div class="d-flex justify-content-between">
-                            <a class="btn btn-sm btn-primary rounded py-2 px-4" href="">View Detail</a>
-                            <a class="btn btn-sm btn-dark rounded py-2 px-4" href="">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
+        @endif
     </div>
-</div>
+</section>
+
 @endsection

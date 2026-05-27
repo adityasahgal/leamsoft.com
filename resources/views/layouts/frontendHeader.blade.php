@@ -316,7 +316,7 @@
             <li><a href="{{ url('about-us') }}" class="{{ request()->is('about-us') ? 'active' : '' }}">About</a></li>
 
             <li>
-                <a href="{{ url('services') }}" class="{{ request()->is('services*') || request()->is('villas') ? 'active' : '' }}">Services <span class="arr">▼</span></a>
+                <a href="{{ url('services') }}" class="{{ request()->is('services*') ? 'active' : '' }}">Services <span class="arr">▼</span></a>
                 @if($navCategories->count() > 0)
                 <div class="leam-dropdown">
                     <div class="leam-dd-left">

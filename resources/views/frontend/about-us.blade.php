@@ -1,8 +1,8 @@
 @extends('layouts.master')
 @php
-$meta_title = "About LEAMSOFT | Smart Technology Partner for Modern Businesses";
-$meta_description = "Learn about LEAMSOFT — a team of 50+ specialists delivering web, mobile, AI, cloud, and cyber security solutions to global businesses since 2021.";
-$keywords = "About LEAMSOFT, software company, technology partner, web development team, AI experts, cloud specialists, IT consulting";
+$meta_title = "About Leamsoft Pvt Ltd. | AI, Cloud & Blockchain Technology Company";
+$meta_description = "Leamsoft Pvt Ltd. is a next-generation IT company delivering advanced software engineering, cloud infrastructure, AI automation, and blockchain solutions across Delhi NCR and India.";
+$keywords = "About Leamsoft, IT company Delhi NCR, AI company, blockchain developers India, cloud DevOps team, custom software India";
 @endphp
 @section('meta_title'){{ $meta_title }}@stop
 @section('meta_description'){{ $meta_description }}@stop
@@ -223,12 +223,13 @@ $keywords = "About LEAMSOFT, software company, technology partner, web developme
     @media (max-width: 900px) {
         .leam-about-grid { grid-template-columns: 1fr; gap: 40px; }
         .leam-about-images { max-width: 500px; margin: 0 auto; }
+        .leam-mv-grid { grid-template-columns: 1fr !important; }
     }
 </style>
 
 <!-- BANNER -->
 <section class="leam-page-banner">
-    <h1>About <span class="rainbow-text">LEAMSOFT</span></h1>
+    <h1>About <span class="rainbow-text">Leamsoft</span></h1>
     <div class="crumbs"><a href="{{ url('/') }}">Home</a> &nbsp;›&nbsp; About Us</div>
 </section>
 
@@ -237,118 +238,158 @@ $keywords = "About LEAMSOFT, software company, technology partner, web developme
     <div class="leam-container">
         <div class="leam-about-grid">
             <div>
-                <div class="leam-section-label">Our Story</div>
-                <h2 class="leam-section-title">Building <span class="rainbow-text">Tomorrow's</span> Tech, Today</h2>
+                <div class="leam-section-label">Company Introduction</div>
+                <h2 class="leam-section-title">A Next-Generation <span class="rainbow-text">IT Company</span></h2>
                 <p class="leam-section-sub" style="margin-bottom: 18px;">
-                    LEAMSOFT was founded with one mission: to make smart technology accessible to every business. What started as a small team of engineers in 2021 has grown into a distributed company of 50+ specialists serving clients across 25+ countries.
+                    Leamsoft Pvt Ltd. is a next-generation IT company delivering advanced software engineering, cloud infrastructure, AI automation, and blockchain technology solutions.
                 </p>
                 <p class="leam-section-sub" style="margin-bottom: 18px;">
-                    We believe great technology isn't about using the trendiest stack — it's about choosing the right tools to solve real business problems. From scrappy startups to enterprise organizations, we partner with teams who care deeply about quality, speed, and outcomes.
+                    Our team focuses on helping businesses modernize operations through scalable digital transformation. We work with startups, enterprises, agencies, and growing organizations across Delhi, Noida, Greater Noida, and India.
                 </p>
                 <p class="leam-section-sub">
-                    Today, LEAMSOFT operates across web development, mobile apps, AI/ML, cloud, cyber security, and digital marketing. But at our core, we're still the same team obsessed with shipping things that actually work.
+                    From AI-driven workflow automation to Web3 platforms and enterprise-grade cloud infrastructure — Leamsoft builds the systems that power the next generation of business.
                 </p>
 
                 <div class="leam-stat-grid">
                     <div class="leam-stat-card">
                         <div class="num">100+</div>
-                        <div class="label">Projects Done</div>
+                        <div class="label">Projects Delivered</div>
                     </div>
                     <div class="leam-stat-card">
-                        <div class="num">50+</div>
-                        <div class="label">Team Members</div>
+                        <div class="num">04+</div>
+                        <div class="label">Years Experience</div>
                     </div>
                     <div class="leam-stat-card">
-                        <div class="num">25+</div>
-                        <div class="label">Countries Served</div>
+                        <div class="num">12+</div>
+                        <div class="label">Industries Served</div>
                     </div>
                 </div>
             </div>
             <div class="leam-about-images">
-                <div class="img-box">⚡</div>
+                <div class="img-box">🤖</div>
+                <div class="img-box">⛓️</div>
+                <div class="img-box">☁️</div>
                 <div class="img-box">🚀</div>
-                <div class="img-box">💡</div>
-                <div class="img-box">🌐</div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- VALUES -->
+<!-- MISSION & VISION -->
 <section class="leam-section leam-values-bg">
     <div class="leam-container">
-        <div class="leam-section-head">
-            <div class="leam-section-label">Our Values</div>
-            <h2 class="leam-section-title">What We <span class="rainbow-text">Stand For</span></h2>
-            <p class="leam-section-sub">The principles that guide every decision we make and every line of code we ship.</p>
-        </div>
-        <div class="leam-values-grid">
-            <div class="leam-value-card">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;" class="leam-mv-grid">
+            <div class="leam-value-card" style="padding:36px;">
                 <div class="value-icon" style="background:rgba(0,180,255,0.1);">🎯</div>
-                <h4>Outcome-Focused</h4>
-                <p>We measure success by the business outcomes we create — not lines of code, story points, or vanity metrics.</p>
+                <h4 style="font-size:22px;">Our Mission</h4>
+                <p style="font-size:15px;">To build intelligent digital solutions that empower businesses through automation, scalability, and modern technology — making advanced tech accessible to companies of every size.</p>
             </div>
-            <div class="leam-value-card">
-                <div class="value-icon" style="background:rgba(168,85,247,0.1);">🤝</div>
-                <h4>True Partnership</h4>
-                <p>Every client gets a dedicated team that treats your roadmap as our own, with transparent communication every step.</p>
-            </div>
-            <div class="leam-value-card">
-                <div class="value-icon" style="background:rgba(57,211,83,0.1);">🛠️</div>
-                <h4>Craft Over Speed</h4>
-                <p>We move fast but never at the cost of quality. Every shipped feature is built to last, scale, and evolve.</p>
-            </div>
-            <div class="leam-value-card">
-                <div class="value-icon" style="background:rgba(255,140,0,0.1);">🔓</div>
-                <h4>No Lock-In</h4>
-                <p>Open standards, clean code, full documentation. If you ever want to take it in-house, the handoff is painless.</p>
-            </div>
-            <div class="leam-value-card">
-                <div class="value-icon" style="background:rgba(255,59,92,0.1);">🛡️</div>
-                <h4>Security By Default</h4>
-                <p>Security isn't a feature we sprinkle on top — it's woven into our process from day one through OWASP, ISO, and SOC2.</p>
-            </div>
-            <div class="leam-value-card">
-                <div class="value-icon" style="background:rgba(255,215,0,0.1);">📈</div>
-                <h4>Continuous Learning</h4>
-                <p>The industry moves fast, so we move faster. Every engineer gets time for R&amp;D, conferences, and certifications.</p>
+            <div class="leam-value-card" style="padding:36px;">
+                <div class="value-icon" style="background:rgba(168,85,247,0.1);">🔭</div>
+                <h4 style="font-size:22px;">Our Vision</h4>
+                <p style="font-size:15px;">To become a leading technology company delivering innovative AI, cloud, blockchain, and enterprise software solutions globally — known for craftsmanship, security, and business impact.</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- TEAM -->
+<!-- CORE VALUES -->
 <section class="leam-section">
     <div class="leam-container">
         <div class="leam-section-head">
-            <div class="leam-section-label">Meet The Team</div>
-            <h2 class="leam-section-title">The People <span class="rainbow-text">Behind</span> LEAMSOFT</h2>
-            <p class="leam-section-sub">A handful of the engineers, designers, and strategists shipping work you'll love.</p>
+            <div class="leam-section-label">Our Core Values</div>
+            <h2 class="leam-section-title">What We <span class="rainbow-text">Stand For</span></h2>
+            <p class="leam-section-sub">Five principles that guide every project we ship and every relationship we build.</p>
         </div>
-        <div class="leam-team-grid">
+        <div class="leam-values-grid">
+            <div class="leam-value-card">
+                <div class="value-icon" style="background:rgba(0,180,255,0.1);">💡</div>
+                <h4>Innovation</h4>
+                <p>We continuously explore modern technologies and future-ready systems — staying ahead so our clients do too.</p>
+            </div>
+            <div class="leam-value-card">
+                <div class="value-icon" style="background:rgba(168,85,247,0.1);">🤝</div>
+                <h4>Transparency</h4>
+                <p>Clear communication, reliable delivery, and honest collaboration at every stage of the engagement.</p>
+            </div>
+            <div class="leam-value-card">
+                <div class="value-icon" style="background:rgba(57,211,83,0.1);">📈</div>
+                <h4>Scalability</h4>
+                <p>We build solutions designed for long-term business growth — never quick fixes that break under load.</p>
+            </div>
+            <div class="leam-value-card">
+                <div class="value-icon" style="background:rgba(255,59,92,0.1);">🛡️</div>
+                <h4>Security</h4>
+                <p>Enterprise-level security and infrastructure reliability baked in from day one — not bolted on later.</p>
+            </div>
+            <div class="leam-value-card">
+                <div class="value-icon" style="background:rgba(255,215,0,0.1);">⚡</div>
+                <h4>Performance</h4>
+                <p>Optimized systems with high-speed performance, low latency, and dependable uptime under real-world load.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TECHNOLOGIES -->
+<section class="leam-section leam-values-bg">
+    <div class="leam-container">
+        <div class="leam-section-head">
+            <div class="leam-section-label">Tech Stack</div>
+            <h2 class="leam-section-title">Technologies <span class="rainbow-text">We Work With</span></h2>
+            <p class="leam-section-sub">Modern, battle-tested tools across the full engineering stack — chosen for the problem, not the hype.</p>
+        </div>
+        <div class="leam-values-grid">
             @php
-                $team = [
-                    ['name'=>'Aditya Sharma','role'=>'Founder & CEO','init'=>'AS'],
-                    ['name'=>'Priya Verma','role'=>'CTO','init'=>'PV'],
-                    ['name'=>'Rohan Mehta','role'=>'Head of Engineering','init'=>'RM'],
-                    ['name'=>'Sneha Iyer','role'=>'Head of Design','init'=>'SI'],
+                $stacks = [
+                    ['name'=>'Frontend','icon'=>'🎨','tags'=>['React','Next.js','Vue.js','Angular','Tailwind CSS']],
+                    ['name'=>'Backend','icon'=>'⚙️','tags'=>['Node.js','Laravel','PHP','Python','Express.js']],
+                    ['name'=>'Database','icon'=>'🗄️','tags'=>['MySQL','PostgreSQL','MongoDB','Redis']],
+                    ['name'=>'DevOps &amp; Cloud','icon'=>'☁️','tags'=>['AWS','Docker','Kubernetes','NGINX','Linux','GitHub Actions','CI/CD']],
+                    ['name'=>'Blockchain','icon'=>'⛓️','tags'=>['Solidity','Ethereum','Polygon','Web3.js','Smart Contracts']],
+                    ['name'=>'AI / Automation','icon'=>'🤖','tags'=>['LLM Integrations','Workflow Automation','AI APIs','Data Pipelines']],
                 ];
             @endphp
-            @foreach($team as $t)
-            <div class="leam-team-card">
-                <div class="leam-team-photo-wrap">
-                    <div class="leam-team-photo">{{ $t['init'] }}</div>
-                </div>
-                <div class="leam-team-body">
-                    <div class="leam-team-name">{{ $t['name'] }}</div>
-                    <div class="leam-team-role">{{ $t['role'] }}</div>
-                    <div class="leam-team-socials">
-                        <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-                        <a href="#" title="X"><i class="fa-brands fa-x-twitter"></i></a>
-                        <a href="#" title="GitHub"><i class="fa-brands fa-github"></i></a>
+            @foreach($stacks as $stack)
+                <div class="leam-value-card">
+                    <div class="value-icon" style="background:rgba(0,180,255,0.1);">{!! $stack['icon'] !!}</div>
+                    <h4>{!! $stack['name'] !!}</h4>
+                    <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:6px;">
+                        @foreach($stack['tags'] as $tag)
+                            <span style="font-size:12px; padding:4px 10px; background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:100px; color:var(--muted);">{{ $tag }}</span>
+                        @endforeach
                     </div>
                 </div>
-            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<!-- DEVELOPMENT PROCESS -->
+<section class="leam-section">
+    <div class="leam-container">
+        <div class="leam-section-head">
+            <div class="leam-section-label">How We Work</div>
+            <h2 class="leam-section-title">Our Development <span class="rainbow-text">Process</span></h2>
+            <p class="leam-section-sub">A predictable, transparent path from idea to deployment — and beyond.</p>
+        </div>
+        <div class="leam-values-grid">
+            @php
+                $steps = [
+                    ['n'=>'01','t'=>'Requirement Analysis','d'=>'Understanding business goals, users, and technical requirements before writing a line of code.'],
+                    ['n'=>'02','t'=>'Planning &amp; Architecture','d'=>'Designing scalable architecture, data models, and integration points tailored to your roadmap.'],
+                    ['n'=>'03','t'=>'UI / UX Design','d'=>'Wireframes, prototypes, and polished interfaces designed for engagement and conversions.'],
+                    ['n'=>'04','t'=>'Development','d'=>'Agile delivery with clean, documented, modern code — frontend, backend, and infrastructure.'],
+                    ['n'=>'05','t'=>'Testing &amp; QA','d'=>'Automated and manual testing for functionality, performance, security, and edge cases.'],
+                    ['n'=>'06','t'=>'Deployment &amp; Support','d'=>'Cloud deployment, monitoring, and dedicated long-term technical support.'],
+                ];
+            @endphp
+            @foreach($steps as $step)
+                <div class="leam-value-card">
+                    <div class="value-icon rainbow-text" style="background:rgba(255,255,255,0.04); font-family:'Bebas Neue', sans-serif; font-size:22px;">{{ $step['n'] }}</div>
+                    <h4>{!! $step['t'] !!}</h4>
+                    <p>{{ $step['d'] }}</p>
+                </div>
             @endforeach
         </div>
     </div>

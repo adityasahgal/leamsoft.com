@@ -1,222 +1,201 @@
 @extends('layouts.admin')
 @push('style')
-<link rel="stylesheet" href="{{ asset('admin/plugins/summernote/summernote-bs4.min.css') }}">
+<link rel="stylesheet" href="{{asset('admin/css/user.css')}}">
 <style>
-  .img-md {
-    width: 64px;
-    height: 32px;
-}
-
-.img-xs {
-    width: 32px;
-    height: 32px;
-}
+    .img-md { width: 64px; height: 32px; object-fit: cover; }
+    .img-xs { width: 32px; height: 32px; object-fit: cover; }
+    .icon-cell { font-size: 22px; }
 </style>
 @endpush
 @section('content')
-<!-- Main content -->
 <section class="content">
-  <div class="container-fluid">
-    <!-- /.row -->
-
-    <div class="row">
-
-      <div class="col-12">
-        @if ($errors->any('file'))
-        <div class="alert alert-danger">
-          <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-          </ul>
-        </div>
-        @endif
-        @if(Session('status'))
-        <script>
-          Swal.fire({
-            icon: '<?= Session('status') ?>',
-            title: '<?= Session('status') ?>',
-            text: '<?= Session('message') ?>',
-          })
-        </script>
-        @endif
-        <div class="card card-primary card-outline">
-          <div class="card-header">
-            <h3 class="card-title">Manage Subcategory</h3>
-
-            <div class="row card-tools">
-              <div class="col-md-6 input-group input-group-sm">
-                <input type="text" name="search" id="search" class="form-control float-right" placeholder="Search" onkeyup="search_func(this.value);">
-                <div class="input-group-append">
-                  <button type="submit" class="btn btn-default" style="height: 31px;">
-                    <i class="fas fa-search"></i>
-                  </button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
-              </div>
-              <div class="col-md-6">
-                @can('subcategory-create')
-                <button class="btn btn-primary add-btn" data-toggle="modal" data-target="#addModel">Add Subcategory</button>
-                @endcan
-              </div>
+                @endif
+                @if(Session('status'))
+                <script>
+                    Swal.fire({
+                        icon: '<?= Session('status') ?>',
+                        title: '<?= Session('status') ?>',
+                        text: '<?= Session('message') ?>',
+                    })
+                </script>
+                @endif
+
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">Manage Subcategories</h3>
+                        <div class="row card-tools" style="width:100%;">
+                            <div class="col-md-3 input-group input-group-sm">
+                                <select id="category_id" class="form-control" onchange="filterData()">
+                                    <option value="">All Categories</option>
+                                    @foreach($categories as $c)
+                                        <option value="{{ $c->id }}">{{ $c->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2 input-group input-group-sm">
+                                <select id="status" class="form-control" onchange="filterData()">
+                                    <option value="">All Status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">De-active</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 input-group input-group-sm">
+                                <input type="text" id="search" class="form-control" placeholder="Search" onkeyup="filterData()">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-default" style="height:31px;" onclick="filterData()">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-right">
+                                @can('subcategory-create')
+                                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addModel">
+                                    <i class="fas fa-plus"></i> Add Subcategory
+                                </button>
+                                @endcan
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body table-responsive" id="tag_container">
+                        @include('admin.subcategory.dataTable')
+                    </div>
+                </div>
             </div>
-          </div>
-          <!-- /.card-header -->
-          <div class="card-body table-responsive" id="tag_container">
-            @include('admin.subcategory.dataTable')
-          </div>
-          <!-- /.card-body -->
         </div>
-        <!-- /.card -->
-      </div>
+
+        <div class="modal" id="spinnerModal">
+            <div class="modal-dialog spinner-model modal-lg">
+                <div class="text-center">
+                    <div class="lds-spinner">
+                        <div></div><div></div><div></div><div></div><div></div><div></div>
+                        <div></div><div></div><div></div><div></div><div></div><div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.row -->
-  </div>
 </section>
 
-<!-- .modal -->
+{{-- ADD SUBCATEGORY MODAL --}}
 <div class="modal fade" id="addModel">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content card-primary card-outline">
-      <div class="modal-header">
-        <h4 class="modal-title">Add New Subcategory</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="{{ route('subcategory.store') }}" method="POST">
-          @csrf
-          <div class="card-body">
-            <div class="form-group">
-              <label for="cname">Category Name</label>
-              <select class="form-control" name="cate_id" required>
-                @foreach(\App\Models\Category::where('status', 1)->get() as $cate)
-                <option value="{{ $cate->id }}">{{ $cate->name }}</option>
-                @endforeach
-              </select>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card-primary card-outline">
+            <div class="modal-header">
+                <h4 class="modal-title">Add New Subcategory</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
-
-            <div class="form-group">
-              <label for="name">SubCategory Name</label>
-              <input type="text" class="form-control" name="name" required>
+            <div class="modal-body">
+                <form action="{{ route('subcategory.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Parent Category</label>
+                            <select class="form-control" name="category_id" required>
+                                <option value="">-- Select Category --</option>
+                                @foreach($categories as $c)
+                                    <option value="{{ $c->id }}">{{ $c->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Subcategory Name</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Slug <small class="text-muted">(optional)</small></label>
+                            <input type="text" class="form-control" name="slug" placeholder="auto-generated-from-name">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-8">
+                                <label>Icon <small class="text-muted">(emoji or icon class)</small></label>
+                                <input type="text" class="form-control" name="icon" placeholder="•">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Sort Order</label>
+                                <input type="number" class="form-control" name="sort_order" value="0">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Thumbnail Image</label>
+                            <input type="file" class="form-control-file" name="thumbnail_img" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label>Short Description</label>
+                            <textarea name="short_description" class="form-control" rows="2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea name="description" class="form-control" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Meta Title</label>
+                            <input type="text" name="meta_title" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Meta Description</label>
+                            <textarea name="meta_description" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Keywords</label>
+                            <textarea name="keywords" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Add Subcategory</button>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-              <label for="banner">Banner</label>
-              <div class="input-group">
-                <div class="custom-file">
-                  <input type="file" name="banner" accept="image/*" class="custom-file-input" id="customFile">
-                  <label class="custom-file-label" for="customFile">Choose Banner</label>
-                </div>
-
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="icon">Icon</label>
-              <div class="input-group">
-                <div class="custom-file">
-                  <input type="file" name="icon" accept="image/*" class="custom-file-input" id="customFile">
-                  <label class="custom-file-label" for="customFile">Choose Icon</label>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label>Short Description</label>
-              <textarea name="short_description" class="form-control"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="description">Description</label>
-              <textarea id="textarea" name="description" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-
-            </div>
-            <div class="form-group">
-              <label for="image_alt">Image Alt</label>
-              <input type="text" name="image_alt" class="form-control">
-            </div>
-
-            <div class="form-group">
-              <label for="title">Meta Title</label>
-              <input type="text" name="meta_title" class="form-control">
-            </div>
-
-            <div class="form-group">
-              <label for="meta">Meta Description</label>
-              <textarea name="meta_description" class="form-control" placeholder="Text Here"></textarea>
-            </div>
-
-            <div class="form-group">
-              <label for="keywords">Keywords</label>
-              <textarea name="keywords" class="form-control" placeholder="Text Here"></textarea>
-            </div>
-          </div>
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary">Add Records</button>
-          </div>
-        </form>
-      </div>
+        </div>
     </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
-
 @endsection
 
 @push('script')
-<script src="{{ asset('admin/plugins/summernote/summernote-bs4.min.js') }}"></script>
-
 <script type="text/javascript">
-   $(function() {
-    // Summernote
-    $('#textarea').summernote()
-  });
+    function filterData() {
+        var search = $("#search").val();
+        var status = $("#status").val();
+        var category_id = $("#category_id").val();
+        $.ajax({
+            type: "GET",
+            url: "{{ route('subcategory.index') }}",
+            data: { search: search, status: status, category_id: category_id },
+            beforeSend: function() { $("#spinnerModal").show(); },
+            success: function(data) { $('#tag_container').html(data); },
+            complete: function() { $("#spinnerModal").hide(); }
+        });
+    }
 
-  $(document).ready(function() {
-    $(document).on('click', '.pagination a', function(event) {
-      event.preventDefault();
-      $('li').removeClass('active');
-      $(this).parent('li').addClass('active');
-
-      var myurl = $(this).attr('href');
-      // var page=$(this).attr('href').split('page=')[1];
-      getData(myurl);
+    $(document).ready(function() {
+        $(document).on('click', '.pagination a', function(event) {
+            event.preventDefault();
+            getData($(this).attr('href'));
+        });
     });
 
-  });
-
-  function getData(url) {
-    var value = document.getElementById("search").value;
-    $.ajax({
-      url: url,
-      type: 'GET',
-      data: {
-        'search': value
-      },
-      success: function(data) {
-        $('#tag_container').html(data);
-      },
-      error: function(err) {
-        alert("No response from server");
-      }
-    });
-  }
-
-  function search_func(value) {
-    $.ajax({
-      type: "GET",
-      url: "{{ route('subcategory.index') }}",
-      data: {
-        'search': value
-      },
-      success: function(data) {
-        $('#tag_container').html(data);
-      },
-      error: function(err) {
-        alert("No response from server");
-      }
-    });
-  }
+    function getData(url) {
+        var search = $("#search").val();
+        var status = $("#status").val();
+        var category_id = $("#category_id").val();
+        $.ajax({
+            url: url, type: 'GET',
+            data: { search: search, status: status, category_id: category_id },
+            beforeSend: function() { $("#spinnerModal").show(); },
+            success: function(data) { $('#tag_container').html(data); },
+            complete: function() { $("#spinnerModal").hide(); }
+        });
+    }
 </script>
 @endpush

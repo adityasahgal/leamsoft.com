@@ -24,9 +24,9 @@
                 @endif
             </td>
             <td>{{ $row->position }}</td>
-            <td>{{ $row->updated_at->format('j F, Y') }}</td>
-            <td>{{ $row->users->name }}</td>
-            @can('banner-publish')
+            <td>{{ $row->updated_at?->format('j F, Y') }}</td>
+            <td>{{ $row->users->name ?? '-' }}</td>
+            @can('gallery-publish')
             <td>
                 <label class="switch">
                     <input onchange="update_status(this)" value="{{ $row->id }}" type="checkbox" <?php if ($row->status == 1) echo "checked"; ?>>

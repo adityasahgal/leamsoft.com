@@ -226,12 +226,27 @@ $genSetting = \App\Models\Setting::first();
 <body>
     <div class="stricky_social">
         <div class="icon">
-            <a href="mailto:karinyavillas@gmail.com" class="mail" title="Email"><i class="fa fa-envelope"></i></a>
-            <a href="https://www.facebook.com/profile.php?id=61569806434158" class="facebook" target="__blank" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
-            <a href="https://wa.me/97450434870" class="whatsapp" target="__blank" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-            <a href="https://www.linkedin.com/in/karinya-villas-870b42339/" class="linkedin" target="__blank" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-            <a href="https://x.com/Karinya_villas" class="twitter" target="__blank" title="X"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="https://www.instagram.com/karinyavillashotel/" class="instagram" target="__blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            @if(!empty($genSetting['email']))
+                <a href="mailto:{{ $genSetting['email'] }}" class="mail" title="Email"><i class="fa fa-envelope"></i></a>
+            @endif
+            @if(!empty($genSetting['facebook']))
+                <a href="{{ $genSetting['facebook'] }}" class="facebook" target="_blank" rel="noopener" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+            @endif
+            @if(!empty($genSetting['phone']))
+                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $genSetting['phone']) }}" class="whatsapp" target="_blank" rel="noopener" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            @endif
+            @if(!empty($genSetting['linkedin']))
+                <a href="{{ $genSetting['linkedin'] }}" class="linkedin" target="_blank" rel="noopener" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+            @endif
+            @if(!empty($genSetting['twitter']))
+                <a href="{{ $genSetting['twitter'] }}" class="twitter" target="_blank" rel="noopener" title="X"><i class="fa-brands fa-x-twitter"></i></a>
+            @endif
+            @if(!empty($genSetting['instagram']))
+                <a href="{{ $genSetting['instagram'] }}" class="instagram" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            @endif
+            @if(!empty($genSetting['youtube']))
+                <a href="{{ $genSetting['youtube'] }}" class="youtube" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            @endif
         </div>
     </div>
 

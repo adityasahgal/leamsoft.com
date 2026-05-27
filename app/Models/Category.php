@@ -12,6 +12,11 @@ class Category extends Model
     protected $table = 'categories';
     protected $guarded = [];
 
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'uid')->withDefault(['name' => '-']);
+    }
+
     public function subcategories()
     {
         return $this->hasMany(Subcategory::class, 'category_id')
