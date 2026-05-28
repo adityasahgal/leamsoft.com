@@ -102,6 +102,11 @@
         background-clip: text;
         animation: shift 4s linear infinite;
     }
+    .leam-logo-img {
+        max-height: 44px;
+        width: auto;
+        display: block;
+    }
 
     .leam-nav-links {
         display: flex;
@@ -306,9 +311,18 @@
 <!-- NAVBAR -->
 <nav class="leam-nav">
     <div class="leam-nav-inner">
+        @php
+            $brandName = $genSetting['site_name'] ?? $genSetting['name'] ?? config('app.name', 'LEAMSOFT');
+            $brandInitials = \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($brandName, 0, 2));
+            $hasLogo = ! empty($genSetting['logo']) && file_exists('storage/' . $genSetting['logo']);
+        @endphp
         <a href="{{ url('/') }}" class="leam-logo">
-            <div class="leam-logo-box"><span>LS</span></div>
-            <span class="leam-logo-text">LEAMSOFT</span>
+            @if($hasLogo)
+                <img src="{{ url('storage/' . $genSetting['logo']) }}" alt="{{ $brandName }}" class="leam-logo-img">
+            @else
+                <div class="leam-logo-box"><span>{{ $brandInitials }}</span></div>
+                <span class="leam-logo-text">{{ $brandName }}</span>
+            @endif
         </a>
 
         <ul class="leam-nav-links">

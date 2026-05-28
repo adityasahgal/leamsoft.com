@@ -170,13 +170,17 @@ class MainController extends Controller
 
     public function enquiry(Request $request)
     {
+        $recaptchaEnabled = env('RECAPTCHA_ENABLED') && env('RECAPTCHA_SECRET_KEY');
+
         $rules = [
-            'g-recaptcha-response' => 'required',
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'required|numeric|digits_between:10,15',
             'message' => 'required',
         ];
+        if ($recaptchaEnabled) {
+            $rules['g-recaptcha-response'] = 'required';
+        }
         $customMessages = [
             'g-recaptcha-response.required' => 'Please complete the reCAPTCHA to proceed.',
             'name.required' => 'The name field is required.',
@@ -196,15 +200,17 @@ class MainController extends Controller
         }
 
         // Verify reCAPTCHA
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => env('RECAPTCHA_SECRET_KEY'),
-            'response' => $request->input('g-recaptcha-response')
-        ]);
+        if ($recaptchaEnabled) {
+            $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+                'secret' => env('RECAPTCHA_SECRET_KEY'),
+                'response' => $request->input('g-recaptcha-response')
+            ]);
 
-        $body = $response->json();
+            $body = $response->json();
 
-        if (!$body['success']) {
-            return back()->withErrors(['captcha' => 'reCAPTCHA verification failed.']);
+            if (!($body['success'] ?? false)) {
+                return back()->withErrors(['captcha' => 'reCAPTCHA verification failed.'])->withInput();
+            }
         }
         try {
             $enquiry = new Enquiry();

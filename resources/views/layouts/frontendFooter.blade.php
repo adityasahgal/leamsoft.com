@@ -15,6 +15,7 @@
         border-bottom: 1px solid var(--border);
     }
     .leam-footer-brand .leam-logo { margin-right: 0; margin-bottom: 16px; }
+    .leam-footer-brand .leam-logo-img { max-height: 48px; width: auto; display: block; }
     .leam-footer-brand p {
         font-size: 14px;
         color: var(--muted);
@@ -153,9 +154,18 @@
 <footer class="leam-footer">
     <div class="leam-footer-grid">
         <div class="leam-footer-brand">
+            @php
+                $brandName = $genSetting['site_name'] ?? $genSetting['name'] ?? config('app.name', 'LEAMSOFT');
+                $brandInitials = \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($brandName, 0, 2));
+                $hasLogo = ! empty($genSetting['logo']) && file_exists('storage/' . $genSetting['logo']);
+            @endphp
             <a href="{{ url('/') }}" class="leam-logo">
-                <div class="leam-logo-box"><span>LS</span></div>
-                <span class="leam-logo-text">LEAMSOFT</span>
+                @if($hasLogo)
+                    <img src="{{ url('storage/' . $genSetting['logo']) }}" alt="{{ $brandName }}" class="leam-logo-img">
+                @else
+                    <div class="leam-logo-box"><span>{{ $brandInitials }}</span></div>
+                    <span class="leam-logo-text">{{ $brandName }}</span>
+                @endif
             </a>
             <p>{{ $genSetting['description'] ?? 'Leamsoft Pvt Ltd. builds AI-powered software, cloud infrastructure, blockchain systems, and scalable digital platforms for startups and enterprises across Delhi, Noida, and Greater Noida.' }}</p>
 

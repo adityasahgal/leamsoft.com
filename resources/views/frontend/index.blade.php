@@ -59,40 +59,40 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         padding: 5px 14px;
         font-size: 12px;
         color: #00b4ff;
-        margin-bottom: 24px;
+        margin-bottom: 18px;
         animation: fadeUp .6s ease both;
     }
     .leam-hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #00b4ff; position: relative; }
     .leam-hero-badge .dot::after { content:''; position:absolute; inset:-4px; border-radius:50%; border:1px solid #00b4ff; animation: pulse-ring 1.5s ease-out infinite; }
     .leam-hero h1 {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: clamp(48px, 7vw, 84px);
-        line-height: 0.95;
-        letter-spacing: 2px;
-        margin-bottom: 24px;
+        font-size: clamp(32px, 4.2vw, 54px);
+        line-height: 1;
+        letter-spacing: 1.5px;
+        margin-bottom: 18px;
         animation: fadeUp .6s .1s ease both;
         color: #fff;
     }
     .leam-hero h1 em { font-style: normal; display: block; }
     .leam-hero p {
-        font-size: 17px;
+        font-size: 15px;
         color: var(--muted);
-        line-height: 1.7;
+        line-height: 1.65;
         max-width: 500px;
-        margin-bottom: 36px;
+        margin-bottom: 26px;
         animation: fadeUp .6s .2s ease both;
         font-weight: 300;
     }
-    .leam-hero-btns { display: flex; gap: 14px; flex-wrap: wrap; animation: fadeUp .6s .3s ease both; }
+    .leam-hero-btns { display: flex; gap: 12px; flex-wrap: wrap; animation: fadeUp .6s .3s ease both; }
     .leam-hero-stats {
         display: flex;
-        gap: 32px;
-        margin-top: 48px;
+        gap: 28px;
+        margin-top: 32px;
         animation: fadeUp .6s .4s ease both;
     }
     .leam-stat-num {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 40px;
+        font-size: 30px;
         line-height: 1;
         background: var(--rainbow);
         background-size: 200%;
@@ -101,7 +101,7 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         background-clip: text;
         animation: shift 4s linear infinite;
     }
-    .leam-stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+    .leam-stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
 
     /* Hero Visual / Carousel */
     .leam-hero-visual {

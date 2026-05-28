@@ -4,7 +4,8 @@ $genSetting = \App\Models\Setting::first();
 @extends('layouts.master')
 @php
 $meta_title = "Contact LEAMSOFT | Talk to Our Tech Team";
-$meta_description = "Get in touch with LEAMSOFT for web, mobile, AI, cloud, and cyber security solutions. Free consultation. Email, call, or fill the form.";
+$meta_description = "Get in touch with LEAMSOFT for web, mobile, AI, cloud, and cyber security solutions. Free
+consultation. Email, call, or fill the form.";
 $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software development quote, hire developers";
 @endphp
 @section('meta_title'){{ $meta_title }}@stop
@@ -19,14 +20,16 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         overflow: hidden;
         border-bottom: 1px solid var(--border);
     }
+
     .leam-page-banner::before {
         content: '';
         position: absolute;
         inset: 0;
-        background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(0,180,255,0.12) 0%, transparent 70%),
-                    radial-gradient(ellipse 40% 40% at 30% 100%, rgba(168,85,247,0.08) 0%, transparent 70%);
+        background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(0, 180, 255, 0.12) 0%, transparent 70%),
+            radial-gradient(ellipse 40% 40% at 30% 100%, rgba(168, 85, 247, 0.08) 0%, transparent 70%);
         pointer-events: none;
     }
+
     .leam-page-banner h1 {
         font-family: 'Bebas Neue', sans-serif;
         font-size: clamp(48px, 7vw, 84px);
@@ -37,6 +40,7 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         z-index: 1;
         color: #fff;
     }
+
     .leam-page-banner p {
         position: relative;
         z-index: 1;
@@ -46,6 +50,7 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         font-size: 16px;
         font-weight: 300;
     }
+
     .leam-page-banner .crumbs {
         position: relative;
         z-index: 1;
@@ -55,8 +60,15 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         letter-spacing: 1px;
         text-transform: uppercase;
     }
-    .leam-page-banner .crumbs a { color: var(--muted); text-decoration: none; }
-    .leam-page-banner .crumbs a:hover { color: #fff; }
+
+    .leam-page-banner .crumbs a {
+        color: var(--muted);
+        text-decoration: none;
+    }
+
+    .leam-page-banner .crumbs a:hover {
+        color: #fff;
+    }
 
     /* Contact cards */
     .leam-contact-info-grid {
@@ -65,6 +77,7 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         gap: 16px;
         margin-bottom: 56px;
     }
+
     .leam-contact-info-card {
         background: var(--card);
         border: 1px solid var(--border);
@@ -75,7 +88,12 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         position: relative;
         overflow: hidden;
     }
-    .leam-contact-info-card:hover { border-color: rgba(0,180,255,0.25); transform: translateY(-4px); }
+
+    .leam-contact-info-card:hover {
+        border-color: rgba(0, 180, 255, 0.25);
+        transform: translateY(-4px);
+    }
+
     .leam-contact-info-card::after {
         content: '';
         position: absolute;
@@ -89,12 +107,16 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         opacity: 0;
         transition: opacity .25s;
     }
-    .leam-contact-info-card:hover::after { opacity: 1; }
+
+    .leam-contact-info-card:hover::after {
+        opacity: 1;
+    }
+
     .leam-contact-info-icon {
         width: 54px;
         height: 54px;
         border-radius: 14px;
-        background: rgba(0,180,255,0.08);
+        background: rgba(0, 180, 255, 0.08);
         margin: 0 auto 16px;
         display: flex;
         align-items: center;
@@ -102,6 +124,7 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         font-size: 22px;
         color: #00b4ff;
     }
+
     .leam-contact-info-card h3 {
         font-family: 'Barlow Condensed', sans-serif;
         font-size: 16px;
@@ -111,6 +134,7 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         color: #fff;
         margin-bottom: 8px;
     }
+
     .leam-contact-info-card p {
         font-size: 14px;
         color: var(--muted);
@@ -118,8 +142,16 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         line-height: 1.6;
         word-break: break-word;
     }
-    .leam-contact-info-card a { color: var(--muted); text-decoration: none; transition: color .2s; }
-    .leam-contact-info-card a:hover { color: #00b4ff; }
+
+    .leam-contact-info-card a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color .2s;
+    }
+
+    .leam-contact-info-card a:hover {
+        color: #00b4ff;
+    }
 
     /* Form + Map */
     .leam-contact-grid {
@@ -128,6 +160,7 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         gap: 32px;
         align-items: stretch;
     }
+
     .leam-contact-form-wrap {
         background: var(--card);
         border: 1px solid var(--border);
@@ -136,6 +169,7 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         position: relative;
         overflow: hidden;
     }
+
     .leam-contact-form-wrap::before {
         content: '';
         position: absolute;
@@ -147,6 +181,7 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         z-index: -1;
         opacity: 0.4;
     }
+
     .leam-contact-form-wrap h3 {
         font-family: 'Bebas Neue', sans-serif;
         font-size: 32px;
@@ -154,19 +189,25 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         margin-bottom: 6px;
         color: #fff;
     }
-    .leam-contact-form-wrap > p {
+
+    .leam-contact-form-wrap>p {
         font-size: 14px;
         color: var(--muted);
         margin-bottom: 28px;
         font-weight: 300;
     }
+
     .leam-form-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 14px;
         margin-bottom: 14px;
     }
-    .leam-form-group { margin-bottom: 14px; }
+
+    .leam-form-group {
+        margin-bottom: 14px;
+    }
+
     .leam-form-group label {
         font-size: 11px;
         font-weight: 700;
@@ -176,12 +217,13 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         margin-bottom: 8px;
         display: block;
     }
+
     .leam-form-group input,
     .leam-form-group textarea,
     .leam-form-group select {
         width: 100%;
-        background: rgba(255,255,255,0.04);
-        border: 1px solid rgba(255,255,255,0.1);
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 10px;
         padding: 12px 16px;
         color: #fff;
@@ -190,15 +232,24 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         outline: none;
         transition: border-color .2s, background .2s;
     }
+
     .leam-form-group input:focus,
     .leam-form-group textarea:focus,
     .leam-form-group select:focus {
         border-color: #00b4ff;
-        background: rgba(0,180,255,0.04);
+        background: rgba(0, 180, 255, 0.04);
     }
+
     .leam-form-group input::placeholder,
-    .leam-form-group textarea::placeholder { color: var(--muted2); }
-    .leam-form-group textarea { resize: vertical; min-height: 130px; }
+    .leam-form-group textarea::placeholder {
+        color: var(--muted2);
+    }
+
+    .leam-form-group textarea {
+        resize: vertical;
+        min-height: 130px;
+    }
+
     .leam-form-submit {
         width: 100%;
         padding: 14px;
@@ -216,26 +267,33 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         transition: opacity .2s;
         margin-top: 4px;
     }
-    .leam-form-submit:hover { opacity: 0.9; }
+
+    .leam-form-submit:hover {
+        opacity: 0.9;
+    }
+
     .leam-form-error {
         margin-top: 6px;
         font-size: 12px;
         color: #ff3b5c;
     }
+
     .leam-form-status {
         padding: 12px 16px;
         border-radius: 10px;
         font-size: 14px;
         margin-bottom: 18px;
     }
+
     .leam-form-status.success {
-        background: rgba(57,211,83,0.08);
-        border: 1px solid rgba(57,211,83,0.25);
+        background: rgba(57, 211, 83, 0.08);
+        border: 1px solid rgba(57, 211, 83, 0.25);
         color: #39d353;
     }
+
     .leam-form-status.error {
-        background: rgba(255,59,92,0.08);
-        border: 1px solid rgba(255,59,92,0.25);
+        background: rgba(255, 59, 92, 0.08);
+        border: 1px solid rgba(255, 59, 92, 0.25);
         color: #ff3b5c;
     }
 
@@ -248,6 +306,7 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         flex-direction: column;
         min-height: 520px;
     }
+
     .leam-map-wrap iframe {
         width: 100%;
         flex: 1;
@@ -255,11 +314,13 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         filter: grayscale(0.6) brightness(0.7) invert(0.92) hue-rotate(180deg);
         min-height: 400px;
     }
+
     .leam-map-overlay {
         padding: 20px 24px;
         border-top: 1px solid var(--border);
         background: var(--card2);
     }
+
     .leam-map-overlay h4 {
         font-family: 'Barlow Condensed', sans-serif;
         font-size: 14px;
@@ -268,6 +329,7 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
         color: #00b4ff;
         margin-bottom: 4px;
     }
+
     .leam-map-overlay p {
         font-size: 13.5px;
         color: var(--muted);
@@ -275,16 +337,25 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
     }
 
     @media (max-width: 900px) {
-        .leam-contact-grid { grid-template-columns: 1fr; }
-        .leam-form-row { grid-template-columns: 1fr; }
-        .leam-contact-form-wrap { padding: 32px 24px; }
+        .leam-contact-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .leam-form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .leam-contact-form-wrap {
+            padding: 32px 24px;
+        }
     }
 </style>
 
 <!-- BANNER -->
 <section class="leam-page-banner">
     <h1>Get in <span class="rainbow-text">Touch</span></h1>
-    <p>Tell us about your project — whether it's a fully scoped brief or a rough idea — and we'll get back to you within one business day.</p>
+    <p>Tell us about your project — whether it's a fully scoped brief or a rough idea — and we'll get back to you within
+        one business day.</p>
     <div class="crumbs"><a href="{{ url('/') }}">Home</a> &nbsp;›&nbsp; Contact Us</div>
 </section>
 
@@ -295,16 +366,16 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
             <div class="leam-contact-info-card">
                 <div class="leam-contact-info-icon"><i class="fas fa-map-marker-alt"></i></div>
                 <h3>Office Address</h3>
-                <p>{{ $genSetting['address'] ?? 'Bangalore, India' }}</p>
+                <p>{{ $genSetting['address'] ?? 'noida, India' }}</p>
             </div>
             <div class="leam-contact-info-card">
                 <div class="leam-contact-info-icon"><i class="fas fa-envelope"></i></div>
                 <h3>Email Us</h3>
                 <p>
                     @if(!empty($genSetting['email']))
-                        <a href="mailto:{{ $genSetting['email'] }}">{{ $genSetting['email'] }}</a>
+                    <a href="mailto:{{ $genSetting['email'] }}">{{ $genSetting['email'] }}</a>
                     @else
-                        <a href="mailto:hello@leamsoft.com">hello@leamsoft.com</a>
+                    <a href="mailto:hello@leamsoft.com">hello@leamsoft.com</a>
                     @endif
                 </p>
             </div>
@@ -313,9 +384,9 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
                 <h3>Call Us</h3>
                 <p>
                     @if(!empty($genSetting['phone']))
-                        <a href="tel:{{ $genSetting['phone'] }}">{{ $genSetting['phone'] }}</a>
+                    <a href="tel:{{ $genSetting['phone'] }}">{{ $genSetting['phone'] }}</a>
                     @else
-                        <a href="tel:+1234567890">+1 (234) 567-890</a>
+                    <a href="tel:+1234567890">+1 (234) 567-890</a>
                     @endif
                 </p>
             </div>
@@ -332,9 +403,9 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
                 <p>Drop your details below — we read every enquiry personally.</p>
 
                 @if(Session('status'))
-                    <div class="leam-form-status {{ Session('status') == 'success' ? 'success' : 'error' }}">
-                        {{ Session('message') }}
-                    </div>
+                <div class="leam-form-status {{ Session('status') == 'success' ? 'success' : 'error' }}">
+                    {{ Session('message') }}
+                </div>
                 @endif
 
                 <form action="{{ url('/enquiry') }}" method="post">
@@ -347,7 +418,8 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
                         </div>
                         <div class="leam-form-group">
                             <label>Email Address</label>
-                            <input type="email" name="email" placeholder="you@company.com" value="{{ old('email') }}" required />
+                            <input type="email" name="email" placeholder="you@company.com" value="{{ old('email') }}"
+                                required />
                             @error('email') <div class="leam-form-error">{{ $message }}</div> @enderror
                         </div>
                     </div>
@@ -360,15 +432,17 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
 
                     <div class="leam-form-group">
                         <label>Your Message</label>
-                        <textarea name="message" placeholder="Tell us about your project, timeline, and budget…">{{ old('message') }}</textarea>
+                        <textarea name="message"
+                            placeholder="Tell us about your project, timeline, and budget…">{{ old('message') }}</textarea>
                         @error('message') <div class="leam-form-error">{{ $message }}</div> @enderror
                     </div>
 
-                    @if(env('RECAPTCHA_SITE_KEY'))
-                        <div class="leam-form-group">
-                            <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
-                            @error('g-recaptcha-response') <div class="leam-form-error">{{ $message }}</div> @enderror
-                        </div>
+                    @if(env('RECAPTCHA_ENABLED') && env('RECAPTCHA_SITE_KEY'))
+                    <div class="leam-form-group">
+                        <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                        @error('g-recaptcha-response') <div class="leam-form-error">{{ $message }}</div> @enderror
+                        @error('captcha') <div class="leam-form-error">{{ $message }}</div> @enderror
+                    </div>
                     @endif
 
                     <button type="submit" class="leam-form-submit">Send Message →</button>
@@ -378,9 +452,7 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
             <div class="leam-map-wrap">
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3477.473554758739!2d79.4775400150991!3d29.356420482137853!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjnCsDIxJzIzLjEiTiA3OcKwMjgnNDcuMCJF!5e0!3m2!1sen!2sin!4v1571907242738!5m2!1sen!2sin"
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                    allowfullscreen></iframe>
+                    loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
                 <div class="leam-map-overlay">
                     <h4>Visit Our Office</h4>
                     <p>{{ $genSetting['address'] ?? 'Drop by for a coffee and a chat about your project.' }}</p>
@@ -390,12 +462,16 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
     </div>
 </section>
 
+@if(env('RECAPTCHA_ENABLED') && env('RECAPTCHA_SITE_KEY'))
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+@endif
 <script>
     setTimeout(function() {
         var status = document.querySelector('.leam-form-status');
         if (status) status.style.transition = 'opacity .5s';
-        if (status) setTimeout(function() { status.style.opacity = '0'; }, 3500);
+        if (status) setTimeout(function() {
+            status.style.opacity = '0';
+        }, 3500);
     }, 100);
 </script>
 

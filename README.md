@@ -1,70 +1,225 @@
-<<<<<<< HEAD
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Leamsoft Pvt Ltd. — Website & Admin Panel
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel 11 application powering the public Leamsoft website (AI / Cloud / Blockchain / SaaS marketing site) plus a full admin panel for managing settings, banners, categories, subcategories, services, blogs, gallery, enquiries, users, and roles/permissions.
 
-## About Laravel
+## Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **PHP** 8.2+
+- **Laravel** 11
+- **MySQL** 5.7+ / MariaDB 10.3+
+- **Node.js** 18+ (for Vite frontend build)
+- **Spatie Permission** for role-based access control
+- **maatwebsite/excel** for exports
+- **Spatie Sitemap** for generating sitemap.xml
+- **AdminLTE** + Bootstrap 5 in admin
+- Custom Tailwind-flavoured CSS theme on the frontend (Bebas Neue / Barlow via Google Fonts, animated rainbow gradients)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Prerequisites
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Make sure these are installed locally:
 
-## Learning Laravel
+- PHP 8.2 with `pdo_mysql`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `fileinfo`, `gd` extensions
+- Composer 2.x
+- Node.js 18+ and npm
+- MySQL 5.7+ or MariaDB 10.3+
+- A running web server (Apache / Nginx) or `php artisan serve` for development
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Quick Setup
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+# 1. Clone
+git clone <repo-url> leamsoft
+cd leamsoft
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# 2. Install PHP & JS dependencies
+composer install
+npm install
 
-## Laravel Sponsors
+# 3. Environment file
+cp .env.example .env
+php artisan key:generate
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Configure `.env`
 
-### Premium Partners
+Open `.env` and set the database + app values. Minimum required:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```env
+APP_NAME="Leamsoft"
+APP_URL=http://localhost:8000
 
-## Contributing
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=leamsoft
+DB_USERNAME=root
+DB_PASSWORD=
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# Required by the enquiry form on /contact-us
+RECAPTCHA_SITE_KEY=
+RECAPTCHA_SECRET_KEY=
 
-## Code of Conduct
+# Mail (optional, for enquiry notifications)
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.your-provider.com
+MAIL_PORT=587
+MAIL_USERNAME=
+MAIL_PASSWORD=
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="no-reply@leamsoft.in"
+MAIL_FROM_NAME="${APP_NAME}"
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+> Note: `.env.example` ships with `DB_CONNECTION=sqlite`. Change it to `mysql` (or your DB of choice) before running migrations.
 
-## Security Vulnerabilities
+Create the database in MySQL:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```sql
+CREATE DATABASE leamsoft CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+## Database
+
+```bash
+# Run migrations
+php artisan migrate
+
+# Seed initial data:
+#   - CategorySeeder         → seeds the 6 marketing categories used on the frontend
+#   - SuperAdminSeeder       → creates all permissions + the Super Admin / CEO roles,
+#                              and grants both roles + all permissions to the canonical
+#                              super admin user (see database/seeders/SuperAdminSeeder.php
+#                              to edit the $superAdminEmails list)
+php artisan db:seed
+```
+
+### Storage symlink
+
+Uploaded logos, favicons, banners, category/gallery images, etc. live under `storage/app/public/`. To make them web-accessible:
+
+```bash
+php artisan storage:link
+```
+
+## Build Frontend Assets
+
+```bash
+# Development (with HMR)
+npm run dev
+
+# Production build
+npm run build
+```
+
+## Run the App
+
+```bash
+php artisan serve
+```
+
+- Public site: <http://localhost:8000/>
+- Admin login: <http://localhost:8000/admin/login>
+
+Sign in with the super admin email configured in `database/seeders/SuperAdminSeeder.php`. If that user doesn't exist yet, the seeder will create them with password `password` — change it immediately via Admin → Users → Change Password.
+
+## Admin Panel Modules
+
+Once logged in as Super Admin you'll see:
+
+| Module | Purpose |
+| --- | --- |
+| **Dashboard** | Overview landing page |
+| **Banners** | Hero carousel banners (homepage) |
+| **Categories** | Top-level service categories (AI, Blockchain, etc.) |
+| **Subcategories** | Child categories under a parent |
+| **Gallery** | Showcase photos for the `/gallery` page |
+| **Blogs** | Blog posts (frontend `/blog`) |
+| **Enquiry** | Submissions from the contact form |
+| **Settings → General** | Site name, logo, favicon, address, phone, email, all social URLs, description (used in footer) |
+| **Administrators → Roles / Permission / Users** | Spatie role/permission management |
+
+Everything the frontend renders — the navbar logo, footer logo, contact details, social links, hero banner carousel, services, blogs — reads from these modules dynamically. Update Settings to instantly rebrand the site.
+
+## Frontend Routes
+
+| URL | Purpose |
+| --- | --- |
+| `/` | Home (hero, services preview, industries, CTA) |
+| `/about-us` | Company intro, mission, vision, core values, tech stack, dev process |
+| `/services` (or `/villas`) | Service catalogue, grouped by category |
+| `/blog` | Latest blog posts |
+| `/blog/{slug}` | Single blog post |
+| `/gallery` | Photo gallery |
+| `/faq` | FAQ page |
+| `/help` | Help center |
+| `/contact-us` | Contact form (reCAPTCHA-protected) |
+| `/privacy-policy`, `/terms-condition` | Legal pages |
+| `/{slug}` | Resolves dynamically to a category, subcategory, or service |
+
+## Useful Commands
+
+```bash
+# Regenerate sitemap.xml at /sitemap.xml
+php artisan tinker --execute="\App\Http\Controllers\Admin\DashboardController::class"  # see DashboardController@generate
+
+# Clear caches after .env or config changes
+php artisan optimize:clear
+
+# Re-seed only the super admin (idempotent)
+php artisan db:seed --class=SuperAdminSeeder
+
+# List all routes (handy for debugging)
+php artisan route:list
+```
+
+## Troubleshooting
+
+**"Symbol DB undefined" / Intelephense errors**
+False positives from the static analyzer on Blade `@can` / `@canany` blocks — they don't affect runtime.
+
+**Uploaded images don't show**
+Make sure you ran `php artisan storage:link` and that `public/storage` symlink exists.
+
+**Can't access admin modules even as the seeded user**
+Log out and log back in so Spatie's role cache picks up the new permissions. If still blocked: `php artisan cache:clear`.
+
+**reCAPTCHA verification failed on contact form**
+Set valid `RECAPTCHA_SITE_KEY` / `RECAPTCHA_SECRET_KEY` in `.env`, or comment out the recaptcha rule in `MainController@enquiry` for local testing.
+
+**Gallery / category images returning 404 in storage**
+Re-create the symlink: `rm public/storage && php artisan storage:link`.
+
+## Project Structure (quick reference)
+
+```
+app/
+  Http/Controllers/
+    Admin/                  # All admin CRUD controllers
+    MainController.php      # Frontend routes
+    HomeController.php
+  Models/                   # Eloquent models (Setting, Banner, Category, ...)
+  Providers/AppServiceProvider.php   # Gate::before — Super Admin bypasses all permission checks
+
+database/
+  migrations/               # Schema (categories, subcategories, gallery, etc.)
+  seeders/
+    CategorySeeder.php
+    SuperAdminSeeder.php    # Edit $superAdminEmails to set the canonical admin
+
+resources/views/
+  layouts/
+    master.blade.php        # Frontend layout shell (loads dynamic settings)
+    frontendHeader.blade.php
+    frontendFooter.blade.php
+    admin.blade.php         # Admin layout shell
+    navigation.blade.php    # Admin sidebar menu
+  frontend/                 # Public pages
+  admin/                    # Admin module views
+  components/application-logo.blade.php   # Admin sidebar brand logo
+
+routes/web.php              # All routes (public + admin)
+```
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-=======
-# leamsoft.com
->>>>>>> d664facdfc985f3a3bb2420920f46c780fce05ea
+Internal proprietary code — © Leamsoft Pvt Ltd. All rights reserved.
