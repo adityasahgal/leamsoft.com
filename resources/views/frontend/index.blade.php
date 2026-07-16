@@ -2,8 +2,10 @@
 
 @php
 $meta_title = "Leamsoft Pvt Ltd. | AI-Powered Software, Cloud & Blockchain Solutions";
-$meta_description = "Leamsoft Pvt Ltd. builds AI-powered software, cloud infrastructure, blockchain platforms, CRM/ERP, and SaaS products for startups and enterprises across Delhi, Noida & Greater Noida.";
-$keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps, SaaS development, CRM ERP, custom software Delhi Noida, enterprise web applications";
+$meta_description = "Leamsoft Pvt Ltd. builds AI-powered software, cloud infrastructure, blockchain platforms, CRM/ERP,
+and SaaS products for startups and enterprises across Delhi, Noida & Greater Noida.";
+$keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps, SaaS development, CRM ERP, custom
+software Delhi Noida, enterprise web applications";
 @endphp
 @section('meta_title'){{ $meta_title }}@stop
 @section('meta_description'){{ $meta_description }}@stop
@@ -20,24 +22,27 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         overflow: hidden;
         padding: 80px 24px;
     }
+
     .leam-hero-bg {
         position: absolute;
         inset: 0;
-        background: radial-gradient(ellipse 60% 60% at 70% 50%, rgba(0,180,255,0.08) 0%, transparent 70%),
-                    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(168,85,247,0.08) 0%, transparent 70%),
-                    radial-gradient(ellipse 50% 50% at 50% 0%, rgba(255,59,92,0.06) 0%, transparent 70%);
+        background: radial-gradient(ellipse 60% 60% at 70% 50%, rgba(0, 180, 255, 0.08) 0%, transparent 70%),
+            radial-gradient(ellipse 40% 40% at 20% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 70%),
+            radial-gradient(ellipse 50% 50% at 50% 0%, rgba(255, 59, 92, 0.06) 0%, transparent 70%);
         pointer-events: none;
     }
+
     .leam-hero-grid {
         position: absolute;
         inset: 0;
-        background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                          linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+        background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
         background-size: 60px 60px;
         -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
         mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
         pointer-events: none;
     }
+
     .leam-hero-inner {
         max-width: 1280px;
         margin: 0 auto;
@@ -49,12 +54,13 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         z-index: 1;
         width: 100%;
     }
+
     .leam-hero-badge {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: rgba(0,180,255,0.1);
-        border: 1px solid rgba(0,180,255,0.25);
+        background: rgba(0, 180, 255, 0.1);
+        border: 1px solid rgba(0, 180, 255, 0.25);
         border-radius: 100px;
         padding: 5px 14px;
         font-size: 12px;
@@ -62,8 +68,24 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         margin-bottom: 18px;
         animation: fadeUp .6s ease both;
     }
-    .leam-hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #00b4ff; position: relative; }
-    .leam-hero-badge .dot::after { content:''; position:absolute; inset:-4px; border-radius:50%; border:1px solid #00b4ff; animation: pulse-ring 1.5s ease-out infinite; }
+
+    .leam-hero-badge .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #00b4ff;
+        position: relative;
+    }
+
+    .leam-hero-badge .dot::after {
+        content: '';
+        position: absolute;
+        inset: -4px;
+        border-radius: 50%;
+        border: 1px solid #00b4ff;
+        animation: pulse-ring 1.5s ease-out infinite;
+    }
+
     .leam-hero h1 {
         font-family: 'Bebas Neue', sans-serif;
         font-size: clamp(32px, 4.2vw, 54px);
@@ -73,7 +95,12 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         animation: fadeUp .6s .1s ease both;
         color: #fff;
     }
-    .leam-hero h1 em { font-style: normal; display: block; }
+
+    .leam-hero h1 em {
+        font-style: normal;
+        display: block;
+    }
+
     .leam-hero p {
         font-size: 15px;
         color: var(--muted);
@@ -83,13 +110,21 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         animation: fadeUp .6s .2s ease both;
         font-weight: 300;
     }
-    .leam-hero-btns { display: flex; gap: 12px; flex-wrap: wrap; animation: fadeUp .6s .3s ease both; }
+
+    .leam-hero-btns {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        animation: fadeUp .6s .3s ease both;
+    }
+
     .leam-hero-stats {
         display: flex;
         gap: 28px;
         margin-top: 32px;
         animation: fadeUp .6s .4s ease both;
     }
+
     .leam-stat-num {
         font-family: 'Bebas Neue', sans-serif;
         font-size: 30px;
@@ -101,7 +136,14 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         background-clip: text;
         animation: shift 4s linear infinite;
     }
-    .leam-stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+    .leam-stat-label {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 4px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
 
     /* Hero Visual / Carousel */
     .leam-hero-visual {
@@ -112,6 +154,7 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         overflow: hidden;
         border: 1px solid var(--border);
     }
+
     .leam-hero-visual::before {
         content: '';
         position: absolute;
@@ -124,42 +167,206 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         opacity: 0.35;
         pointer-events: none;
     }
+
     .leam-hero-visual .carousel,
     .leam-hero-visual .carousel-inner,
-    .leam-hero-visual .carousel-item { height: 100%; border-radius: 23px; overflow: hidden; }
+    .leam-hero-visual .carousel-item {
+        height: 100%;
+        border-radius: 23px;
+        overflow: hidden;
+    }
+
     .leam-hero-visual .carousel-item img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        filter: brightness(0.85) saturate(1.1);
+        filter: brightness(0.82) saturate(1.15);
+        transform: scale(1);
+        animation: kenburns 9s ease-in-out infinite alternate;
     }
+
+    /* Ken-Burns slow zoom only on the active slide */
+    .leam-hero-visual .carousel-item:not(.active) img {
+        animation: none;
+    }
+
     .leam-hero-visual::after {
         content: '';
         position: absolute;
         inset: 0;
-        background: linear-gradient(135deg, transparent 0%, rgba(0,180,255,0.1) 100%);
+        background: linear-gradient(160deg, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.55) 100%),
+            linear-gradient(135deg, transparent 0%, rgba(0, 180, 255, 0.12) 100%);
         pointer-events: none;
-        z-index: 1;
+        z-index: 2;
         border-radius: 23px;
     }
+
+    /* Shimmer sweep across the visual */
+    .leam-hero-visual .leam-shimmer {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -60%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+        transform: skewX(-18deg);
+        z-index: 3;
+        pointer-events: none;
+        animation: shimmer 5.5s ease-in-out infinite;
+    }
+
+    /* Slide caption */
+    .leam-hero-caption {
+        position: absolute;
+        left: 18px;
+        bottom: 18px;
+        z-index: 4;
+        color: #fff;
+        font-family: 'Barlow Condensed', sans-serif;
+        letter-spacing: 0.5px;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+        max-width: 80%;
+    }
+
+    .leam-hero-caption .cap-tag {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #00b4ff;
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    .leam-hero-caption .cap-title {
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 1.1;
+        text-transform: uppercase;
+    }
+
+    /* Indicator dots */
+    .leam-hero-visual .carousel-indicators {
+        margin: 0;
+        right: 18px;
+        bottom: 20px;
+        left: auto;
+        z-index: 4;
+        gap: 7px;
+    }
+
+    .leam-hero-visual .carousel-indicators [data-bs-target] {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        border: 0;
+        background: rgba(255, 255, 255, 0.35);
+        opacity: 1;
+        transition: all .3s;
+    }
+
+    .leam-hero-visual .carousel-indicators .active {
+        width: 24px;
+        border-radius: 6px;
+        background: var(--rainbow);
+        background-size: 200%;
+        animation: shift 4s linear infinite;
+    }
+
     .leam-floating-card {
         position: absolute;
-        background: rgba(22,22,22,0.92);
+        background: rgba(22, 22, 22, 0.92);
         backdrop-filter: blur(12px);
-        border: 1px solid rgba(255,255,255,0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 12px;
         padding: 10px 14px;
         font-size: 12px;
         white-space: nowrap;
-        z-index: 5;
+        z-index: 6;
         color: #fff;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
     }
-    .leam-fc1 { top: 20px; right: -20px; }
-    .leam-fc2 { bottom: 30px; left: -30px; }
-    .leam-fc-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+
+    .leam-fc1 {
+        top: 20px;
+        right: -20px;
+        animation: floatY 5s ease-in-out infinite;
+    }
+
+    .leam-fc2 {
+        bottom: 30px;
+        left: -30px;
+        animation: floatY 6s ease-in-out infinite reverse;
+    }
+
+    .leam-fc3 {
+        top: 46%;
+        right: -28px;
+        animation: floatY 7s ease-in-out infinite;
+    }
+
+    .leam-fc-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 6px;
+        box-shadow: 0 0 0 0 currentColor;
+        animation: dotPulse 1.8s ease-out infinite;
+    }
+
+    @keyframes kenburns {
+        from {
+            transform: scale(1);
+        }
+
+        to {
+            transform: scale(1.12);
+        }
+    }
+
+    @keyframes shimmer {
+        0% {
+            left: -60%;
+        }
+
+        55%,
+        100% {
+            left: 130%;
+        }
+    }
+
+    @keyframes floatY {
+
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-12px);
+        }
+    }
+
+    @keyframes dotPulse {
+        0% {
+            box-shadow: 0 0 0 0 currentColor;
+        }
+
+        70% {
+            box-shadow: 0 0 0 7px transparent;
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 transparent;
+        }
+    }
 
     /* ─── SERVICES ─── */
-    .leam-services-bg { background: var(--dark); }
+    .leam-services-bg {
+        background: var(--dark);
+    }
+
     .leam-services-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -169,6 +376,7 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         border-radius: 20px;
         overflow: hidden;
     }
+
     .leam-service-card {
         background: var(--dark);
         padding: 36px 32px;
@@ -179,6 +387,7 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         color: inherit;
         display: block;
     }
+
     .leam-service-card::after {
         content: '';
         position: absolute;
@@ -192,8 +401,17 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         opacity: 0;
         transition: opacity .25s;
     }
-    .leam-service-card:hover { background: var(--card2); text-decoration: none; color: inherit; }
-    .leam-service-card:hover::after { opacity: 1; }
+
+    .leam-service-card:hover {
+        background: var(--card2);
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .leam-service-card:hover::after {
+        opacity: 1;
+    }
+
     .leam-service-icon {
         width: 52px;
         height: 52px;
@@ -204,6 +422,7 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         font-size: 24px;
         margin-bottom: 20px;
     }
+
     .leam-service-card h3 {
         font-family: 'Barlow Condensed', sans-serif;
         font-size: 20px;
@@ -213,7 +432,14 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         text-transform: uppercase;
         color: #fff;
     }
-    .leam-service-card p { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0; }
+
+    .leam-service-card p {
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.6;
+        margin: 0;
+    }
+
     .leam-service-link {
         margin-top: 18px;
         font-size: 13px;
@@ -225,7 +451,10 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         opacity: 0;
         transition: opacity .25s;
     }
-    .leam-service-card:hover .leam-service-link { opacity: 1; }
+
+    .leam-service-card:hover .leam-service-link {
+        opacity: 1;
+    }
 
     /* ─── WHY US ─── */
     .leam-why-grid {
@@ -234,7 +463,13 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         gap: 64px;
         align-items: center;
     }
-    .leam-why-features { display: flex; flex-direction: column; gap: 20px; }
+
+    .leam-why-features {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
     .leam-why-feat {
         display: flex;
         gap: 18px;
@@ -244,7 +479,12 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         border: 1px solid transparent;
         transition: all .25s;
     }
-    .leam-why-feat:hover { background: var(--card); border-color: var(--border); }
+
+    .leam-why-feat:hover {
+        background: var(--card);
+        border-color: var(--border);
+    }
+
     .leam-why-feat-icon {
         width: 44px;
         height: 44px;
@@ -255,24 +495,39 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         justify-content: center;
         font-size: 20px;
     }
-    .leam-why-feat h4 { font-size: 16px; font-weight: 600; margin-bottom: 6px; color: #fff; }
-    .leam-why-feat p { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0; }
+
+    .leam-why-feat h4 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #fff;
+    }
+
+    .leam-why-feat p {
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.6;
+        margin: 0;
+    }
+
     .leam-why-visual {
         position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
     }
+
     .leam-why-chart {
         width: 340px;
         height: 340px;
         border-radius: 50%;
-        border: 2px solid rgba(255,255,255,0.06);
+        border: 2px solid rgba(255, 255, 255, 0.06);
         position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
     }
+
     .leam-why-chart-inner {
         width: 200px;
         height: 200px;
@@ -287,29 +542,57 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         position: relative;
         border: 1px solid var(--border);
     }
+
     .leam-why-chart-inner .big {
         font-family: 'Bebas Neue', sans-serif;
         font-size: 56px;
         line-height: 1;
     }
-    .leam-why-chart-inner .small { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+    .leam-why-chart-inner .small {
+        font-size: 12px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 4px;
+    }
+
     .leam-chart-ring {
         position: absolute;
         inset: 0;
         border-radius: 50%;
         border: 3px solid transparent;
     }
-    .leam-ring1 { border-top-color: #00b4ff; border-right-color: #00b4ff; animation: spinSlow 8s linear infinite; }
-    .leam-ring2 { inset: 30px; border-bottom-color: #a855f7; animation: spinSlow 12s linear infinite reverse; }
-    .leam-ring3 { inset: 60px; border-left-color: #ff3b5c; animation: spinSlow 6s linear infinite; }
+
+    .leam-ring1 {
+        border-top-color: #00b4ff;
+        border-right-color: #00b4ff;
+        animation: spinSlow 8s linear infinite;
+    }
+
+    .leam-ring2 {
+        inset: 30px;
+        border-bottom-color: #a855f7;
+        animation: spinSlow 12s linear infinite reverse;
+    }
+
+    .leam-ring3 {
+        inset: 60px;
+        border-left-color: #ff3b5c;
+        animation: spinSlow 6s linear infinite;
+    }
 
     /* ─── PROJECTS ─── */
-    .leam-projects-bg { background: var(--dark); }
+    .leam-projects-bg {
+        background: var(--dark);
+    }
+
     .leam-projects-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 20px;
     }
+
     .leam-project-card {
         background: var(--card);
         border: 1px solid var(--border);
@@ -320,26 +603,33 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         color: inherit;
         display: block;
     }
+
     .leam-project-card:hover {
         transform: translateY(-6px);
-        border-color: rgba(0,180,255,0.2);
-        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        border-color: rgba(0, 180, 255, 0.2);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         text-decoration: none;
         color: inherit;
     }
+
     .leam-project-thumb {
         height: 200px;
         background: linear-gradient(135deg, var(--card2) 0%, #1a1a2e 100%);
         position: relative;
         overflow: hidden;
     }
+
     .leam-project-thumb img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         transition: transform .3s;
     }
-    .leam-project-card:hover .leam-project-thumb img { transform: scale(1.05); }
+
+    .leam-project-card:hover .leam-project-thumb img {
+        transform: scale(1.05);
+    }
+
     .leam-project-thumb::before {
         content: '';
         position: absolute;
@@ -349,24 +639,47 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         transition: opacity .3s;
         z-index: 1;
     }
-    .leam-project-card:hover .leam-project-thumb::before { opacity: 0.1; }
-    .leam-project-body { padding: 20px 22px; }
+
+    .leam-project-card:hover .leam-project-thumb::before {
+        opacity: 0.1;
+    }
+
+    .leam-project-body {
+        padding: 20px 22px;
+    }
+
     .leam-project-tag {
         font-size: 11px;
         padding: 3px 10px;
         border-radius: 100px;
-        background: rgba(0,180,255,0.1);
+        background: rgba(0, 180, 255, 0.1);
         color: #00b4ff;
         display: inline-block;
         margin-bottom: 10px;
         font-weight: 600;
         letter-spacing: 0.5px;
     }
-    .leam-project-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; color: #fff; }
-    .leam-project-card p { font-size: 13px; color: var(--muted); line-height: 1.6; margin: 0; }
+
+    .leam-project-card h3 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #fff;
+    }
+
+    .leam-project-card p {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.6;
+        margin: 0;
+    }
 
     /* ─── CTA ─── */
-    .leam-cta-section { background: var(--dark); padding: 90px 24px; }
+    .leam-cta-section {
+        background: var(--dark);
+        padding: 90px 24px;
+    }
+
     .leam-cta-box {
         max-width: 900px;
         margin: 0 auto;
@@ -376,8 +689,9 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         text-align: center;
         position: relative;
         overflow: hidden;
-        border: 1px solid rgba(255,255,255,0.06);
+        border: 1px solid rgba(255, 255, 255, 0.06);
     }
+
     .leam-cta-box::before {
         content: '';
         position: absolute;
@@ -389,6 +703,7 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         z-index: -1;
         opacity: 0.25;
     }
+
     .leam-cta-box h2 {
         font-family: 'Bebas Neue', sans-serif;
         font-size: clamp(40px, 6vw, 70px);
@@ -397,6 +712,7 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         line-height: 1;
         color: #fff;
     }
+
     .leam-cta-box p {
         font-size: 17px;
         color: var(--muted);
@@ -406,7 +722,13 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         margin-right: auto;
         font-weight: 300;
     }
-    .leam-cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    .leam-cta-btns {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 
     /* ─── INDUSTRIES ─── */
     .leam-industries-grid {
@@ -414,6 +736,7 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         gap: 14px;
     }
+
     .leam-industry-card {
         background: var(--card);
         border: 1px solid var(--border);
@@ -426,10 +749,13 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         position: relative;
         overflow: hidden;
     }
+
     .leam-industry-card::after {
         content: '';
         position: absolute;
-        bottom: 0; left: 0; right: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
         height: 2px;
         background: var(--rainbow);
         background-size: 200%;
@@ -437,12 +763,17 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         opacity: 0;
         transition: opacity .25s;
     }
+
     .leam-industry-card:hover {
         transform: translateY(-3px);
-        border-color: rgba(0,180,255,0.25);
+        border-color: rgba(0, 180, 255, 0.25);
         background: var(--card2);
     }
-    .leam-industry-card:hover::after { opacity: 1; }
+
+    .leam-industry-card:hover::after {
+        opacity: 1;
+    }
+
     .leam-industry-icon {
         font-size: 24px;
         width: 42px;
@@ -451,9 +782,10 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         align-items: center;
         justify-content: center;
         border-radius: 10px;
-        background: rgba(255,255,255,0.04);
+        background: rgba(255, 255, 255, 0.04);
         flex-shrink: 0;
     }
+
     .leam-industry-name {
         font-family: 'Barlow Condensed', sans-serif;
         font-size: 15px;
@@ -470,15 +802,21 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
     }
-    .leam-partners-inner { max-width: 1280px; margin: 0 auto; }
+
+    .leam-partners-inner {
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+
     .leam-partners-label {
         text-align: center;
         font-size: 12px;
         letter-spacing: 2px;
         text-transform: uppercase;
-        color: rgba(255,255,255,0.3);
+        color: rgba(255, 255, 255, 0.3);
         margin-bottom: 32px;
     }
+
     .leam-partners-logos {
         display: flex;
         justify-content: center;
@@ -486,26 +824,48 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         gap: 48px;
         flex-wrap: wrap;
     }
+
     .leam-partner-logo {
         font-family: 'Barlow Condensed', sans-serif;
         font-size: 20px;
         font-weight: 700;
         letter-spacing: 2px;
-        color: rgba(255,255,255,0.2);
+        color: rgba(255, 255, 255, 0.2);
         text-transform: uppercase;
         transition: color .25s;
     }
-    .leam-partner-logo:hover { color: rgba(255,255,255,0.6); }
+
+    .leam-partner-logo:hover {
+        color: rgba(255, 255, 255, 0.6);
+    }
 
     @media (max-width: 900px) {
-        .leam-hero-inner { grid-template-columns: 1fr; }
-        .leam-hero-visual { display: none; }
-        .leam-why-grid { grid-template-columns: 1fr; }
-        .leam-why-visual { display: none; }
-        .leam-cta-box { padding: 48px 28px; }
+        .leam-hero-inner {
+            grid-template-columns: 1fr;
+        }
+
+        .leam-hero-visual {
+            display: none;
+        }
+
+        .leam-why-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .leam-why-visual {
+            display: none;
+        }
+
+        .leam-cta-box {
+            padding: 48px 28px;
+        }
     }
+
     @media (max-width: 600px) {
-        .leam-hero-stats { gap: 20px; flex-wrap: wrap; }
+        .leam-hero-stats {
+            gap: 20px;
+            flex-wrap: wrap;
+        }
     }
 </style>
 
@@ -520,14 +880,15 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
             </div>
             <h1>
                 <em>We Build</em>
-                <em>AI-Powered</em>
-                <em class="rainbow-text">Digital Systems</em>
-                <em>For Modern Businesses</em>
+                <em class="rainbow-text">AI-Powered Digital</em>
+                <em>Systems That Power</em>
+                <em>Modern Business</em>
             </h1>
-            <p>Leamsoft Pvt Ltd. helps startups, enterprises, and growing businesses automate operations using AI-powered software, cloud infrastructure, blockchain systems, and scalable digital solutions across Delhi, Noida, and Greater Noida.</p>
+            <p>Leamsoft Pvt Ltd. helps startups, enterprises, and growing businesses automate operations using
+                AI-powered software, cloud infrastructure, blockchain systems, and scalable digital solutions across
+                Delhi, Noida, and Greater Noida.</p>
             <div class="leam-hero-btns">
-                <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-lg leam-btn-primary">Book Free Consultation ↗</a>
-                <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-lg leam-btn-ghost">Start Your Project</a>
+                <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-lg leam-btn-primary">Start Your Project</a>
                 <a href="#leam-services" class="leam-btn leam-btn-lg leam-btn-ghost">Talk To Our Team</a>
             </div>
             <div class="leam-hero-stats">
@@ -551,33 +912,57 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         </div>
 
         <div class="leam-hero-visual">
-            @php $heroBanners = \App\Models\Banner::where('position', 1)->where('status', 1)->get(); @endphp
+            @php
+            $heroBanners = \App\Models\Banner::where('position', 1)->where('status', 1)->get();
+            $captionTags = ['AI · Automation', 'Cloud · DevOps', 'Blockchain · Web3', 'SaaS · Enterprise'];
+            $captionTitles = ['Intelligent Software', 'Scalable Infrastructure', 'Decentralized Systems', 'Products That
+            Grow'];
+            @endphp
             @if($heroBanners->count() > 0)
-                <div id="carouselHome" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
-                    <div class="carousel-inner">
-                        @foreach ($heroBanners as $key => $banner)
-                        <div class="carousel-item @if ($key == 0) active @endif">
-                            <img @if ($key==0) rel="preload" @else loading="lazy" @endif
-                                src="{{ url('storage/' . $banner->banner) }}" alt="{{ $banner->image_alt }}">
+            <div id="carouselHome" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3800">
+                <div class="carousel-inner">
+                    @foreach ($heroBanners as $key => $banner)
+                    <div class="carousel-item @if ($key == 0) active @endif">
+                        <img @if ($key==0) rel="preload" @else loading="lazy" @endif
+                            src="{{ url('storage/' . $banner->banner) }}" alt="{{ $banner->image_alt }}">
+                        <div class="leam-hero-caption">
+                            <span class="cap-tag">{{ $captionTags[$key % count($captionTags)] }}</span>
+                            <span class="cap-title">{{ $captionTitles[$key % count($captionTitles)] }}</span>
                         </div>
-                        @endforeach
                     </div>
+                    @endforeach
                 </div>
+                @if($heroBanners->count() > 1)
+                <div class="carousel-indicators">
+                    @foreach ($heroBanners as $key => $banner)
+                    <button type="button" data-bs-target="#carouselHome" data-bs-slide-to="{{ $key }}"
+                        class="@if ($key == 0) active @endif" aria-label="Slide {{ $key + 1 }}"></button>
+                    @endforeach
+                </div>
+                @endif
+            </div>
             @else
-                <div style="height:100%; display:flex; align-items:center; justify-content:center; background: radial-gradient(circle, rgba(0,180,255,0.15), rgba(168,85,247,0.1), transparent); position:relative; z-index:1;">
-                    <div style="text-align:center;">
-                        <div style="font-size:80px;">⚡</div>
-                        <div class="rainbow-text" style="font-family:'Bebas Neue'; font-size:36px; letter-spacing:4px;">LEAMSOFT</div>
-                    </div>
+            <div
+                style="height:100%; display:flex; align-items:center; justify-content:center; background: radial-gradient(circle, rgba(0,180,255,0.15), rgba(168,85,247,0.1), transparent); position:relative; z-index:1;">
+                <div style="text-align:center;">
+                    <div style="font-size:80px;">⚡</div>
+                    <div class="rainbow-text" style="font-family:'Bebas Neue'; font-size:36px; letter-spacing:4px;">
+                        LEAMSOFT</div>
                 </div>
+            </div>
             @endif
+            <span class="leam-shimmer"></span>
             <div class="leam-floating-card leam-fc1">
-                <span class="leam-fc-dot" style="background:#39d353"></span>
+                <span class="leam-fc-dot" style="background:#39d353; color:#39d353"></span>
                 <strong>AI Workflows</strong> Live
             </div>
             <div class="leam-floating-card leam-fc2">
-                <span class="leam-fc-dot" style="background:#00b4ff"></span>
+                <span class="leam-fc-dot" style="background:#00b4ff; color:#00b4ff"></span>
                 Blockchain · Cloud · SaaS
+            </div>
+            <div class="leam-floating-card leam-fc3">
+                <span class="leam-fc-dot" style="background:#a855f7; color:#a855f7"></span>
+                <strong>99.9%</strong> Uptime
             </div>
         </div>
     </div>
@@ -605,46 +990,54 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         <div class="leam-section-head">
             <div class="leam-section-label">What We Do</div>
             <h2 class="leam-section-title">Our <span class="rainbow-text">Core Services</span></h2>
-            <p class="leam-section-sub">From AI automation and blockchain to scalable cloud platforms and enterprise software — we build the systems that run modern businesses.</p>
+            <p class="leam-section-sub">From AI automation and blockchain to scalable cloud platforms and enterprise
+                software — we build the systems that run modern businesses.</p>
         </div>
         <div class="leam-services-grid">
             @php
-                $homeCats = isset($categories) && $categories->count() ? $categories : \App\Models\Category::where('status', 1)->orderBy('sort_order')->take(9)->get();
-                $serviceColors = [
-                    'rgba(0,180,255,0.1)','rgba(168,85,247,0.1)','rgba(57,211,83,0.1)',
-                    'rgba(255,215,0,0.1)','rgba(255,59,92,0.1)','rgba(255,140,0,0.1)',
-                    'rgba(0,180,255,0.1)','rgba(168,85,247,0.1)','rgba(57,211,83,0.1)'
-                ];
-                $defaultCats = [
-                    ['name'=>'AI-Powered Software','slug'=>'services','icon'=>'🤖','desc'=>'Intelligent software systems with automation, ML integrations, and workflow optimization.'],
-                    ['name'=>'Custom Web Development','slug'=>'services','icon'=>'💻','desc'=>'Secure, scalable, modern web applications — from startup sites to enterprise platforms.'],
-                    ['name'=>'Blockchain Development','slug'=>'services','icon'=>'⛓️','desc'=>'Smart contracts, Web3 apps, NFT platforms, crypto-enabled and decentralized ecosystems.'],
-                    ['name'=>'Cloud &amp; DevOps','slug'=>'services','icon'=>'☁️','desc'=>'Scalable cloud infrastructure, CI/CD, deployment automation, monitoring, and server optimization.'],
-                    ['name'=>'CRM &amp; ERP Systems','slug'=>'services','icon'=>'🗂️','desc'=>'Custom business management systems built around your workflow and operations.'],
-                    ['name'=>'SaaS Product Development','slug'=>'services','icon'=>'🚀','desc'=>'End-to-end SaaS architecture, subscription systems, dashboards, APIs and scalable engineering.'],
-                ];
+            $homeCats = isset($categories) && $categories->count() ? $categories : \App\Models\Category::where('status',
+            1)->orderBy('sort_order')->take(9)->get();
+            $serviceColors = [
+            'rgba(0,180,255,0.1)','rgba(168,85,247,0.1)','rgba(57,211,83,0.1)',
+            'rgba(255,215,0,0.1)','rgba(255,59,92,0.1)','rgba(255,140,0,0.1)',
+            'rgba(0,180,255,0.1)','rgba(168,85,247,0.1)','rgba(57,211,83,0.1)'
+            ];
+            $defaultCats = [
+            ['name'=>'AI-Powered Software','slug'=>'services','icon'=>'🤖','desc'=>'Intelligent software systems with
+            automation, ML integrations, and workflow optimization.'],
+            ['name'=>'Custom Web Development','slug'=>'services','icon'=>'💻','desc'=>'Secure, scalable, modern web
+            applications — from startup sites to enterprise platforms.'],
+            ['name'=>'Blockchain Development','slug'=>'services','icon'=>'⛓️','desc'=>'Smart contracts, Web3 apps, NFT
+            platforms, crypto-enabled and decentralized ecosystems.'],
+            ['name'=>'Cloud &amp; DevOps','slug'=>'services','icon'=>'☁️','desc'=>'Scalable cloud infrastructure, CI/CD,
+            deployment automation, monitoring, and server optimization.'],
+            ['name'=>'CRM &amp; ERP Systems','slug'=>'services','icon'=>'🗂️','desc'=>'Custom business management
+            systems built around your workflow and operations.'],
+            ['name'=>'SaaS Product Development','slug'=>'services','icon'=>'🚀','desc'=>'End-to-end SaaS architecture,
+            subscription systems, dashboards, APIs and scalable engineering.'],
+            ];
             @endphp
 
             @if($homeCats->count() > 0)
-                @foreach($homeCats as $key => $cat)
-                    <a href="{{ url($cat->slug) }}" class="leam-service-card">
-                        <div class="leam-service-icon" style="background:{{ $serviceColors[$key % 9] }};">
-                            {{ $cat->icon ?? '🔧' }}
-                        </div>
-                        <h3>{{ $cat->name }}</h3>
-                        <p>{{ \Illuminate\Support\Str::limit(strip_tags($cat->short_description ?? ''), 130) }}</p>
-                        <span class="leam-service-link">Explore category →</span>
-                    </a>
-                @endforeach
+            @foreach($homeCats as $key => $cat)
+            <a href="{{ url($cat->slug) }}" class="leam-service-card">
+                <div class="leam-service-icon" style="background:{{ $serviceColors[$key % 9] }};">
+                    {{ $cat->icon ?? '🔧' }}
+                </div>
+                <h3>{{ $cat->name }}</h3>
+                <p>{{ \Illuminate\Support\Str::limit(strip_tags($cat->short_description ?? ''), 130) }}</p>
+                <span class="leam-service-link">Explore category →</span>
+            </a>
+            @endforeach
             @else
-                @foreach($defaultCats as $key => $s)
-                    <a href="{{ url($s['slug']) }}" class="leam-service-card">
-                        <div class="leam-service-icon" style="background:{{ $serviceColors[$key] }};">{{ $s['icon'] }}</div>
-                        <h3>{{ $s['name'] }}</h3>
-                        <p>{{ $s['desc'] }}</p>
-                        <span class="leam-service-link">Learn more →</span>
-                    </a>
-                @endforeach
+            @foreach($defaultCats as $key => $s)
+            <a href="{{ url($s['slug']) }}" class="leam-service-card">
+                <div class="leam-service-icon" style="background:{{ $serviceColors[$key] }};">{{ $s['icon'] }}</div>
+                <h3>{{ $s['name'] }}</h3>
+                <p>{{ $s['desc'] }}</p>
+                <span class="leam-service-link">Learn more →</span>
+            </a>
+            @endforeach
             @endif
         </div>
     </div>
@@ -655,8 +1048,13 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
     <div class="leam-container">
         <div class="leam-section-head">
             <div class="leam-section-label">About Leamsoft</div>
-            <h2 class="leam-section-title">A Technology Company <span class="rainbow-text">Built For Modern Business</span></h2>
-            <p class="leam-section-sub">Leamsoft Pvt Ltd. is a technology-driven IT company focused on building scalable, secure, and intelligent software systems for startups, enterprises, and modern businesses. We specialize in AI automation, cloud infrastructure, blockchain applications, enterprise web development, and business process optimization — helping companies in Delhi, Noida, Greater Noida, and across India simplify operations, improve efficiency, and accelerate growth.</p>
+            <h2 class="leam-section-title">A Technology Company <span class="rainbow-text">Built For Modern
+                    Business</span></h2>
+            <p class="leam-section-sub">Leamsoft Pvt Ltd. is a technology-driven IT company focused on building
+                scalable, secure, and intelligent software systems for startups, enterprises, and modern businesses. We
+                specialize in AI automation, cloud infrastructure, blockchain applications, enterprise web development,
+                and business process optimization — helping companies in Delhi, Noida, Greater Noida, and across India
+                simplify operations, improve efficiency, and accelerate growth.</p>
             <div style="margin-top:28px;">
                 <a href="{{ url('about-us') }}" class="leam-btn leam-btn-ghost">Learn More About Us →</a>
             </div>
@@ -671,41 +1069,47 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
             <div>
                 <div class="leam-section-label">Why Leamsoft</div>
                 <h2 class="leam-section-title">Why Businesses <span class="rainbow-text">Choose Us</span></h2>
-                <p class="leam-section-sub" style="margin-bottom:40px">We don't just write code — we build systems that solve real operational challenges with long-term scalability, security, and performance in mind.</p>
+                <p class="leam-section-sub" style="margin-bottom:40px">We don't just write code — we build systems that
+                    solve real operational challenges with long-term scalability, security, and performance in mind.</p>
                 <div class="leam-why-features">
                     <div class="leam-why-feat">
                         <div class="leam-why-feat-icon" style="background:rgba(0,180,255,0.1);">🎯</div>
                         <div>
                             <h4>Business-Focused Development</h4>
-                            <p>We build systems that solve real operational challenges — not just deliverables. Every feature is tied to a business outcome.</p>
+                            <p>We build systems that solve real operational challenges — not just deliverables. Every
+                                feature is tied to a business outcome.</p>
                         </div>
                     </div>
                     <div class="leam-why-feat">
                         <div class="leam-why-feat-icon" style="background:rgba(168,85,247,0.1);">📈</div>
                         <div>
                             <h4>Scalable Architecture</h4>
-                            <p>Our solutions are built for long-term growth, high performance, and enterprise-grade scalability from day one.</p>
+                            <p>Our solutions are built for long-term growth, high performance, and enterprise-grade
+                                scalability from day one.</p>
                         </div>
                     </div>
                     <div class="leam-why-feat">
                         <div class="leam-why-feat-icon" style="background:rgba(57,211,83,0.1);">⚙️</div>
                         <div>
                             <h4>Modern Technology Stack</h4>
-                            <p>Modern frontend frameworks, robust backend architectures, cloud-native systems, and AI-ready automation tools.</p>
+                            <p>Modern frontend frameworks, robust backend architectures, cloud-native systems, and
+                                AI-ready automation tools.</p>
                         </div>
                     </div>
                     <div class="leam-why-feat">
                         <div class="leam-why-feat-icon" style="background:rgba(255,215,0,0.1);">🤝</div>
                         <div>
                             <h4>Dedicated Technical Support</h4>
-                            <p>From deployment to scaling, our technical team stays with you — supporting your digital infrastructure long after launch.</p>
+                            <p>From deployment to scaling, our technical team stays with you — supporting your digital
+                                infrastructure long after launch.</p>
                         </div>
                     </div>
                     <div class="leam-why-feat">
                         <div class="leam-why-feat-icon" style="background:rgba(255,59,92,0.1);">🛡️</div>
                         <div>
                             <h4>Security &amp; Performance</h4>
-                            <p>Optimized performance, server hardening, data protection, and reliable deployments built into every project.</p>
+                            <p>Optimized performance, server hardening, data protection, and reliable deployments built
+                                into every project.</p>
                         </div>
                     </div>
                 </div>
@@ -731,30 +1135,31 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         <div class="leam-section-head">
             <div class="leam-section-label">Industries We Serve</div>
             <h2 class="leam-section-title">Industries We <span class="rainbow-text">Work With</span></h2>
-            <p class="leam-section-sub">From real estate to fintech, we build technology that powers diverse industries across India and beyond.</p>
+            <p class="leam-section-sub">From real estate to fintech, we build technology that powers diverse industries
+                across India and beyond.</p>
         </div>
         <div class="leam-industries-grid">
             @php
-                $industries = [
-                    ['name'=>'Real Estate','icon'=>'🏢'],
-                    ['name'=>'Healthcare','icon'=>'⚕️'],
-                    ['name'=>'Construction','icon'=>'🏗️'],
-                    ['name'=>'E-Commerce','icon'=>'🛒'],
-                    ['name'=>'Education','icon'=>'🎓'],
-                    ['name'=>'Finance','icon'=>'💰'],
-                    ['name'=>'Logistics','icon'=>'🚚'],
-                    ['name'=>'Startups','icon'=>'🚀'],
-                    ['name'=>'Manufacturing','icon'=>'🏭'],
-                    ['name'=>'Hospitality','icon'=>'🏨'],
-                    ['name'=>'SaaS Businesses','icon'=>'☁️'],
-                    ['name'=>'Agencies','icon'=>'🎯'],
-                ];
+            $industries = [
+            ['name'=>'Real Estate','icon'=>'🏢'],
+            ['name'=>'Healthcare','icon'=>'⚕️'],
+            ['name'=>'Construction','icon'=>'🏗️'],
+            ['name'=>'E-Commerce','icon'=>'🛒'],
+            ['name'=>'Education','icon'=>'🎓'],
+            ['name'=>'Finance','icon'=>'💰'],
+            ['name'=>'Logistics','icon'=>'🚚'],
+            ['name'=>'Startups','icon'=>'🚀'],
+            ['name'=>'Manufacturing','icon'=>'🏭'],
+            ['name'=>'Hospitality','icon'=>'🏨'],
+            ['name'=>'SaaS Businesses','icon'=>'☁️'],
+            ['name'=>'Agencies','icon'=>'🎯'],
+            ];
             @endphp
             @foreach($industries as $ind)
-                <div class="leam-industry-card">
-                    <span class="leam-industry-icon">{{ $ind['icon'] }}</span>
-                    <span class="leam-industry-name">{{ $ind['name'] }}</span>
-                </div>
+            <div class="leam-industry-card">
+                <span class="leam-industry-icon">{{ $ind['icon'] }}</span>
+                <span class="leam-industry-name">{{ $ind['name'] }}</span>
+            </div>
             @endforeach
         </div>
     </div>
@@ -762,7 +1167,8 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
 
 <!-- FEATURED SERVICES -->
 @php
-    $projects = isset($featuredServices) && $featuredServices->count() ? $featuredServices : \App\Models\Service::where('status', 1)->where('featured', 1)->take(6)->get();
+$projects = isset($featuredServices) && $featuredServices->count() ? $featuredServices :
+\App\Models\Service::where('status', 1)->where('featured', 1)->take(6)->get();
 @endphp
 @if($projects->count() > 0)
 <section class="leam-section leam-projects-bg">
@@ -770,22 +1176,26 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         <div class="leam-section-head">
             <div class="leam-section-label">Featured Work</div>
             <h2 class="leam-section-title">Selected <span class="rainbow-text">Services</span></h2>
-            <p class="leam-section-sub">A handful of our most-requested capabilities — from web platforms to AI deployments.</p>
+            <p class="leam-section-sub">A handful of our most-requested capabilities — from web platforms to AI
+                deployments.</p>
         </div>
         <div class="leam-projects-grid">
             @foreach($projects as $key => $project)
             <a class="leam-project-card" href="{{ url($project->slug) }}">
                 <div class="leam-project-thumb">
                     @if(!empty($project->thumbnail_img))
-                        <img src="{{ url('storage/'.$project->thumbnail_img) }}" alt="{{ $project->image_alt ?? $project->name }}">
+                    <img src="{{ url('storage/'.$project->thumbnail_img) }}"
+                        alt="{{ $project->image_alt ?? $project->name }}">
                     @else
-                        <span class="rainbow-text" style="font-family:'Bebas Neue'; font-size:42px; letter-spacing:2px;">{{ $project->icon ?? 'SVC' }}</span>
+                    <span class="rainbow-text"
+                        style="font-family:'Bebas Neue'; font-size:42px; letter-spacing:2px;">{{ $project->icon ?? 'SVC' }}</span>
                     @endif
                 </div>
                 <div class="leam-project-body">
                     <span class="leam-project-tag">{{ optional($project->category)->name ?? 'Service' }}</span>
                     <h3>{{ $project->name }}</h3>
-                    <p>{{ \Illuminate\Support\Str::limit(strip_tags($project->short_description ?? $project->description ?? 'Successfully delivered service showcasing our technical capabilities.'), 100) }}</p>
+                    <p>{{ \Illuminate\Support\Str::limit(strip_tags($project->short_description ?? $project->description ?? 'Successfully delivered service showcasing our technical capabilities.'), 100) }}
+                    </p>
                 </div>
             </a>
             @endforeach
@@ -799,7 +1209,8 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
 
 <!-- LATEST BLOG POSTS -->
 @php
-    $homeBlogs = isset($latestBlogs) && $latestBlogs->count() ? $latestBlogs : \App\Models\Blog::where('status', 1)->latest()->take(3)->get();
+$homeBlogs = isset($latestBlogs) && $latestBlogs->count() ? $latestBlogs : \App\Models\Blog::where('status',
+1)->latest()->take(3)->get();
 @endphp
 @if($homeBlogs->count() > 0)
 <section class="leam-section">
@@ -811,20 +1222,22 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
         </div>
         <div class="leam-projects-grid">
             @foreach($homeBlogs as $blog)
-                <a href="{{ url('blog/'.$blog->slug) }}" class="leam-project-card">
-                    <div class="leam-project-thumb">
-                        @if(!empty($blog->thumbnail_img))
-                            <img src="{{ url('storage/'.$blog->thumbnail_img) }}" alt="{{ $blog->image_alt ?? $blog->title }}">
-                        @else
-                            <span class="rainbow-text" style="font-family:'Bebas Neue'; font-size:32px; letter-spacing:2px;">LEAMSOFT</span>
-                        @endif
-                    </div>
-                    <div class="leam-project-body">
-                        <span class="leam-project-tag">{{ $blog->created_at?->format('M d, Y') }}</span>
-                        <h3>{{ $blog->title ?? $blog->name }}</h3>
-                        <p>{{ \Illuminate\Support\Str::limit(strip_tags($blog->short_description ?? $blog->description ?? ''), 100) }}</p>
-                    </div>
-                </a>
+            <a href="{{ url('blog/'.$blog->slug) }}" class="leam-project-card">
+                <div class="leam-project-thumb">
+                    @if(!empty($blog->thumbnail_img))
+                    <img src="{{ url('storage/'.$blog->thumbnail_img) }}" alt="{{ $blog->image_alt ?? $blog->title }}">
+                    @else
+                    <span class="rainbow-text"
+                        style="font-family:'Bebas Neue'; font-size:32px; letter-spacing:2px;">LEAMSOFT</span>
+                    @endif
+                </div>
+                <div class="leam-project-body">
+                    <span class="leam-project-tag">{{ $blog->created_at?->format('M d, Y') }}</span>
+                    <h3>{{ $blog->title ?? $blog->name }}</h3>
+                    <p>{{ \Illuminate\Support\Str::limit(strip_tags($blog->short_description ?? $blog->description ?? ''), 100) }}
+                    </p>
+                </div>
+            </a>
             @endforeach
         </div>
         <div style="text-align:center; margin-top: 40px;">
@@ -834,11 +1247,110 @@ $keywords = "Leamsoft, AI software company, blockchain development, cloud DevOps
 </section>
 @endif
 
+<!-- HAPPY CLIENTS -->
+@php
+$homeClients = isset($clients) && $clients->count() ? $clients : \App\Models\Client::where('status',
+1)->orderBy('sort_order')->latest()->get();
+@endphp
+@if($homeClients->count() > 0)
+<style>
+    .leam-clients-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 28px;
+        margin-top: 20px;
+    }
+
+    .leam-client-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        padding: 32px;
+        transition: transform .25s ease, border-color .25s ease;
+    }
+
+    .leam-client-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .leam-client-quote {
+        font-size: 15px;
+        line-height: 1.7;
+        opacity: .85;
+        margin-bottom: 24px;
+    }
+
+    .leam-client-meta {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .leam-client-logo {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        object-fit: cover;
+        background: rgba(255, 255, 255, 0.06);
+        flex-shrink: 0;
+    }
+
+    .leam-client-name {
+        font-weight: 700;
+        font-size: 15px;
+    }
+
+    .leam-client-role {
+        font-size: 13px;
+        opacity: .6;
+    }
+</style>
+<section class="leam-section leam-services-bg">
+    <div class="leam-container">
+        <div class="leam-section-head">
+            <div class="leam-section-label">Happy Clients</div>
+            <h2 class="leam-section-title">Trusted By <span class="rainbow-text">Growing Businesses</span></h2>
+            <p class="leam-section-sub">We're proud to partner with startups and enterprises who trust Leamsoft to build
+                their technology.</p>
+        </div>
+        <div class="leam-clients-grid">
+            @foreach($homeClients as $client)
+            <div class="leam-client-card">
+                @if(!empty($client->testimonial))
+                <p class="leam-client-quote">
+                    “{{ \Illuminate\Support\Str::limit(strip_tags($client->testimonial), 220) }}”</p>
+                @endif
+                <div class="leam-client-meta">
+                    @if(file_exists('storage/' . $client->logo) && !empty($client->logo))
+                    <img class="leam-client-logo" src="{{ url('storage/'.$client->logo) }}"
+                        alt="{{ $client->image_alt ?? $client->name }}">
+                    @endif
+                    <div>
+                        @if(!empty($client->website))
+                        <a href="{{ $client->website }}" target="_blank" rel="noopener" class="leam-client-name"
+                            style="color:inherit;text-decoration:none;">{{ $client->name }}</a>
+                        @else
+                        <div class="leam-client-name">{{ $client->name }}</div>
+                        @endif
+                        <div class="leam-client-role">
+                            {{ trim(($client->designation ?? '') . (($client->designation && $client->company) ? ', ' : '') . ($client->company ?? '')) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
+
 <!-- CTA -->
 <section class="leam-cta-section">
     <div class="leam-cta-box">
         <h2>Transform Your Business <span class="rainbow-text">With Smart Technology</span></h2>
-        <p>Whether you need AI automation, enterprise software, blockchain systems, or scalable cloud infrastructure — Leamsoft is ready to build your next digital solution.</p>
+        <p>Whether you need AI automation, enterprise software, blockchain systems, or scalable cloud infrastructure —
+            Leamsoft is ready to build your next digital solution.</p>
         <div class="leam-cta-btns">
             <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-lg leam-btn-primary">Schedule A Meeting ↗</a>
             <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-lg leam-btn-ghost">Get Custom Quote</a>

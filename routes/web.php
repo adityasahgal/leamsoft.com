@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EnquiryController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -81,6 +82,14 @@ Route::group(['middleware' => 'XssSanitizer'], function () {
             Route::post('blog/update', [BlogController::class, 'update'])->name('blog.update');
             Route::post('blog/status', [BlogController::class, 'status'])->name('blog.status');
             Route::post('blog/destroy', [BlogController::class, 'destroy'])->name('blog.destroy');
+
+            // Client Routes
+            Route::get('client', [ClientController::class, 'index'])->name('client.index');
+            Route::post('client/store', [ClientController::class, 'store'])->name('client.store');
+            Route::post('client/edit', [ClientController::class, 'edit'])->name('client.edit');
+            Route::post('client/update', [ClientController::class, 'update'])->name('client.update');
+            Route::post('client/status', [ClientController::class, 'status'])->name('client.status');
+            Route::post('client/destroy', [ClientController::class, 'destroy'])->name('client.destroy');
 
             // Users Route
             Route::get('users', [UserController::class, 'index'])->name('users.index');

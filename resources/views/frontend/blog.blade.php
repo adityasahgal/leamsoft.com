@@ -207,8 +207,8 @@ $keywords = "leamsoft blog, tech insights, engineering blog, AI articles, cloud,
                 @foreach($blogs as $blog)
                     <a href="{{ url('blog/'.$blog->slug) }}" class="leam-blog-card">
                         <div class="leam-blog-thumb">
-                            @if(!empty($blog->thumbnail_img))
-                                <img src="{{ url('storage/'.$blog->thumbnail_img) }}" alt="{{ $blog->image_alt ?? $blog->title }}">
+                            @if(!empty($blog->banner))
+                                <img src="{{ url('storage/'.$blog->banner) }}" alt="{{ $blog->image_alt ?? $blog->name }}">
                             @else
                                 <span class="rainbow-text" style="font-family:'Bebas Neue'; font-size:42px; letter-spacing:2px;">LEAMSOFT</span>
                             @endif
@@ -218,7 +218,7 @@ $keywords = "leamsoft blog, tech insights, engineering blog, AI articles, cloud,
                                 <span class="leam-blog-tag">Insights</span>
                                 <span>{{ $blog->created_at?->format('M d, Y') }}</span>
                             </div>
-                            <h3>{{ $blog->title ?? $blog->name }}</h3>
+                            <h3>{{ $blog->name }}</h3>
                             <p>{{ \Illuminate\Support\Str::limit(strip_tags($blog->short_description ?? $blog->description ?? ''), 130) }}</p>
                             <span class="leam-blog-link">Read article →</span>
                         </div>

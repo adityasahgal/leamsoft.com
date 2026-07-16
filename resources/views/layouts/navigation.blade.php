@@ -47,6 +47,15 @@
         </li>
         @endcanany
 
+        @canany(['client-create','client-edit','client-delete','client-publish'])
+        <li class="nav-item">
+            <a href="{{ route('client.index') }}" class="nav-link">
+                <i class="nav-icon fas fa-user-tie"></i>
+                <p>Clients</p>
+            </a>
+        </li>
+        @endcanany
+
         @can('enquiry-read')
         <li class="nav-item">
             <a href="{{ route('enquiry.index') }}" class="nav-link">

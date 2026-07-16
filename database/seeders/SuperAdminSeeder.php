@@ -17,7 +17,7 @@ class SuperAdminSeeder extends Seeder
 
         $modules = [
             'banner', 'service', 'gallery', 'blog',
-            'category', 'subcategory',
+            'category', 'subcategory', 'client',
             'user', 'role', 'permission',
         ];
         $actions = ['create', 'edit', 'delete', 'publish'];

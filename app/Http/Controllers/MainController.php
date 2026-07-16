@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use App\Models\Category;
+use App\Models\Client;
 use App\Models\Enquiry;
 use App\Models\Service;
 use App\Models\Subcategory;
@@ -22,8 +23,9 @@ class MainController extends Controller
             ->take(6)
             ->get();
         $latestBlogs = Blog::where('status', 1)->latest()->take(3)->get();
+        $clients = Client::where('status', 1)->orderBy('sort_order')->latest()->get();
 
-        return view('frontend.index', compact('categories', 'featuredServices', 'latestBlogs'));
+        return view('frontend.index', compact('categories', 'featuredServices', 'latestBlogs', 'clients'));
     }
 
     public function about_us()
