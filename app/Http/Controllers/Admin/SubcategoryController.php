@@ -9,6 +9,7 @@ use App\Models\Service;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -97,8 +98,8 @@ class SubcategoryController extends Controller
             $catOptions .= '<option value="' . $c->id . '" ' . $sel . '>' . e($c->name) . '</option>';
         }
 
-        $thumb = (! empty($row->thumbnail_img) && file_exists('storage/' . $row->thumbnail_img))
-            ? '<img src="' . url('storage/' . $row->thumbnail_img) . '" style="width:120px; height:auto; margin-top:6px; border-radius:4px;">'
+        $thumb = $row->thumb_url
+            ? '<img src="' . $row->thumb_url . '" style="width:120px; height:auto; margin-top:6px; border-radius:4px;">'
             : '';
 
         echo '<div class="modal-header">
@@ -143,7 +144,7 @@ class SubcategoryController extends Controller
                     </div>
                     <div class="form-group">
                         <label>Description</label>
-                        <textarea class="form-control" name="description" rows="4">' . e($row->description) . '</textarea>
+                        <textarea class="summernote-editor" name="description">' . e($row->description) . '</textarea>
                     </div>
                     <div class="form-group">
                         <label>Meta Title</label>
@@ -192,8 +193,8 @@ class SubcategoryController extends Controller
             $sub->uid = Auth::id();
 
             if ($request->hasFile('thumbnail_img')) {
-                if (! empty($sub->thumbnail_img) && file_exists('storage/' . $sub->thumbnail_img)) {
-                    @unlink('storage/' . $sub->thumbnail_img);
+                if (! empty($sub->thumbnail_img)) {
+                    Storage::delete($sub->thumbnail_img);
                 }
                 $sub->thumbnail_img = $request->file('thumbnail_img')->store('uploads/subcategories');
             }
@@ -226,8 +227,8 @@ class SubcategoryController extends Controller
             return response()->json(['status' => 'error', 'message' => "Cannot delete — {$svcCount} services depend on this subcategory."]);
         }
 
-        if (! empty($sub->thumbnail_img) && file_exists('storage/' . $sub->thumbnail_img)) {
-            @unlink('storage/' . $sub->thumbnail_img);
+        if (! empty($sub->thumbnail_img)) {
+            Storage::delete($sub->thumbnail_img);
         }
         $sub->delete();
         return response()->json(['status' => 'success', 'message' => 'Subcategory deleted.']);

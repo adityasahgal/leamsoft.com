@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @push('style')
 <link rel="stylesheet" href="{{asset('admin/css/user.css')}}">
+<link rel="stylesheet" href="{{ asset('admin/plugins/summernote/summernote-bs4.min.css') }}">
 <style>
     .img-md { width: 64px; height: 32px; object-fit: cover; }
     .img-xs { width: 32px; height: 32px; object-fit: cover; }
@@ -125,7 +126,7 @@
                         </div>
                         <div class="form-group">
                             <label>Description</label>
-                            <textarea name="description" class="form-control" rows="4"></textarea>
+                            <textarea name="description" class="summernote-editor"></textarea>
                         </div>
                         <div class="form-group">
                             <label>Meta Title</label>
@@ -154,7 +155,19 @@
 @endsection
 
 @push('script')
+<script src="{{ asset('admin/plugins/summernote/summernote-bs4.min.js') }}"></script>
 <script type="text/javascript">
+    // Shared by the add modal here and the edit modal loaded over ajax from dataTable.
+    function initSummernote(scope) {
+        $(scope).find('.summernote-editor').each(function() {
+            $(this).summernote({ height: 220, dialogsInBody: true });
+        });
+    }
+
+    $(function() {
+        initSummernote('#addModel');
+    });
+
     function filterData() {
         var search = $("#search").val();
         var status = $("#status").val();

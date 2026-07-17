@@ -70,16 +70,22 @@
     .leam-cat-hero-stat .lab { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-top: 4px; }
 
     .leam-cat-big-icon {
-        width: 180px;
-        height: 180px;
+        width: clamp(240px, 30vw, 360px);
+        height: clamp(240px, 30vw, 360px);
         border-radius: 32px;
         background: var(--card);
         border: 1px solid var(--border);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 92px;
+        font-size: clamp(110px, 14vw, 160px);
         position: relative;
+        overflow: hidden;
+    }
+    .leam-cat-big-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
     .leam-cat-big-icon::before {
         content: '';
@@ -141,6 +147,12 @@
         justify-content: center;
         font-size: 24px;
         margin-bottom: 18px;
+        overflow: hidden;
+    }
+    .leam-subcat-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
     .leam-subcat-card h3 {
         font-family: 'Barlow Condensed', sans-serif;
@@ -175,7 +187,7 @@
         line-height: 1.8;
         font-weight: 300;
     }
-    .leam-cat-desc-content h2, .leam-cat-desc-content h3 {
+    .leam-cat-desc-content h2, .leam-cat-desc-content h3, .leam-cat-desc-content h4 {
         color: #fff;
         font-family: 'Bebas Neue', sans-serif;
         letter-spacing: 1px;
@@ -184,12 +196,19 @@
     }
     .leam-cat-desc-content h2 { font-size: 32px; }
     .leam-cat-desc-content h3 { font-size: 24px; }
-    .leam-cat-desc-content ul { padding-left: 22px; margin: 14px 0; }
+    .leam-cat-desc-content h4 { font-size: 20px; }
+    .leam-cat-desc-content p { margin: 0 0 16px; }
+    .leam-cat-desc-content ul, .leam-cat-desc-content ol { padding-left: 22px; margin: 14px 0; }
     .leam-cat-desc-content li { margin-bottom: 8px; }
+    .leam-cat-desc-content strong, .leam-cat-desc-content b { color: #fff; font-weight: 600; }
+    .leam-cat-desc-content a { color: #00b4ff; }
+    .leam-cat-desc-content img { max-width: 100%; height: auto; border-radius: 12px; margin: 14px 0; }
+    .leam-cat-desc-content table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+    .leam-cat-desc-content th, .leam-cat-desc-content td { border: 1px solid var(--border); padding: 10px; text-align: left; }
 
     @media (max-width: 800px) {
         .leam-cat-hero-inner { grid-template-columns: 1fr; }
-        .leam-cat-big-icon { width: 120px; height: 120px; font-size: 64px; border-radius: 24px; }
+        .leam-cat-big-icon { width: 100%; max-width: 320px; height: 240px; font-size: 80px; border-radius: 24px; }
     }
 </style>
 
@@ -219,7 +238,13 @@
                 </div>
             </div>
         </div>
-        <div class="leam-cat-big-icon">{{ $categories->icon ?? '🔧' }}</div>
+        <div class="leam-cat-big-icon">
+            @if($categories->thumb_url)
+                <img src="{{ $categories->thumb_url }}" alt="{{ $categories->image_alt ?? $categories->name }}">
+            @else
+                {{ $categories->icon ?? '🔧' }}
+            @endif
+        </div>
     </div>
 </section>
 
@@ -234,7 +259,13 @@
         <div class="leam-subcat-grid">
             @foreach($subcategories as $sub)
                 <a href="{{ url($sub->slug) }}" class="leam-subcat-card">
-                    <div class="leam-subcat-icon">{{ $sub->icon ?? '•' }}</div>
+                    <div class="leam-subcat-icon">
+                        @if($sub->thumb_url)
+                            <img src="{{ $sub->thumb_url }}" alt="{{ $sub->image_alt ?? $sub->name }}" loading="lazy">
+                        @else
+                            {{ $sub->icon ?? '•' }}
+                        @endif
+                    </div>
                     <h3>{{ $sub->name }}</h3>
                     <p>{{ $sub->short_description }}</p>
                     <span class="leam-subcat-link">Learn more →</span>

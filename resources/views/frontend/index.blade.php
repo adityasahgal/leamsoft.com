@@ -421,6 +421,13 @@ software Delhi Noida, enterprise web applications";
         justify-content: center;
         font-size: 24px;
         margin-bottom: 20px;
+        overflow: hidden;
+    }
+
+    .leam-service-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .leam-service-card h3 {
@@ -1022,7 +1029,11 @@ software Delhi Noida, enterprise web applications";
             @foreach($homeCats as $key => $cat)
             <a href="{{ url($cat->slug) }}" class="leam-service-card">
                 <div class="leam-service-icon" style="background:{{ $serviceColors[$key % 9] }};">
+                    @if($cat->thumb_url)
+                    <img src="{{ $cat->thumb_url }}" alt="{{ $cat->image_alt ?? $cat->name }}" loading="lazy">
+                    @else
                     {{ $cat->icon ?? '🔧' }}
+                    @endif
                 </div>
                 <h3>{{ $cat->name }}</h3>
                 <p>{{ \Illuminate\Support\Str::limit(strip_tags($cat->short_description ?? ''), 130) }}</p>

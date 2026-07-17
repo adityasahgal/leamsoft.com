@@ -28,8 +28,8 @@
             <td>{{ $row->name }}</td>
             <td><code>{{ $row->slug }}</code></td>
             <td>
-                @if(!empty($row->thumbnail_img) && file_exists('storage/' . $row->thumbnail_img))
-                    <img src="{{ url('storage/' . $row->thumbnail_img) }}" alt="{{ $row->name }}" class="img-md">
+                @if($row->thumb_url)
+                    <img src="{{ $row->thumb_url }}" alt="{{ $row->name }}" class="img-md">
                 @else
                     <span class="text-muted">—</span>
                 @endif
@@ -104,6 +104,7 @@
             type: 'POST',
             success: function(result) {
                 $("#categoryData").html(result);
+                initSummernote('#categoryData');
                 $('#categoryUpdateModel').modal('show');
             }
         });

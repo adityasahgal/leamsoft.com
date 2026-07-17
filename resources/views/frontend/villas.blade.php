@@ -81,6 +81,12 @@ $keywords = "Leamsoft services, AI software, blockchain development, cloud devop
         font-size: 30px;
         flex-shrink: 0;
         position: relative;
+        overflow: hidden;
+    }
+    .leam-cat-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
     .leam-cat-icon::before {
         content: '';
@@ -157,6 +163,12 @@ $keywords = "Leamsoft services, AI software, blockchain development, cloud devop
         justify-content: center;
         font-size: 18px;
         flex-shrink: 0;
+        overflow: hidden;
+    }
+    .leam-sub-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
     .leam-sub-body { flex: 1; min-width: 0; }
     .leam-sub-body h4 {
@@ -260,7 +272,13 @@ $keywords = "Leamsoft services, AI software, blockchain development, cloud devop
         @foreach($categories as $cat)
             <div class="leam-cat-block" id="cat-{{ $cat->slug }}">
                 <div class="leam-cat-head">
-                    <div class="leam-cat-icon">{{ $cat->icon ?? '🔧' }}</div>
+                    <div class="leam-cat-icon">
+                        @if($cat->thumb_url)
+                            <img src="{{ $cat->thumb_url }}" alt="{{ $cat->image_alt ?? $cat->name }}" loading="lazy">
+                        @else
+                            {{ $cat->icon ?? '🔧' }}
+                        @endif
+                    </div>
                     <div class="leam-cat-head-text">
                         <h2>{{ $cat->name }}</h2>
                         <p>{{ $cat->short_description }}</p>
@@ -274,7 +292,13 @@ $keywords = "Leamsoft services, AI software, blockchain development, cloud devop
                     <div class="leam-sub-grid">
                         @foreach($cat->subcategories as $sub)
                             <a href="{{ url($sub->slug) }}" class="leam-sub-card">
-                                <div class="leam-sub-icon">{{ $sub->icon ?? '•' }}</div>
+                                <div class="leam-sub-icon">
+                                    @if($sub->thumb_url)
+                                        <img src="{{ $sub->thumb_url }}" alt="{{ $sub->image_alt ?? $sub->name }}" loading="lazy">
+                                    @else
+                                        {{ $sub->icon ?? '•' }}
+                                    @endif
+                                </div>
                                 <div class="leam-sub-body">
                                     <h4>{{ $sub->name }}</h4>
                                     <p>{{ \Illuminate\Support\Str::limit($sub->short_description, 90) }}</p>

@@ -24,7 +24,10 @@
         margin: 0 auto;
         position: relative;
         z-index: 1;
-        text-align: center;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 40px;
+        align-items: center;
     }
     .leam-sub-hero .meta {
         font-size: 12px;
@@ -44,16 +47,46 @@
         color: #fff;
     }
     .leam-sub-hero .icon-big {
-        font-size: 64px;
-        margin-bottom: 18px;
+        width: clamp(240px, 30vw, 360px);
+        height: clamp(240px, 30vw, 360px);
+        border-radius: 32px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: clamp(110px, 14vw, 160px);
+        position: relative;
+        overflow: hidden;
+    }
+    .leam-sub-hero .icon-big::before {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        border-radius: 34px;
+        background: var(--rainbow);
+        background-size: 300%;
+        animation: shift 5s linear infinite;
+        z-index: -1;
+        opacity: 0.5;
+    }
+    .leam-sub-hero .icon-big img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
     .leam-sub-hero p {
         font-size: 16px;
         color: var(--muted);
-        max-width: 640px;
-        margin: 0 auto 28px;
+        max-width: 600px;
+        margin: 0 0 28px;
         line-height: 1.7;
         font-weight: 300;
+    }
+
+    @media (max-width: 800px) {
+        .leam-sub-hero-inner { grid-template-columns: 1fr; }
+        .leam-sub-hero .icon-big { width: 100%; max-width: 320px; height: 240px; font-size: 80px; border-radius: 24px; }
     }
 
     .leam-service-card-grid {
@@ -139,30 +172,49 @@
         line-height: 1.8;
         font-weight: 300;
     }
-    .leam-sub-desc-content h2, .leam-sub-desc-content h3 {
+    .leam-sub-desc-content h2, .leam-sub-desc-content h3, .leam-sub-desc-content h4 {
         color: #fff;
         font-family: 'Bebas Neue', sans-serif;
         letter-spacing: 1px;
         margin-top: 32px;
         margin-bottom: 14px;
     }
+    .leam-sub-desc-content h2 { font-size: 32px; }
+    .leam-sub-desc-content h3 { font-size: 24px; }
+    .leam-sub-desc-content h4 { font-size: 20px; }
+    .leam-sub-desc-content p { margin: 0 0 16px; }
+    .leam-sub-desc-content ul, .leam-sub-desc-content ol { padding-left: 22px; margin: 14px 0; }
+    .leam-sub-desc-content li { margin-bottom: 8px; }
+    .leam-sub-desc-content strong, .leam-sub-desc-content b { color: #fff; font-weight: 600; }
+    .leam-sub-desc-content a { color: #00b4ff; }
+    .leam-sub-desc-content img { max-width: 100%; height: auto; border-radius: 12px; margin: 14px 0; }
+    .leam-sub-desc-content table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+    .leam-sub-desc-content th, .leam-sub-desc-content td { border: 1px solid var(--border); padding: 10px; text-align: left; }
 </style>
 
 <!-- SUBCATEGORY HERO -->
 <section class="leam-sub-hero">
     <div class="leam-sub-hero-inner">
-        <div class="meta">
-            <a href="{{ url('/') }}">Home</a> &nbsp;›&nbsp;
-            <a href="{{ url('services') }}">Services</a> &nbsp;›&nbsp;
-            @if($categories)
-                <a href="{{ url($categories->slug) }}">{{ $categories->name }}</a> &nbsp;›&nbsp;
-            @endif
-            <span style="color:#00b4ff;">{{ $subcategory->name }}</span>
+        <div>
+            <div class="meta">
+                <a href="{{ url('/') }}">Home</a> &nbsp;›&nbsp;
+                <a href="{{ url('services') }}">Services</a> &nbsp;›&nbsp;
+                @if($categories)
+                    <a href="{{ url($categories->slug) }}">{{ $categories->name }}</a> &nbsp;›&nbsp;
+                @endif
+                <span style="color:#00b4ff;">{{ $subcategory->name }}</span>
+            </div>
+            <h1>{{ $subcategory->name }}</h1>
+            <p>{{ $subcategory->short_description }}</p>
+            <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-primary">Request a Quote ↗</a>
         </div>
-        <div class="icon-big">{{ $subcategory->icon ?? '🔧' }}</div>
-        <h1>{{ $subcategory->name }}</h1>
-        <p>{{ $subcategory->short_description }}</p>
-        <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-primary">Request a Quote ↗</a>
+        <div class="icon-big">
+            @if($subcategory->thumb_url)
+                <img src="{{ $subcategory->thumb_url }}" alt="{{ $subcategory->image_alt ?? $subcategory->name }}">
+            @else
+                {{ $subcategory->icon ?? '🔧' }}
+            @endif
+        </div>
     </div>
 </section>
 
