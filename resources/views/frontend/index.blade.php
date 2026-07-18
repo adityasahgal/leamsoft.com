@@ -1250,8 +1250,8 @@ $homeBlogs = isset($latestBlogs) && $latestBlogs->count() ? $latestBlogs : \App\
             @foreach($homeBlogs as $blog)
             <a href="{{ url('blog/'.$blog->slug) }}" class="leam-project-card">
                 <div class="leam-project-thumb">
-                    @if(!empty($blog->thumbnail_img))
-                    <img src="{{ url('storage/'.$blog->thumbnail_img) }}" alt="{{ $blog->image_alt ?? $blog->title }}">
+                    @if(!empty($blog->banner))
+                    <img src="{{ url('storage/'.$blog->banner) }}" alt="{{ $blog->image_alt ?? $blog->name }}">
                     @else
                     <span class="rainbow-text"
                         style="font-family:'Bebas Neue'; font-size:32px; letter-spacing:2px;">LEAMSOFT</span>
@@ -1259,7 +1259,7 @@ $homeBlogs = isset($latestBlogs) && $latestBlogs->count() ? $latestBlogs : \App\
                 </div>
                 <div class="leam-project-body">
                     <span class="leam-project-tag">{{ $blog->created_at?->format('M d, Y') }}</span>
-                    <h3>{{ $blog->title ?? $blog->name }}</h3>
+                    <h3>{{ $blog->name }}</h3>
                     <p>{{ \Illuminate\Support\Str::limit(strip_tags($blog->short_description ?? $blog->description ?? ''), 100) }}
                     </p>
                 </div>
