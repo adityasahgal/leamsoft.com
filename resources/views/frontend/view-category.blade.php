@@ -80,12 +80,13 @@
         justify-content: center;
         font-size: clamp(110px, 14vw, 160px);
         position: relative;
-        overflow: hidden;
     }
+    /* The image is rounded rather than clipped by the parent, so the ::before rainbow ring stays visible. */
     .leam-cat-big-icon img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        border-radius: inherit;
     }
     .leam-cat-big-icon::before {
         content: '';
@@ -108,10 +109,10 @@
         background: var(--card);
         border: 1px solid var(--border);
         border-radius: 16px;
-        padding: 28px;
         text-decoration: none;
         color: inherit;
-        display: block;
+        display: flex;
+        flex-direction: column;
         transition: all .25s;
         position: relative;
         overflow: hidden;
@@ -137,22 +138,29 @@
         transition: opacity .25s;
     }
     .leam-subcat-card:hover::after { opacity: 1; }
-    .leam-subcat-icon {
-        width: 52px;
-        height: 52px;
-        border-radius: 12px;
+    .leam-subcat-thumb {
+        height: 170px;
         background: rgba(0,180,255,0.08);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 24px;
-        margin-bottom: 18px;
+        font-size: 50px;
         overflow: hidden;
+        flex-shrink: 0;
     }
-    .leam-subcat-icon img {
+    .leam-subcat-thumb img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        transition: transform .3s;
+    }
+    .leam-subcat-card:hover .leam-subcat-thumb img { transform: scale(1.05); }
+    .leam-subcat-body {
+        padding: 24px 26px 26px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
     }
     .leam-subcat-card h3 {
         font-family: 'Barlow Condensed', sans-serif;
@@ -259,16 +267,18 @@
         <div class="leam-subcat-grid">
             @foreach($subcategories as $sub)
                 <a href="{{ url($sub->slug) }}" class="leam-subcat-card">
-                    <div class="leam-subcat-icon">
+                    <div class="leam-subcat-thumb">
                         @if($sub->thumb_url)
                             <img src="{{ $sub->thumb_url }}" alt="{{ $sub->image_alt ?? $sub->name }}" loading="lazy">
                         @else
                             {{ $sub->icon ?? '•' }}
                         @endif
                     </div>
-                    <h3>{{ $sub->name }}</h3>
-                    <p>{{ $sub->short_description }}</p>
-                    <span class="leam-subcat-link">Learn more →</span>
+                    <div class="leam-subcat-body">
+                        <h3>{{ $sub->name }}</h3>
+                        <p>{{ $sub->short_description }}</p>
+                        <span class="leam-subcat-link">Learn more →</span>
+                    </div>
                 </a>
             @endforeach
         </div>
@@ -287,10 +297,18 @@
         <div class="leam-subcat-grid">
             @foreach($services as $service)
                 <a href="{{ url($service->slug) }}" class="leam-subcat-card">
-                    <div class="leam-subcat-icon" style="background: rgba(168,85,247,0.08);">{{ $service->icon ?? '🔧' }}</div>
-                    <h3>{{ $service->name }}</h3>
-                    <p>{{ \Illuminate\Support\Str::limit(strip_tags($service->short_description ?? ''), 110) }}</p>
-                    <span class="leam-subcat-link">View service →</span>
+                    <div class="leam-subcat-thumb" style="background: rgba(168,85,247,0.08);">
+                        @if($service->thumb_url)
+                            <img src="{{ $service->thumb_url }}" alt="{{ $service->image_alt ?? $service->name }}" loading="lazy">
+                        @else
+                            {{ $service->icon ?? '🔧' }}
+                        @endif
+                    </div>
+                    <div class="leam-subcat-body">
+                        <h3>{{ $service->name }}</h3>
+                        <p>{{ \Illuminate\Support\Str::limit(strip_tags($service->short_description ?? ''), 110) }}</p>
+                        <span class="leam-subcat-link">View service →</span>
+                    </div>
                 </a>
             @endforeach
         </div>

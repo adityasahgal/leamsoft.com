@@ -81,12 +81,13 @@ $keywords = "Leamsoft services, AI software, blockchain development, cloud devop
         font-size: 30px;
         flex-shrink: 0;
         position: relative;
-        overflow: hidden;
     }
+    /* The image is rounded rather than clipped by the parent, so the ::before rainbow ring stays visible. */
     .leam-cat-icon img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        border-radius: inherit;
     }
     .leam-cat-icon::before {
         content: '';
@@ -122,12 +123,10 @@ $keywords = "Leamsoft services, AI software, blockchain development, cloud devop
         background: var(--card);
         border: 1px solid var(--border);
         border-radius: 14px;
-        padding: 22px;
         text-decoration: none;
         color: inherit;
         display: flex;
-        gap: 14px;
-        align-items: flex-start;
+        flex-direction: column;
         transition: all .25s;
         position: relative;
         overflow: hidden;
@@ -153,24 +152,46 @@ $keywords = "Leamsoft services, AI software, blockchain development, cloud devop
         transition: opacity .25s;
     }
     .leam-sub-card:hover::after { opacity: 1; }
-    .leam-sub-icon {
-        width: 42px;
-        height: 42px;
-        border-radius: 10px;
+    .leam-sub-thumb {
+        height: 150px;
         background: rgba(255,255,255,0.05);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 18px;
-        flex-shrink: 0;
+        font-size: 44px;
         overflow: hidden;
+        flex-shrink: 0;
     }
-    .leam-sub-icon img {
+    .leam-sub-thumb img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        transition: transform .3s;
     }
-    .leam-sub-body { flex: 1; min-width: 0; }
+    .leam-sub-card:hover .leam-sub-thumb img { transform: scale(1.05); }
+    .leam-sub-body { flex: 1; min-width: 0; padding: 20px 22px 22px; }
+
+    /* Static fallback list (renders only when no categories exist yet) */
+    .leam-sub-chip {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 18px 20px;
+        color: inherit;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+    .leam-sub-chip .dot { color: #00b4ff; }
+    .leam-sub-chip h4 {
+        font-family: 'Barlow Condensed', sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        margin: 0;
+        text-transform: uppercase;
+        color: #fff;
+    }
     .leam-sub-body h4 {
         font-family: 'Barlow Condensed', sans-serif;
         font-size: 16px;
@@ -292,7 +313,7 @@ $keywords = "Leamsoft services, AI software, blockchain development, cloud devop
                     <div class="leam-sub-grid">
                         @foreach($cat->subcategories as $sub)
                             <a href="{{ url($sub->slug) }}" class="leam-sub-card">
-                                <div class="leam-sub-icon">
+                                <div class="leam-sub-thumb">
                                     @if($sub->thumb_url)
                                         <img src="{{ $sub->thumb_url }}" alt="{{ $sub->image_alt ?? $sub->name }}" loading="lazy">
                                     @else
@@ -311,7 +332,13 @@ $keywords = "Leamsoft services, AI software, blockchain development, cloud devop
                     <div class="leam-sub-grid">
                         @foreach($cat->services->take(6) as $service)
                             <a href="{{ url($service->slug) }}" class="leam-sub-card">
-                                <div class="leam-sub-icon">{{ $service->icon ?? '•' }}</div>
+                                <div class="leam-sub-thumb">
+                                    @if($service->thumb_url)
+                                        <img src="{{ $service->thumb_url }}" alt="{{ $service->image_alt ?? $service->name }}" loading="lazy">
+                                    @else
+                                        {{ $service->icon ?? '•' }}
+                                    @endif
+                                </div>
                                 <div class="leam-sub-body">
                                     <h4>{{ $service->name }}</h4>
                                     <p>{{ \Illuminate\Support\Str::limit(strip_tags($service->short_description ?? ''), 90) }}</p>
@@ -396,11 +423,9 @@ $keywords = "Leamsoft services, AI software, blockchain development, cloud devop
                 </div>
                 <div class="leam-sub-grid">
                     @foreach($svc['items'] as $item)
-                        <div class="leam-sub-card" style="cursor:default;">
-                            <div class="leam-sub-icon">•</div>
-                            <div class="leam-sub-body">
-                                <h4>{!! $item !!}</h4>
-                            </div>
+                        <div class="leam-sub-chip">
+                            <span class="dot">•</span>
+                            <h4>{!! $item !!}</h4>
                         </div>
                     @endforeach
                 </div>

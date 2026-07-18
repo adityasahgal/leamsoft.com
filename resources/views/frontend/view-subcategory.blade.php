@@ -57,7 +57,6 @@
         justify-content: center;
         font-size: clamp(110px, 14vw, 160px);
         position: relative;
-        overflow: hidden;
     }
     .leam-sub-hero .icon-big::before {
         content: '';
@@ -70,10 +69,12 @@
         z-index: -1;
         opacity: 0.5;
     }
+    /* The image is rounded rather than clipped by the parent, so the ::before rainbow ring stays visible. */
     .leam-sub-hero .icon-big img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        border-radius: inherit;
     }
     .leam-sub-hero p {
         font-size: 16px;

@@ -379,13 +379,13 @@ software Delhi Noida, enterprise web applications";
 
     .leam-service-card {
         background: var(--dark);
-        padding: 36px 32px;
         transition: background .25s;
         position: relative;
         overflow: hidden;
         text-decoration: none;
         color: inherit;
-        display: block;
+        display: flex;
+        flex-direction: column;
     }
 
     .leam-service-card::after {
@@ -412,22 +412,33 @@ software Delhi Noida, enterprise web applications";
         opacity: 1;
     }
 
-    .leam-service-icon {
-        width: 52px;
-        height: 52px;
-        border-radius: 12px;
+    .leam-service-card-thumb {
+        height: 190px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 24px;
-        margin-bottom: 20px;
+        font-size: 56px;
         overflow: hidden;
+        flex-shrink: 0;
     }
 
-    .leam-service-icon img {
+    .leam-service-card-thumb img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        transition: transform .3s;
+    }
+
+    .leam-service-card:hover .leam-service-card-thumb img {
+        transform: scale(1.05);
+    }
+
+    .leam-service-card-body {
+        padding: 28px 32px 32px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .leam-service-card h3 {
@@ -1028,25 +1039,29 @@ software Delhi Noida, enterprise web applications";
             @if($homeCats->count() > 0)
             @foreach($homeCats as $key => $cat)
             <a href="{{ url($cat->slug) }}" class="leam-service-card">
-                <div class="leam-service-icon" style="background:{{ $serviceColors[$key % 9] }};">
+                <div class="leam-service-card-thumb" style="background:{{ $serviceColors[$key % 9] }};">
                     @if($cat->thumb_url)
                     <img src="{{ $cat->thumb_url }}" alt="{{ $cat->image_alt ?? $cat->name }}" loading="lazy">
                     @else
                     {{ $cat->icon ?? '🔧' }}
                     @endif
                 </div>
-                <h3>{{ $cat->name }}</h3>
-                <p>{{ \Illuminate\Support\Str::limit(strip_tags($cat->short_description ?? ''), 130) }}</p>
-                <span class="leam-service-link">Explore category →</span>
+                <div class="leam-service-card-body">
+                    <h3>{{ $cat->name }}</h3>
+                    <p>{{ \Illuminate\Support\Str::limit(strip_tags($cat->short_description ?? ''), 130) }}</p>
+                    <span class="leam-service-link">Explore category →</span>
+                </div>
             </a>
             @endforeach
             @else
             @foreach($defaultCats as $key => $s)
             <a href="{{ url($s['slug']) }}" class="leam-service-card">
-                <div class="leam-service-icon" style="background:{{ $serviceColors[$key] }};">{{ $s['icon'] }}</div>
-                <h3>{{ $s['name'] }}</h3>
-                <p>{{ $s['desc'] }}</p>
-                <span class="leam-service-link">Learn more →</span>
+                <div class="leam-service-card-thumb" style="background:{{ $serviceColors[$key] }};">{{ $s['icon'] }}</div>
+                <div class="leam-service-card-body">
+                    <h3>{{ $s['name'] }}</h3>
+                    <p>{{ $s['desc'] }}</p>
+                    <span class="leam-service-link">Learn more →</span>
+                </div>
             </a>
             @endforeach
             @endif
