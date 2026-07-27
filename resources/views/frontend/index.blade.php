@@ -1200,7 +1200,7 @@ software Delhi Noida, enterprise web applications";
 <!-- FEATURED SERVICES -->
 @php
 $projects = isset($featuredServices) && $featuredServices->count() ? $featuredServices :
-\App\Models\Service::where('status', 1)->where('featured', 1)->take(6)->get();
+\App\Models\Service::with(['category', 'subcategory'])->where('status', 1)->where('featured', 1)->take(6)->get();
 @endphp
 @if($projects->count() > 0)
 <section class="leam-section leam-projects-bg">
@@ -1212,13 +1212,15 @@ $projects = isset($featuredServices) && $featuredServices->count() ? $featuredSe
                 deployments.</p>
         </div>
         <div class="leam-projects-grid">
-            {{ dd($projects) }}
             @foreach($projects as $key => $project)
             <a class="leam-project-card" href="{{ url($project->slug) }}">
                 <div class="leam-project-thumb">
                     @php
-                    $projectThumb = $project->thumb_url ?? (!empty($project->thumbnail_img) ?
-                    url('storage/'.$project->thumbnail_img) : null);
+                    // Services have no thumbnails uploaded yet, so fall back to the
+                    // subcategory image, then the category image.
+                    $projectThumb = $project->thumb_url
+                    ?? optional($project->subcategory)->thumb_url
+                    ?? optional($project->category)->thumb_url;
                     @endphp
                     @if($projectThumb)
                     <img src="{{ $projectThumb }}" alt="{{ $project->image_alt ?? $project->name }}" loading="lazy">
