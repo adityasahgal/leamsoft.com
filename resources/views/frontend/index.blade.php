@@ -635,9 +635,14 @@ software Delhi Noida, enterprise web applications";
         background: linear-gradient(135deg, var(--card2) 0%, #1a1a2e 100%);
         position: relative;
         overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
     }
 
     .leam-project-thumb img {
+        display: block;
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -1209,9 +1214,12 @@ $projects = isset($featuredServices) && $featuredServices->count() ? $featuredSe
             @foreach($projects as $key => $project)
             <a class="leam-project-card" href="{{ url($project->slug) }}">
                 <div class="leam-project-thumb">
-                    @if(!empty($project->thumbnail_img))
-                    <img src="{{ url('storage/'.$project->thumbnail_img) }}"
-                        alt="{{ $project->image_alt ?? $project->name }}">
+                    @php
+                    $projectThumb = $project->thumb_url ?? (!empty($project->thumbnail_img) ?
+                    url('storage/'.$project->thumbnail_img) : null);
+                    @endphp
+                    @if($projectThumb)
+                    <img src="{{ $projectThumb }}" alt="{{ $project->image_alt ?? $project->name }}" loading="lazy">
                     @else
                     <span class="rainbow-text"
                         style="font-family:'Bebas Neue'; font-size:42px; letter-spacing:2px;">{{ $project->icon ?? 'SVC' }}</span>
@@ -1251,7 +1259,8 @@ $homeBlogs = isset($latestBlogs) && $latestBlogs->count() ? $latestBlogs : \App\
             <a href="{{ url('blog/'.$blog->slug) }}" class="leam-project-card">
                 <div class="leam-project-thumb">
                     @if(!empty($blog->banner))
-                    <img src="{{ url('storage/'.$blog->banner) }}" alt="{{ $blog->image_alt ?? $blog->name }}">
+                    <img src="{{ url('storage/'.$blog->banner) }}" alt="{{ $blog->image_alt ?? $blog->name }}"
+                        loading="lazy">
                     @else
                     <span class="rainbow-text"
                         style="font-family:'Bebas Neue'; font-size:32px; letter-spacing:2px;">LEAMSOFT</span>
