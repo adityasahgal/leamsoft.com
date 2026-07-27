@@ -1061,7 +1061,8 @@ software Delhi Noida, enterprise web applications";
             @else
             @foreach($defaultCats as $key => $s)
             <a href="{{ url($s['slug']) }}" class="leam-service-card">
-                <div class="leam-service-card-thumb" style="background:{{ $serviceColors[$key] }};">{{ $s['icon'] }}</div>
+                <div class="leam-service-card-thumb" style="background:{{ $serviceColors[$key] }};">{{ $s['icon'] }}
+                </div>
                 <div class="leam-service-card-body">
                     <h3>{{ $s['name'] }}</h3>
                     <p>{{ $s['desc'] }}</p>
@@ -1211,6 +1212,7 @@ $projects = isset($featuredServices) && $featuredServices->count() ? $featuredSe
                 deployments.</p>
         </div>
         <div class="leam-projects-grid">
+            {{ dd($projects) }}
             @foreach($projects as $key => $project)
             <a class="leam-project-card" href="{{ url($project->slug) }}">
                 <div class="leam-project-thumb">
