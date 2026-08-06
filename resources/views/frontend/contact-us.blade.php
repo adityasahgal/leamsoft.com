@@ -437,9 +437,9 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
                         @error('message') <div class="leam-form-error">{{ $message }}</div> @enderror
                     </div>
 
-                    @if(env('RECAPTCHA_ENABLED') && env('RECAPTCHA_SITE_KEY'))
+                    @if(config('recaptcha.enabled') && config('recaptcha.site_key'))
                     <div class="leam-form-group">
-                        <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                        <div class="g-recaptcha" data-sitekey="{{ config('recaptcha.site_key') }}"></div>
                         @error('g-recaptcha-response') <div class="leam-form-error">{{ $message }}</div> @enderror
                         @error('captcha') <div class="leam-form-error">{{ $message }}</div> @enderror
                     </div>
@@ -462,7 +462,7 @@ $keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software develo
     </div>
 </section>
 
-@if(env('RECAPTCHA_ENABLED') && env('RECAPTCHA_SITE_KEY'))
+@if(config('recaptcha.enabled') && config('recaptcha.site_key'))
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endif
 <script>

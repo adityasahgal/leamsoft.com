@@ -172,7 +172,7 @@ class MainController extends Controller
 
     public function enquiry(Request $request)
     {
-        $recaptchaEnabled = env('RECAPTCHA_ENABLED') && env('RECAPTCHA_SECRET_KEY');
+        $recaptchaEnabled = config('recaptcha.enabled') && config('recaptcha.secret_key');
 
         $rules = [
             'name' => 'required|string|max:255',
@@ -204,7 +204,7 @@ class MainController extends Controller
         // Verify reCAPTCHA
         if ($recaptchaEnabled) {
             $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-                'secret' => env('RECAPTCHA_SECRET_KEY'),
+                'secret' => config('recaptcha.secret_key'),
                 'response' => $request->input('g-recaptcha-response')
             ]);
 
