@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use App\Models\Enquiry;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Spatie\Sitemap\Sitemap;
@@ -23,7 +24,9 @@ class DashboardController extends Controller
     {
         $serviceCounts = Service::count();
         $blogCounts = Blog::count();
-        return view('admin.dashboard.index', compact(['serviceCounts', 'blogCounts']));
+        $enquiryCounts = Enquiry::count();
+        $latestEnquiries = Enquiry::orderBy('created_at', 'DESC')->take(10)->get();
+        return view('admin.dashboard.index', compact(['serviceCounts', 'blogCounts', 'enquiryCounts', 'latestEnquiries']));
     }
 
 

@@ -113,4 +113,15 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Enquiry Notification Recipient
+    |--------------------------------------------------------------------------
+    |
+    | Inbox that receives website enquiry notifications.
+    |
+    */
+
+    'enquiry_to' => env('MAIL_ENQUIRY_TO', 'work.leamsoft@gmail.com'),
+
 ];

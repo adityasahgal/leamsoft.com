@@ -9,7 +9,10 @@ use App\Models\Enquiry;
 use App\Models\Service;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
+use App\Mail\EnquiryReceived;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class MainController extends Controller
@@ -161,6 +164,7 @@ class MainController extends Controller
             $enquiry->message = $request->message;
 
             if ($enquiry->save()) {
+                $this->notifyEnquiry($enquiry);
                 return redirect()->back()->with(['status' => 'success', 'message' => 'Your enquiry has been sent successfully.']);
             } else {
                 return redirect()->back()->with(['status' => 'danger', 'message' => 'Something went wrong.']);
@@ -222,12 +226,26 @@ class MainController extends Controller
             $enquiry->message = $request->message;
 
             if ($enquiry->save()) {
+                $this->notifyEnquiry($enquiry);
                 return redirect()->back()->with(['status' => 'success', 'message' => 'Your enquiry has been sent successfully.']);
             } else {
                 return redirect()->back()->with(['status' => 'danger', 'message' => 'Something went wrong.']);
             }
         } catch (\Exception $e) {
             return redirect()->back()->with(['status' => 'danger', 'message' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Email the enquiry to the admin inbox. Failures are logged, never shown
+     * to the visitor -- the enquiry is already saved at this point.
+     */
+    private function notifyEnquiry(Enquiry $enquiry)
+    {
+        try {
+            Mail::to(config('mail.enquiry_to'))->send(new EnquiryReceived($enquiry));
+        } catch (\Exception $e) {
+            Log::error('Enquiry mail failed: ' . $e->getMessage());
         }
     }
 }
