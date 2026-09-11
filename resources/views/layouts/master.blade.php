@@ -6,9 +6,63 @@ $genSetting = \App\Models\Setting::first();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('meta_title', config('app.name', 'LEAMSOFT'))</title>
-    <meta name="description" content="@yield('meta_description', 'LEAMSOFT — Empowering Business with Smart Technology')" />
-    <meta name="keywords" content="@yield('meta_keywords', 'LEAMSOFT, software, web development, AI, cloud, cyber security')">
+    @php
+        // Pages pass a $seo array (built by App\Support\Seo). Anything that
+        // still uses the old @section('meta_*') approach keeps working via
+        // the yieldContent fallbacks below.
+        $seo = $seo ?? \App\Support\Seo::page('home');
+
+        $seoTitle = trim($__env->yieldContent('meta_title')) ?: $seo['title'];
+        $seoDesc  = trim($__env->yieldContent('meta_description')) ?: $seo['description'];
+        $seoKeys  = trim($__env->yieldContent('meta_keywords'))
+            ?: implode(', ', $seo['keywords'] ?? []);
+    @endphp
+
+    <title>{{ $seoTitle }}</title>
+    <meta name="description" content="{{ $seoDesc }}" />
+    <meta name="keywords" content="{{ $seoKeys }}">
+    <meta name="robots" content="{{ $seo['robots'] }}">
+    <meta name="author" content="{{ config('seo.brand') }}">
+    <link rel="canonical" href="{{ $seo['canonical'] }}">
+
+    {{-- Local / geo targeting --}}
+    <meta name="geo.region" content="{{ config('seo.geo.region') }}">
+    <meta name="geo.placename" content="{{ config('seo.geo.placename') }}">
+    <meta name="geo.position" content="{{ config('seo.geo.latitude') }};{{ config('seo.geo.longitude') }}">
+    <meta name="ICBM" content="{{ config('seo.geo.latitude') }}, {{ config('seo.geo.longitude') }}">
+
+    {{-- Open Graph --}}
+    <meta property="og:type" content="{{ $seo['type'] }}">
+    <meta property="og:site_name" content="{{ config('seo.brand') }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDesc }}">
+    <meta property="og:url" content="{{ $seo['canonical'] }}">
+    <meta property="og:image" content="{{ $seo['image'] }}">
+    <meta property="og:locale" content="en_IN">
+    @if(!empty($seo['published_time']))
+        <meta property="article:published_time" content="{{ $seo['published_time'] }}">
+        <meta property="article:modified_time" content="{{ $seo['modified_time'] }}">
+    @endif
+
+    {{-- Twitter --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDesc }}">
+    <meta name="twitter:image" content="{{ $seo['image'] }}">
+    @if(config('seo.twitter_handle'))
+        <meta name="twitter:site" content="{{ config('seo.twitter_handle') }}">
+    @endif
+
+    {{-- Structured data --}}
+    <script type="application/ld+json">
+        {!! json_encode(\App\Support\Seo::organizationSchema($genSetting), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+    @if(!empty($seo['breadcrumbs']))
+    <script type="application/ld+json">
+        {!! json_encode(\App\Support\Seo::breadcrumbSchema($seo['breadcrumbs']), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+    @endif
+    @stack('schema')
 
     @yield('meta')
     @if(!empty($genSetting) && !empty($genSetting['favicon']))

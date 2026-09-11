@@ -1,12 +1,4 @@
 @extends('layouts.master')
-@php
-$meta_title = "Our Services | Leamsoft Pvt Ltd. — AI, Cloud, Blockchain & SaaS";
-$meta_description = "Explore Leamsoft's full service stack — AI-powered software, web development, blockchain, cloud & DevOps, CRM/ERP, SaaS products, API integrations, and UI/UX.";
-$keywords = "Leamsoft services, AI software, blockchain development, cloud devops, SaaS, CRM ERP, API integrations, UI UX, web development Delhi NCR";
-@endphp
-@section('meta_title'){{ $meta_title }}@stop
-@section('meta_description'){{ $meta_description }}@stop
-@section('meta_keywords'){{ $keywords }}@stop
 @section('content')
 <style>
     .leam-page-banner {

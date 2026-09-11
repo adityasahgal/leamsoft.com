@@ -2,14 +2,6 @@
 $genSetting = \App\Models\Setting::first();
 ?>
 @extends('layouts.master')
-@php
-$meta_title = "Help Center | LEAMSOFT";
-$meta_description = "Get help with your LEAMSOFT project, account, or partnership. Browse resources or contact our team directly.";
-$keywords = "leamsoft help, support, contact, resources";
-@endphp
-@section('meta_title'){{ $meta_title }}@stop
-@section('meta_description'){{ $meta_description }}@stop
-@section('meta_keywords'){{ $keywords }}@stop
 
 @section('content')
 <style>

@@ -1,12 +1,4 @@
 @extends('layouts.master')
-@php
-$meta_title = "Projects & Portfolio | LEAMSOFT";
-$meta_description = "Explore selected projects from LEAMSOFT — web, mobile, AI, cloud, and security work for clients worldwide.";
-$keywords = "leamsoft projects, portfolio, case studies, client work";
-@endphp
-@section('meta_title'){{ $meta_title }}@stop
-@section('meta_description'){{ $meta_description }}@stop
-@section('meta_keywords'){{ $keywords }}@stop
 
 @section('content')
 <style>

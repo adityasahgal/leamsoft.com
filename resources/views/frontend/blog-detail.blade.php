@@ -1,8 +1,5 @@
 @extends('layouts.master')
 
-@section('meta_title'){{ $blogDetail->meta_title ?? $blogDetail->name }}@stop
-@section('meta_description'){{ $blogDetail->meta_description ?? $blogDetail->short_description }}@stop
-@section('meta_keywords'){{ $blogDetail->keywords }}@stop
 
 @section('content')
 <style>

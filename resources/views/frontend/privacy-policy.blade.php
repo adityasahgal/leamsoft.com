@@ -1,10 +1,4 @@
 @extends('layouts.master')
-@php
-$meta_title = "Privacy Policy | LEAMSOFT";
-$meta_description = "How LEAMSOFT collects, uses, and protects your personal data — written in plain English.";
-@endphp
-@section('meta_title'){{ $meta_title }}@stop
-@section('meta_description'){{ $meta_description }}@stop
 
 @section('content')
 <style>

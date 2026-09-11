@@ -2,15 +2,6 @@
 $genSetting = \App\Models\Setting::first();
 ?>
 @extends('layouts.master')
-@php
-$meta_title = "Contact LEAMSOFT | Talk to Our Tech Team";
-$meta_description = "Get in touch with LEAMSOFT for web, mobile, AI, cloud, and cyber security solutions. Free
-consultation. Email, call, or fill the form.";
-$keywords = "Contact LEAMSOFT, tech consulting, project enquiry, software development quote, hire developers";
-@endphp
-@section('meta_title'){{ $meta_title }}@stop
-@section('meta_description'){{ $meta_description }}@stop
-@section('meta_keywords'){{ $keywords }}@stop
 @section('content')
 <style>
     .leam-page-banner {

@@ -3,9 +3,6 @@ $genSetting = \App\Models\Setting::first();
 ?>
 @extends('layouts.master')
 
-@section('meta_title'){{ $productrow->meta_title ?? $productrow->name }}@stop
-@section('meta_description'){{ $productrow->meta_description ?? $productrow->short_description }}@stop
-@section('meta_keywords'){{ $productrow->keywords }}@stop
 
 @section('content')
 <style>

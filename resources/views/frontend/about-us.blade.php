@@ -1,12 +1,4 @@
 @extends('layouts.master')
-@php
-$meta_title = "About Leamsoft Pvt Ltd. | AI, Cloud & Blockchain Technology Company";
-$meta_description = "Leamsoft Pvt Ltd. is a next-generation IT company delivering advanced software engineering, cloud infrastructure, AI automation, and blockchain solutions across Delhi NCR and India.";
-$keywords = "About Leamsoft, IT company Delhi NCR, AI company, blockchain developers India, cloud DevOps team, custom software India";
-@endphp
-@section('meta_title'){{ $meta_title }}@stop
-@section('meta_description'){{ $meta_description }}@stop
-@section('meta_keywords'){{ $keywords }}@stop
 @section('content')
 <style>
     /* ---------- Banner ---------- */

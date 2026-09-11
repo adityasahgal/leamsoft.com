@@ -1,7 +1,10 @@
 User-agent: *
-Disallow: /admin/
-Disallow: /admin/login/
-Disallow: /admin/register/
 Allow: /
-Allow: /public/
-Sitemap: https://dev.worldwebrobotics.com/sitemap.xml
+
+Disallow: /admin/
+Disallow: /admin/login
+Disallow: /admin/register
+Disallow: /admin/password-reset
+Disallow: /storage/framework/
+
+Sitemap: https://leamsoft.com/sitemap.xml

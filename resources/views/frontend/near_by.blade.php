@@ -1,12 +1,4 @@
 @extends('layouts.master')
-@php
-$meta_title = "Explore Nearby Places in Nainital";
-$meta_description = "Discover the best nearby places in Nainital, including Neem Karoli Baba Ashram and CAMP KURIA. Experience spirituality, adventure, and natural beauty.";
-$keywords = "Neem Karoli Baba Ashram, CAMP KURIA Nainital, nearby places in Nainital, travel Nainital";
-@endphp
-@section('meta_title'){{ $meta_title }}@stop
-@section('meta_description'){{ $meta_description }}@stop
-@section('meta_keywords'){{ $keywords }}@stop
 @section('content')
 
 <style>

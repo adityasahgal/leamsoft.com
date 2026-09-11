@@ -1,8 +1,5 @@
 @extends('layouts.master')
 
-@section('meta_title'){{ $categories->meta_title ?? $categories->name }}@stop
-@section('meta_description'){{ $categories->meta_description ?? $categories->short_description }}@stop
-@section('meta_keywords'){{ $categories->keywords }}@stop
 
 @section('content')
 <style>

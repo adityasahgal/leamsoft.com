@@ -1,10 +1,4 @@
 @extends('layouts.master')
-@php
-$meta_title = "Terms & Conditions | LEAMSOFT";
-$meta_description = "LEAMSOFT's terms of service governing the use of our website and engagement of our services.";
-@endphp
-@section('meta_title'){{ $meta_title }}@stop
-@section('meta_description'){{ $meta_description }}@stop
 
 @section('content')
 <style>

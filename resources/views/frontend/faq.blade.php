@@ -1,12 +1,4 @@
 @extends('layouts.master')
-@php
-$meta_title = "FAQ | LEAMSOFT — Frequently Asked Questions";
-$meta_description = "Answers to common questions about working with LEAMSOFT — pricing, engagement models, timelines, and more.";
-$keywords = "leamsoft faq, hire leamsoft, questions, pricing";
-@endphp
-@section('meta_title'){{ $meta_title }}@stop
-@section('meta_description'){{ $meta_description }}@stop
-@section('meta_keywords'){{ $keywords }}@stop
 
 @section('content')
 <style>
