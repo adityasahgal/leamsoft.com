@@ -33,7 +33,18 @@
                 <a href="mailto:{{ $row->email }}">{{ $row->email }}</a><br>
                 <a href="tel:{{ $row->phone }}">{{ $row->phone }}</a>
             </td>
-            <td>{{ $row->mode_label }}</td>
+            <td>
+                {{ $row->mode_label }}
+                @if($row->meeting_link)
+                    <br><a href="{{ $row->meeting_link }}" target="_blank" rel="noopener" class="small"><i class="fas fa-video"></i> Join link</a>
+                @endif
+                <br>
+                @if($row->client_notified_at)
+                    <span class="small text-success"><i class="fas fa-check"></i> Client emailed</span>
+                @else
+                    <span class="small text-danger"><i class="fas fa-times"></i> Not emailed</span>
+                @endif
+            </td>
             <td>{{ $row->topic ?: '—' }}</td>
             <td><span class="badge badge-{{ $badge[$row->status] ?? 'secondary' }}">{{ $row->status_label }}</span></td>
             <td>

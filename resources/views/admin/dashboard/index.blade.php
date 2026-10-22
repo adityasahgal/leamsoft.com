@@ -86,7 +86,12 @@
                                     <td>{{ $m->name }}</td>
                                     <td>{{ $m->company ?: '—' }}</td>
                                     <td><a href="tel:{{ $m->phone }}">{{ $m->phone }}</a></td>
-                                    <td>{{ $m->mode_label }}</td>
+                                    <td>
+                                        {{ $m->mode_label }}
+                                        @if($m->meeting_link)
+                                            · <a href="{{ $m->meeting_link }}" target="_blank" rel="noopener"><i class="fas fa-video"></i> Join</a>
+                                        @endif
+                                    </td>
                                     <td><span class="badge badge-{{ $mBadge[$m->status] ?? 'secondary' }}">{{ $m->status_label }}</span></td>
                                 </tr>
                                 @empty

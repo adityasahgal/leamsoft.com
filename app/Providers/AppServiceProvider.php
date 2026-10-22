@@ -9,7 +9,10 @@ use App\Models\Client;
 use App\Models\Service;
 use App\Models\Setting;
 use App\Models\Subcategory;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -35,6 +38,13 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($user, $ability) {
             return $user->hasRole('Super Admin') ? true : null;
         });
+
+        // Separate buckets per feature: a plain "throttle:N,1" shares one
+        // counter per IP across every route, so chatting would eat into the
+        // meeting-booking allowance.
+        RateLimiter::for('chat', fn (Request $r) => Limit::perMinute(20)->by('chat|' . $r->ip()));
+        RateLimiter::for('chat-lead', fn (Request $r) => Limit::perMinute(5)->by('chat-lead|' . $r->ip()));
+        RateLimiter::for('meeting', fn (Request $r) => Limit::perMinute(6)->by('meeting|' . $r->ip()));
 
         // Site settings + service categories feed the header, footer and
         // contact blocks on every public page. Cached so a page view costs

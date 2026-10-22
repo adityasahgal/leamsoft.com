@@ -17,6 +17,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\SeoController;
 use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Admin\MeetingController as AdminMeetingController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -35,8 +36,13 @@ Route::group(['middleware' => 'XssSanitizer'], function () {
     Route::get('/privacy-policy', [MainController::class, 'privacy_policy']);
     Route::get('/contact-us', [MainController::class, 'contact_us']);
     Route::get('/schedule-meeting', [MeetingController::class, 'create'])->name('meeting.create');
-    Route::post('/schedule-meeting', [MeetingController::class, 'store'])->name('meeting.store')->middleware('throttle:6,1');
+    Route::post('/schedule-meeting', [MeetingController::class, 'store'])->name('meeting.store')->middleware('throttle:meeting');
     Route::get('/schedule-meeting/confirmed', [MeetingController::class, 'thanks'])->name('meeting.thanks');
+
+    // Website chat widget
+    Route::post('/chat/message', [ChatController::class, 'message'])->name('chat.message')->middleware('throttle:chat');
+    Route::post('/chat/reset', [ChatController::class, 'reset'])->name('chat.reset');
+    Route::post('/chat/lead', [ChatController::class, 'lead'])->name('chat.lead')->middleware('throttle:chat-lead');
     Route::post('showEnquiryModal', [MainController::class, 'showEnquiryModal']);
     Route::post('storeEnquiry', [MainController::class, 'storeEnquiry']);
     Route::post('enquiry', [MainController::class, 'enquiry']);
@@ -61,6 +67,7 @@ Route::group(['middleware' => 'XssSanitizer'], function () {
             Route::get('meetings', [AdminMeetingController::class, 'index'])->name('meetings.index');
             Route::post('meetings/show', [AdminMeetingController::class, 'show'])->name('meetings.show');
             Route::post('meetings/status', [AdminMeetingController::class, 'status'])->name('meetings.status');
+            Route::post('meetings/new-link', [AdminMeetingController::class, 'newLink'])->name('meetings.newLink');
 
             // Setting Routes
             Route::get('setting', [SettingController::class, 'index'])->name('setting.index');

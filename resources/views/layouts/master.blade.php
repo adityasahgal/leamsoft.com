@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#ffffff">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @php
         // Pages pass a $seo array (built by App\Support\Seo). Anything that
         // still uses the old @section('meta_*') approach keeps working via
@@ -101,9 +102,14 @@
 
 @include('layouts.frontendFooter')
 
+@if(config('chatbot.enabled'))
+    @include('layouts.partials.chat')
+    <script nonce="{{ $nonce }}" src="{{ asset('assets/js/chat.js') }}?v={{ @filemtime(public_path('assets/js/chat.js')) }}" defer></script>
+@endif
+
 @if(!empty($genSetting['phone']))
-    <a class="wa" href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $genSetting['phone']) }}" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
-        <svg aria-hidden="true"><use href="#i-wa"/></svg><span>Chat with us</span>
+    <a class="wa {{ config('chatbot.enabled') ? 'wa--stacked' : '' }}" href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $genSetting['phone']) }}" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
+        <svg aria-hidden="true"><use href="#i-wa"/></svg><span>WhatsApp</span>
     </a>
 @endif
 

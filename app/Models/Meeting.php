@@ -10,13 +10,100 @@ class Meeting extends Model
     protected $table = 'meetings';
 
     protected $fillable = [
-        'name', 'email', 'phone', 'company', 'topic', 'mode',
+        'name', 'email', 'phone', 'company', 'topic', 'mode', 'meeting_link',
         'meeting_date', 'meeting_time', 'notes', 'status', 'admin_note', 'ip',
+        'client_notified_at',
     ];
 
     protected $casts = [
-        'meeting_date' => 'date',
+        'meeting_date'       => 'date',
+        'client_notified_at' => 'datetime',
     ];
+
+    /**
+     * A fresh, unguessable video room URL for this meeting, e.g.
+     * https://meet.jit.si/Leamsoft-20261024-1430-k3v9q2mz7a
+     */
+    public static function newVideoLink(string $date, string $time): string
+    {
+        $room = 'Leamsoft-' . str_replace('-', '', $date) . '-' . str_replace(':', '', $time) . '-' . strtolower(\Illuminate\Support\Str::random(10));
+
+        return rtrim(config('meetings.video_base_url', 'https://meet.jit.si'), '/') . '/' . $room;
+    }
+
+    /** Where the meeting happens, in one line, for emails and calendars. */
+    public function locationText(): string
+    {
+        return match ($this->mode) {
+            'video'     => $this->meeting_link ?: 'Video call (link to follow)',
+            'phone'     => 'Phone call to ' . $this->phone,
+            'in_person' => self::officeAddress() ?: 'Leamsoft office, Delhi NCR',
+            default     => (string) $this->mode_label,
+        };
+    }
+
+    public static function officeAddress(): ?string
+    {
+        $a = config('seo.address');
+
+        return !empty($a['street'])
+            ? implode(', ', array_filter([$a['street'], $a['locality'], $a['region'], $a['postcode']]))
+            : null;
+    }
+
+    /** One-click "add to Google Calendar" URL. */
+    public function googleCalendarUrl(string $title = 'Call with Leamsoft'): string
+    {
+        return 'https://calendar.google.com/calendar/render?' . http_build_query([
+            'action'   => 'TEMPLATE',
+            'text'     => $title,
+            'dates'    => $this->startsAt()->copy()->utc()->format('Ymd\THis\Z') . '/' . $this->endsAt()->copy()->utc()->format('Ymd\THis\Z'),
+            'details'  => trim(($this->meeting_link ? 'Join: ' . $this->meeting_link . "\n\n" : '') . 'Discovery call with the Leamsoft team (' . $this->mode_label . ').'),
+            'location' => $this->locationText(),
+        ]);
+    }
+
+    /**
+     * iCalendar invite. The sequence number lets a re-sent invite (e.g.
+     * after the link changes) update the same calendar entry.
+     */
+    public function toIcs(string $summary, int $sequence = 0): string
+    {
+        $fmt = fn ($c) => $c->copy()->utc()->format('Ymd\THis\Z');
+        $esc = fn ($s) => str_replace(["\\", ';', ',', "\r\n", "\n"], ["\\\\", '\;', '\,', '\n', '\n'], (string) $s);
+
+        $desc = implode("\n", array_filter([
+            $this->meeting_link ? 'Join: ' . $this->meeting_link : null,
+            'Name: ' . $this->name,
+            'Email: ' . $this->email,
+            'Phone: ' . $this->phone,
+            $this->company ? 'Company: ' . $this->company : null,
+            $this->topic ? 'Topic: ' . $this->topic : null,
+            'Mode: ' . $this->mode_label,
+            $this->notes ? 'Notes: ' . $this->notes : null,
+        ]));
+
+        $lines = array_filter([
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//Leamsoft//Meetings//EN',
+            'METHOD:PUBLISH',
+            'BEGIN:VEVENT',
+            'UID:meeting-' . $this->id . '@' . (parse_url(config('app.url'), PHP_URL_HOST) ?: 'leamsoft.com'),
+            'SEQUENCE:' . $sequence,
+            'DTSTAMP:' . $fmt(now()),
+            'DTSTART:' . $fmt($this->startsAt()),
+            'DTEND:' . $fmt($this->endsAt()),
+            'SUMMARY:' . $esc($summary),
+            'DESCRIPTION:' . $esc($desc),
+            'LOCATION:' . $esc($this->locationText()),
+            $this->meeting_link ? 'URL:' . $this->meeting_link : null,
+            'END:VEVENT',
+            'END:VCALENDAR',
+        ]);
+
+        return implode("\r\n", $lines) . "\r\n";
+    }
 
     /** Meetings that still occupy their slot. */
     public function scopeActive($query)
