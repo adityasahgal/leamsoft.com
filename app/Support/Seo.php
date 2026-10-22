@@ -58,10 +58,13 @@ class Seo
 
         // Description: admin value, else short_description, else generated
         $desc = trim($row->meta_description ?? '');
+        $fromAdmin = $desc !== '';
         if ($desc === '') {
             $desc = trim(strip_tags($row->short_description ?? ''));
         }
-        if ($desc === '' && $name !== '') {
+        if ($fromAdmin) {
+            // Hand-written meta description: use it exactly as entered
+        } elseif ($desc === '' && $name !== '') {
             $desc = sprintf(
                 'Professional %s %s from %s. Serving businesses across Noida, Delhi, Ghaziabad and the wider Delhi NCR region.',
                 $name,
@@ -72,12 +75,8 @@ class Seo
             // A one-liner like "Image & video understanding." is too thin
             // for a snippet; lead with the name and add who/where.
             $lead = stripos($desc, $name) === false ? $name . ': ' . rtrim($desc, '. ') : rtrim($desc, '. ');
-            $desc = sprintf(
-                '%s. Delivered by %s for businesses in %s and across India.',
-                $lead,
-                config('seo.short_brand'),
-                self::cityPhrase()
-            );
+            $desc = sprintf('%s. Delivered by %s for businesses in %s', $lead, config('seo.short_brand'), self::cityPhrase());
+            $desc .= mb_strlen($desc) + 17 <= config('seo.desc_max', 158) ? ' and across India.' : '.';
         }
 
         // Keywords: admin list first, then generated permutations of the name
