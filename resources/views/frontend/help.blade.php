@@ -1,268 +1,81 @@
-<?php
-$genSetting = \App\Models\Setting::first();
-?>
 @extends('layouts.master')
 
 @section('content')
-<style>
-    .leam-page-banner {
-        padding: 90px 24px 70px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        border-bottom: 1px solid var(--border);
-    }
-    .leam-page-banner::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(57,211,83,0.10) 0%, transparent 70%);
-        pointer-events: none;
-    }
-    .leam-page-banner h1 {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: clamp(48px, 7vw, 84px);
-        letter-spacing: 2px;
-        line-height: 1;
-        margin: 0;
-        position: relative;
-        z-index: 1;
-        color: #fff;
-    }
-    .leam-page-banner p {
-        position: relative;
-        z-index: 1;
-        max-width: 600px;
-        margin: 18px auto 0;
-        color: var(--muted);
-        font-size: 16px;
-        font-weight: 300;
-    }
-    .leam-page-banner .crumbs {
-        position: relative;
-        z-index: 1;
-        margin-top: 14px;
-        font-size: 13px;
-        color: var(--muted);
-        letter-spacing: 1px;
-        text-transform: uppercase;
-    }
-    .leam-page-banner .crumbs a { color: var(--muted); text-decoration: none; }
+@php
+    $topics = [
+        ['i-help',    'Frequently asked',     'Quick answers about engagements, pricing and timelines.',        url('faq')],
+        ['i-grid',    'Services & categories', 'Every service we offer, organised by category.',                url('services')],
+        ['i-chat',    'Talk to sales',        'Start a project, get a quote or book a discovery call.',          url('contact-us')],
+        ['i-book',    'Articles & guides',    'Engineering, AI and growth lessons from our team.',               url('blog')],
+        ['i-lock',    'Privacy & data',       'How we handle your data and our security commitments.',           url('privacy-policy')],
+        ['i-file',    'Terms of service',     'Our services agreement and website usage terms.',                 url('terms-condition')],
+    ];
+@endphp
 
-    .leam-help-search {
-        max-width: 580px;
-        margin: 28px auto 0;
-        position: relative;
-        z-index: 1;
-    }
-    .leam-help-search input {
-        width: 100%;
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 14px 18px 14px 48px;
-        color: #fff;
-        font-size: 14px;
-        font-family: 'Barlow', sans-serif;
-        outline: none;
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(255,255,255,0.5)' stroke-width='2'><circle cx='11' cy='11' r='7'/><path stroke-linecap='round' d='M21 21l-4.3-4.3'/></svg>");
-        background-repeat: no-repeat;
-        background-position: 16px center;
-        background-size: 18px;
-        transition: border-color .2s;
-    }
-    .leam-help-search input:focus { border-color: rgba(0,180,255,0.4); background-color: rgba(0,180,255,0.04); }
-
-    .leam-help-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 18px;
-    }
-    .leam-help-card {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 28px;
-        text-decoration: none;
-        color: inherit;
-        display: block;
-        transition: all .25s;
-        position: relative;
-        overflow: hidden;
-    }
-    .leam-help-card:hover {
-        border-color: rgba(0,180,255,0.3);
-        transform: translateY(-4px);
-        text-decoration: none;
-        color: inherit;
-    }
-    .leam-help-card::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: var(--rainbow);
-        background-size: 200%;
-        animation: shift 4s linear infinite;
-        opacity: 0;
-        transition: opacity .25s;
-    }
-    .leam-help-card:hover::after { opacity: 1; }
-    .leam-help-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-        background: rgba(0,180,255,0.1);
-        color: #00b4ff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-        margin-bottom: 16px;
-    }
-    .leam-help-card h3 {
-        font-family: 'Barlow Condensed', sans-serif;
-        font-size: 18px;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        color: #fff;
-        margin-bottom: 8px;
-    }
-    .leam-help-card p {
-        font-size: 13.5px;
-        color: var(--muted);
-        line-height: 1.6;
-        margin: 0;
-    }
-
-    .leam-contact-block {
-        background: var(--dark);
-        border-top: 1px solid var(--border);
-        padding: 70px 24px;
-        text-align: center;
-    }
-    .leam-contact-channels {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 16px;
-        max-width: 900px;
-        margin: 36px auto 0;
-    }
-    .leam-channel {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 24px;
-        text-decoration: none;
-        color: inherit;
-        transition: all .25s;
-        display: block;
-    }
-    .leam-channel:hover { border-color: rgba(0,180,255,0.3); text-decoration:none; color:inherit; transform: translateY(-3px); }
-    .leam-channel-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
-        background: rgba(0,180,255,0.08);
-        color: #00b4ff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 18px;
-        margin-bottom: 12px;
-    }
-    .leam-channel h4 { font-size: 14px; color: #fff; font-weight: 600; margin-bottom: 4px; }
-    .leam-channel p { font-size: 13px; color: var(--muted); margin: 0; }
-</style>
-
-<!-- BANNER -->
-<section class="leam-page-banner">
-    <h1>How can we <span class="rainbow-text">help</span>?</h1>
-    <p>Browse common topics below or reach out directly — we typically respond within one business day.</p>
-    <div class="crumbs"><a href="{{ url('/') }}">Home</a> &nbsp;›&nbsp; Help Center</div>
-    <div class="leam-help-search">
-        <input type="text" placeholder="Search help articles…">
-    </div>
-</section>
-
-<!-- HELP TOPICS -->
-<section class="leam-section">
-    <div class="leam-container">
-        <div class="leam-section-head" style="text-align:left; margin-bottom:32px;">
-            <div class="leam-section-label">Popular topics</div>
-            <h2 class="leam-section-title">Browse <span class="rainbow-text">resources</span></h2>
-        </div>
-        <div class="leam-help-grid">
-            <a href="{{ url('faq') }}" class="leam-help-card">
-                <div class="leam-help-icon">❓</div>
-                <h3>Frequently Asked</h3>
-                <p>Quick answers to the most common questions about engagements, pricing, and timelines.</p>
-            </a>
-            <a href="{{ url('services') }}" class="leam-help-card">
-                <div class="leam-help-icon">🛠️</div>
-                <h3>Services & Categories</h3>
-                <p>See every service we offer organised by category and subcategory.</p>
-            </a>
-            <a href="{{ url('contact-us') }}" class="leam-help-card">
-                <div class="leam-help-icon">💬</div>
-                <h3>Talk to Sales</h3>
-                <p>Start a new project, get a quote, or schedule a discovery call with our team.</p>
-            </a>
-            <a href="{{ url('blog') }}" class="leam-help-card">
-                <div class="leam-help-icon">📚</div>
-                <h3>Articles & Guides</h3>
-                <p>Long-form pieces on engineering, AI, growth, and what we've learned shipping.</p>
-            </a>
-            <a href="{{ url('privacy-policy') }}" class="leam-help-card">
-                <div class="leam-help-icon">🔒</div>
-                <h3>Privacy & Data</h3>
-                <p>How we handle your data, GDPR compliance, and our security commitments.</p>
-            </a>
-            <a href="{{ url('terms-condition') }}" class="leam-help-card">
-                <div class="leam-help-icon">📜</div>
-                <h3>Terms of Service</h3>
-                <p>Master services agreement and platform usage terms.</p>
-            </a>
+<section class="phero">
+    <div class="hero__guides" aria-hidden="true"><div></div></div>
+    <div class="container">
+        @include('frontend.partials.crumbs', ['trail' => ['Home' => url('/'), 'Help center' => null]])
+        <h1>How can we <span class="dim">help?</span></h1>
+        <p class="lead">Browse common topics below or reach out directly — we typically respond within one business day.</p>
+        <div class="hsearch">
+            <svg aria-hidden="true"><use href="#i-search"/></svg>
+            <label class="sr-only" for="help-q">Search help topics</label>
+            <input id="help-q" type="search" placeholder="Search help topics…" autocomplete="off">
         </div>
     </div>
 </section>
 
-<!-- CONTACT -->
-<section class="leam-contact-block">
-    <div class="leam-container">
-        <div class="leam-section-label">Still stuck?</div>
-        <h2 class="leam-section-title" style="margin-bottom:14px;">Get in <span class="rainbow-text">touch</span> directly</h2>
-        <p style="color:var(--muted); max-width:520px; margin: 0 auto; font-weight:300;">A human will reply — no chatbots, no ticket auto-responders.</p>
-        <div class="leam-contact-channels">
+<section class="section--tight">
+    <div class="container">
+        <h2 class="sr-only">Help topics</h2>
+        <div class="tiles" id="help-topics">
+            @foreach($topics as [$icon, $title, $desc, $href])
+                <a href="{{ $href }}" class="tile rv">
+                    <span class="cell__ico"><svg class="icon"><use href="#{{ $icon }}"/></svg></span>
+                    <h3>{{ $title }}</h3>
+                    <p>{{ $desc }}</p>
+                    <span class="tlink">Open <svg class="icon"><use href="#i-arrow"/></svg></span>
+                </a>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<section class="section section--soft">
+    <div class="container">
+        <div class="sec-head rv">
+            <div>
+                <span class="label">Still stuck?</span>
+                <h2 class="h2">Get in touch directly. <span class="dim">A human will reply.</span></h2>
+            </div>
+        </div>
+        <div class="tiles tiles--4 rv">
             @if(!empty($genSetting['email']))
-            <a href="mailto:{{ $genSetting['email'] }}" class="leam-channel">
-                <div class="leam-channel-icon">✉️</div>
-                <h4>Email</h4>
-                <p>{{ $genSetting['email'] }}</p>
-            </a>
+                <a href="mailto:{{ $genSetting['email'] }}" class="tile"><span class="cell__ico"><svg class="icon"><use href="#i-mail"/></svg></span><h3>Email</h3><p>{{ $genSetting['email'] }}</p></a>
             @endif
             @if(!empty($genSetting['phone']))
-            <a href="tel:{{ $genSetting['phone'] }}" class="leam-channel">
-                <div class="leam-channel-icon">📞</div>
-                <h4>Phone</h4>
-                <p>{{ $genSetting['phone'] }}</p>
-            </a>
+                <a href="tel:{{ $genSetting['phone'] }}" class="tile"><span class="cell__ico"><svg class="icon"><use href="#i-phone"/></svg></span><h3>Phone</h3><p>{{ $genSetting['phone'] }}</p></a>
+                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $genSetting['phone']) }}" target="_blank" rel="noopener" class="tile"><span class="cell__ico"><svg class="icon"><use href="#i-wa"/></svg></span><h3>WhatsApp</h3><p>Quick chat, 9am – 7pm IST</p></a>
             @endif
-            <a href="{{ url('contact-us') }}" class="leam-channel">
-                <div class="leam-channel-icon">📝</div>
-                <h4>Contact Form</h4>
-                <p>Send us a project brief</p>
-            </a>
-            <a href="https://wa.me/97450434870" target="_blank" class="leam-channel">
-                <div class="leam-channel-icon">💬</div>
-                <h4>WhatsApp</h4>
-                <p>Quick chat 9 – 7 IST</p>
-            </a>
+            <a href="{{ url('contact-us') }}" class="tile"><span class="cell__ico"><svg class="icon"><use href="#i-file"/></svg></span><h3>Contact form</h3><p>Send us a project brief</p></a>
         </div>
     </div>
 </section>
 
+@push('scripts')
+<script nonce="{{ \Illuminate\Support\Facades\Vite::cspNonce() }}">
+    (function () {
+        var q = document.getElementById('help-q');
+        var tiles = document.querySelectorAll('#help-topics .tile');
+        if (!q) return;
+        q.addEventListener('input', function () {
+            var term = q.value.trim().toLowerCase();
+            tiles.forEach(function (t) {
+                t.style.display = !term || t.textContent.toLowerCase().indexOf(term) !== -1 ? '' : 'none';
+            });
+        });
+    })();
+</script>
+@endpush
 @endsection

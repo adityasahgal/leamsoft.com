@@ -223,7 +223,7 @@ class BlogController extends Controller
             if (file_exists('storage/' . $res->banner) && !empty($res->banner)) {
                 unlink('storage/' . $res->banner);
             }
-            Blog::where('id', $request->id)->delete();
+            Blog::where('id', $request->id)->get()->each->delete(); // per-model so cache-flush events fire
             $data = [
                 'status' => 'success',
                 'message' => 'Your Record has been deleted'

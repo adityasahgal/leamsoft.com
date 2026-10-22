@@ -1,440 +1,98 @@
+{{-- Services listing (route: /services) --}}
 @extends('layouts.master')
+
 @section('content')
-<style>
-    .leam-page-banner {
-        padding: 90px 24px 70px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        border-bottom: 1px solid var(--border);
-    }
-    .leam-page-banner::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(0,180,255,0.12) 0%, transparent 70%),
-                    radial-gradient(ellipse 40% 40% at 30% 100%, rgba(168,85,247,0.08) 0%, transparent 70%);
-        pointer-events: none;
-    }
-    .leam-page-banner h1 {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: clamp(48px, 7vw, 84px);
-        letter-spacing: 2px;
-        line-height: 1;
-        margin: 0;
-        position: relative;
-        z-index: 1;
-        color: #fff;
-    }
-    .leam-page-banner p {
-        position: relative;
-        z-index: 1;
-        max-width: 580px;
-        margin: 18px auto 0;
-        color: var(--muted);
-        font-size: 16px;
-        font-weight: 300;
-    }
-    .leam-page-banner .crumbs {
-        position: relative;
-        z-index: 1;
-        margin-top: 14px;
-        font-size: 13px;
-        color: var(--muted);
-        letter-spacing: 1px;
-        text-transform: uppercase;
-    }
-    .leam-page-banner .crumbs a { color: var(--muted); text-decoration: none; }
-    .leam-page-banner .crumbs a:hover { color: #fff; }
+@php
+    $Ui = \App\Support\Ui::class;
 
-    /* Category block */
-    .leam-cat-block {
-        margin-bottom: 70px;
-        scroll-margin-top: 90px;
-    }
-    .leam-cat-block:last-child { margin-bottom: 0; }
-    .leam-cat-head {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        margin-bottom: 30px;
-        padding-bottom: 22px;
-        border-bottom: 1px solid var(--border);
-    }
-    .leam-cat-icon {
-        width: 64px;
-        height: 64px;
-        border-radius: 16px;
-        background: var(--card);
-        border: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 30px;
-        flex-shrink: 0;
-        position: relative;
-    }
-    /* The image is rounded rather than clipped by the parent, so the ::before rainbow ring stays visible. */
-    .leam-cat-icon img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: inherit;
-    }
-    .leam-cat-icon::before {
-        content: '';
-        position: absolute;
-        inset: -1px;
-        border-radius: 17px;
-        background: var(--rainbow);
-        background-size: 200%;
-        animation: shift 4s linear infinite;
-        z-index: -1;
-        opacity: 0.5;
-    }
-    .leam-cat-head-text { flex: 1; }
-    .leam-cat-head h2 {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: clamp(28px, 4vw, 40px);
-        letter-spacing: 1.5px;
-        line-height: 1;
-        margin-bottom: 8px;
-        color: #fff;
-    }
-    .leam-cat-head p { font-size: 14px; color: var(--muted); margin: 0; max-width: 600px; }
-    .leam-cat-head-cta {
-        flex-shrink: 0;
-    }
+    $staticServices = [
+        ['Software Development', 'Web, mobile and enterprise software engineered for scale.', ['Web application development', 'Mobile apps (iOS & Android)', 'CRM & ERP systems', 'SaaS product development', 'API development & integrations', 'UI / UX design']],
+        ['AI & Machine Learning', 'Custom models, LLM integrations and intelligent automation.', ['LLM apps & AI agents', 'Computer vision', 'Predictive analytics', 'Chatbots & assistants']],
+        ['Cloud Solutions', 'Migration, architecture and DevOps across AWS, Azure and GCP.', ['Cloud migration', 'DevOps & CI/CD', 'Kubernetes & containers', 'Monitoring & cost optimisation']],
+        ['Cyber Security', 'Protect your applications, data and infrastructure.', ['Penetration testing', 'Security audits', 'Compliance readiness', 'Managed security']],
+        ['Digital Marketing', 'Growth marketing tied to pipeline, not vanity metrics.', ['SEO', 'Performance marketing', 'Social media', 'Content marketing']],
+        ['IT Consulting', 'Strategy, transformation and dedicated teams.', ['Technology strategy', 'Digital transformation', 'Dedicated teams', 'Architecture reviews']],
+    ];
+@endphp
 
-    .leam-sub-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 16px;
-    }
-    .leam-sub-card {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        text-decoration: none;
-        color: inherit;
-        display: flex;
-        flex-direction: column;
-        transition: all .25s;
-        position: relative;
-        overflow: hidden;
-    }
-    .leam-sub-card:hover {
-        border-color: rgba(0,180,255,0.3);
-        background: var(--card2);
-        transform: translateY(-3px);
-        text-decoration: none;
-        color: inherit;
-    }
-    .leam-sub-card::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: var(--rainbow);
-        background-size: 200%;
-        animation: shift 4s linear infinite;
-        opacity: 0;
-        transition: opacity .25s;
-    }
-    .leam-sub-card:hover::after { opacity: 1; }
-    .leam-sub-thumb {
-        height: 150px;
-        background: rgba(255,255,255,0.05);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 44px;
-        overflow: hidden;
-        flex-shrink: 0;
-    }
-    .leam-sub-thumb img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform .3s;
-    }
-    .leam-sub-card:hover .leam-sub-thumb img { transform: scale(1.05); }
-    .leam-sub-body { flex: 1; min-width: 0; padding: 20px 22px 22px; }
-
-    /* Static fallback list (renders only when no categories exist yet) */
-    .leam-sub-chip {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 18px 20px;
-        color: inherit;
-        display: flex;
-        gap: 12px;
-        align-items: center;
-    }
-    .leam-sub-chip .dot { color: #00b4ff; }
-    .leam-sub-chip h4 {
-        font-family: 'Barlow Condensed', sans-serif;
-        font-size: 16px;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-        margin: 0;
-        text-transform: uppercase;
-        color: #fff;
-    }
-    .leam-sub-body h4 {
-        font-family: 'Barlow Condensed', sans-serif;
-        font-size: 16px;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-        margin-bottom: 6px;
-        text-transform: uppercase;
-        color: #fff;
-    }
-    .leam-sub-body p {
-        font-size: 13px;
-        color: var(--muted);
-        line-height: 1.55;
-        margin: 0;
-    }
-    .leam-sub-link {
-        font-size: 11.5px;
-        color: #00b4ff;
-        margin-top: 10px;
-        display: inline-block;
-        letter-spacing: 0.5px;
-    }
-
-    /* Sticky category nav */
-    .leam-cat-nav {
-        position: sticky;
-        top: 71px;
-        z-index: 100;
-        background: rgba(10,10,10,0.92);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--border);
-        padding: 14px 24px;
-        overflow-x: auto;
-    }
-    .leam-cat-nav-inner {
-        max-width: 1280px;
-        margin: 0 auto;
-        display: flex;
-        gap: 6px;
-        flex-wrap: nowrap;
-        white-space: nowrap;
-    }
-    .leam-cat-nav a {
-        font-size: 12.5px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        padding: 8px 14px;
-        border-radius: 8px;
-        color: var(--muted);
-        text-decoration: none;
-        transition: all .2s;
-        font-family: 'Barlow Condensed', sans-serif;
-        text-transform: uppercase;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-    }
-    .leam-cat-nav a:hover { background: rgba(255,255,255,0.05); color: #fff; text-decoration: none; }
-
-    .leam-empty {
-        text-align: center;
-        padding: 80px 20px;
-        color: var(--muted);
-    }
-    .leam-empty h3 {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 32px;
-        letter-spacing: 1px;
-        color: #fff;
-        margin-bottom: 10px;
-    }
-
-    @media (max-width: 700px) {
-        .leam-cat-head { flex-direction: column; align-items: flex-start; gap: 14px; }
-        .leam-cat-icon { width: 52px; height: 52px; font-size: 24px; }
-    }
-</style>
-
-<!-- BANNER -->
-<section class="leam-page-banner">
-    <h1>Our <span class="rainbow-text">Services</span></h1>
-    <p>AI-powered software, blockchain platforms, cloud infrastructure, enterprise web, CRM/ERP, and SaaS products — built end-to-end by Leamsoft.</p>
-    <div class="crumbs"><a href="{{ url('/') }}">Home</a> &nbsp;›&nbsp; Services</div>
-</section>
-
-@if($categories->count() > 0)
-<!-- CATEGORY QUICK NAV -->
-<div class="leam-cat-nav">
-    <div class="leam-cat-nav-inner">
-        @foreach($categories as $cat)
-            <a href="#cat-{{ $cat->slug }}">{{ $cat->icon }} {{ $cat->name }}</a>
-        @endforeach
-    </div>
-</div>
-
-<!-- CATEGORIES -->
-<section class="leam-section">
-    <div class="leam-container">
-        @foreach($categories as $cat)
-            <div class="leam-cat-block" id="cat-{{ $cat->slug }}">
-                <div class="leam-cat-head">
-                    <div class="leam-cat-icon">
-                        @if($cat->thumb_url)
-                            <img src="{{ $cat->thumb_url }}" alt="{{ $cat->image_alt ?? $cat->name }}" loading="lazy">
-                        @else
-                            {{ $cat->icon ?? '🔧' }}
-                        @endif
-                    </div>
-                    <div class="leam-cat-head-text">
-                        <h2>{{ $cat->name }}</h2>
-                        <p>{{ $cat->short_description }}</p>
-                    </div>
-                    <div class="leam-cat-head-cta">
-                        <a href="{{ url($cat->slug) }}" class="leam-btn leam-btn-ghost" style="padding:10px 20px; font-size:13px;">View Category →</a>
-                    </div>
-                </div>
-
-                @if($cat->subcategories->count() > 0)
-                    <div class="leam-sub-grid">
-                        @foreach($cat->subcategories as $sub)
-                            <a href="{{ url($sub->slug) }}" class="leam-sub-card">
-                                <div class="leam-sub-thumb">
-                                    @if($sub->thumb_url)
-                                        <img src="{{ $sub->thumb_url }}" alt="{{ $sub->image_alt ?? $sub->name }}" loading="lazy">
-                                    @else
-                                        {{ $sub->icon ?? '•' }}
-                                    @endif
-                                </div>
-                                <div class="leam-sub-body">
-                                    <h4>{{ $sub->name }}</h4>
-                                    <p>{{ \Illuminate\Support\Str::limit($sub->short_description, 90) }}</p>
-                                    <span class="leam-sub-link">EXPLORE →</span>
-                                </div>
-                            </a>
-                        @endforeach
-                    </div>
-                @elseif($cat->services->count() > 0)
-                    <div class="leam-sub-grid">
-                        @foreach($cat->services->take(6) as $service)
-                            <a href="{{ url($service->slug) }}" class="leam-sub-card">
-                                <div class="leam-sub-thumb">
-                                    @if($service->thumb_url)
-                                        <img src="{{ $service->thumb_url }}" alt="{{ $service->image_alt ?? $service->name }}" loading="lazy">
-                                    @else
-                                        {{ $service->icon ?? '•' }}
-                                    @endif
-                                </div>
-                                <div class="leam-sub-body">
-                                    <h4>{{ $service->name }}</h4>
-                                    <p>{{ \Illuminate\Support\Str::limit(strip_tags($service->short_description ?? ''), 90) }}</p>
-                                    <span class="leam-sub-link">VIEW SERVICE →</span>
-                                </div>
-                            </a>
-                        @endforeach
-                    </div>
-                @endif
-            </div>
-        @endforeach
+<section class="phero">
+    <div class="hero__guides" aria-hidden="true"><div></div></div>
+    <div class="container">
+        @include('frontend.partials.crumbs', ['trail' => ['Home' => url('/'), 'Services' => null]])
+        <h1>Everything you need to build, <span class="dim">run and grow software.</span></h1>
+        <p class="lead">Software, AI, cloud, security and growth — delivered by one senior team for businesses across Noida, Delhi, Ghaziabad and India.</p>
+        <div class="phero__cta">
+            <a href="{{ url('contact-us') }}" class="btn btn--primary">Talk to our team <svg class="icon arr"><use href="#i-arrow"/></svg></a>
+            <a href="{{ url('gallery') }}" class="btn btn--ghost">See our work</a>
+        </div>
     </div>
 </section>
-@else
-<!-- STATIC SERVICE BLOCKS (master content fallback) -->
-<section class="leam-section">
-    <div class="leam-container">
-        @php
-            $staticServices = [
-                [
-                    'icon' => '🤖',
-                    'name' => 'AI-Powered Software Development',
-                    'desc' => 'Intelligent software solutions that automate workflows, reduce manual operations, and improve business efficiency.',
-                    'items' => ['AI Workflow Automation','AI Chat Systems','AI Business Tools','Data Automation Systems','AI Dashboard Integrations','Intelligent CRM Solutions','Business Analytics Systems'],
-                ],
-                [
-                    'icon' => '💻',
-                    'name' => 'Web Design &amp; Development',
-                    'desc' => 'Modern, responsive, high-performance websites and enterprise-grade web applications.',
-                    'items' => ['Corporate Websites','Business Websites','Custom Web Applications','Admin Panels','Landing Pages','Enterprise Portals','Dashboard Systems','Progressive Web Apps'],
-                ],
-                [
-                    'icon' => '⛓️',
-                    'name' => 'Blockchain Development',
-                    'desc' => 'Secure and scalable blockchain applications for modern digital ecosystems.',
-                    'items' => ['Smart Contract Development','Web3 Applications','Crypto Platforms','NFT Platforms','Decentralized Applications (DApps)','Blockchain Wallet Integration','Token Development','Blockchain APIs','Web3 Dashboards'],
-                ],
-                [
-                    'icon' => '☁️',
-                    'name' => 'Cloud Solutions &amp; DevOps',
-                    'desc' => 'Deploy, scale, secure, and automate infrastructure using modern cloud technologies.',
-                    'items' => ['CI/CD Pipeline Setup','Server Management','Docker Deployment','Kubernetes Infrastructure','AWS Cloud Solutions','DigitalOcean Setup','VPS Configuration','NGINX Optimization','Load Balancing','Monitoring &amp; Logging','Infrastructure Automation'],
-                ],
-                [
-                    'icon' => '🗂️',
-                    'name' => 'CRM &amp; ERP Development',
-                    'desc' => 'Custom business management systems designed to streamline operations and improve productivity.',
-                    'items' => ['Employee Management','Customer Management','Lead Tracking','Sales Automation','Billing Systems','Inventory Management','Workflow Automation','Reporting Dashboards'],
-                ],
-                [
-                    'icon' => '🚀',
-                    'name' => 'SaaS Development',
-                    'desc' => 'Transform startup ideas into scalable SaaS products with end-to-end engineering.',
-                    'items' => ['Multi-Tenant Applications','Subscription Systems','User Management','API Integrations','Billing Systems','SaaS Dashboards','Cloud Hosting','Product Scaling'],
-                ],
-                [
-                    'icon' => '🔌',
-                    'name' => 'API Development &amp; Integrations',
-                    'desc' => 'Secure and scalable APIs for modern software ecosystems.',
-                    'items' => ['Payment Gateway Integration','Email Infrastructure','WhatsApp APIs','Third-Party APIs','SMS APIs','CRM Integrations','Cloud APIs','AI APIs'],
-                ],
-                [
-                    'icon' => '🎨',
-                    'name' => 'UI / UX Design',
-                    'desc' => 'Modern user-focused interfaces designed for better engagement and conversions.',
-                    'items' => ['UI Design','UX Research','Wireframing','Dashboard Design','SaaS UI Systems','Mobile Responsive Design'],
-                ],
-            ];
-        @endphp
 
-        @foreach($staticServices as $svc)
-            <div class="leam-cat-block">
-                <div class="leam-cat-head">
-                    <div class="leam-cat-icon">{{ $svc['icon'] }}</div>
-                    <div class="leam-cat-head-text">
-                        <h2>{!! $svc['name'] !!}</h2>
-                        <p>{{ $svc['desc'] }}</p>
-                    </div>
-                    <div class="leam-cat-head-cta">
-                        <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-ghost" style="padding:10px 20px; font-size:13px;">Get Quote →</a>
-                    </div>
-                </div>
-                <div class="leam-sub-grid">
-                    @foreach($svc['items'] as $item)
-                        <div class="leam-sub-chip">
-                            <span class="dot">•</span>
-                            <h4>{!! $item !!}</h4>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        @endforeach
-    </div>
-</section>
+@if($categories->count() > 1)
+    <nav class="jump" aria-label="Service categories">
+        <div class="container">
+            @foreach($categories as $cat)
+                <a href="#cat-{{ $cat->slug }}">{{ $cat->name }}</a>
+            @endforeach
+        </div>
+    </nav>
 @endif
 
-<!-- CTA -->
-<section style="background: var(--dark); padding: 80px 24px;">
-    <div style="max-width:900px; margin:0 auto; background: var(--card); border-radius:24px; padding: 56px 44px; text-align:center; position:relative; border: 1px solid rgba(255,255,255,0.06); overflow:hidden;">
-        <div style="position:absolute; inset:-2px; border-radius:26px; background: var(--rainbow); background-size:200%; animation: shift 4s linear infinite; z-index:-1; opacity:0.22;"></div>
-        <h2 style="font-family:'Bebas Neue'; font-size: clamp(32px, 5vw, 52px); letter-spacing:2px; margin-bottom:14px; color:#fff;">Don't see what you need?</h2>
-        <p style="color:var(--muted); margin-bottom:28px; font-weight:300; font-size:16px;">We build custom solutions across the technology spectrum. Tell us about your challenge.</p>
-        <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-lg leam-btn-primary">Talk to Our Team ↗</a>
+<section class="section" style="padding-top:88px">
+    <div class="container">
+        @if($categories->count() > 0)
+            @foreach($categories as $cat)
+                <div class="catb" id="cat-{{ $cat->slug }}">
+                    <div class="catb__head rv">
+                        <span class="cell__ico"><svg class="icon"><use href="#{{ $Ui::icon($cat->name) }}"/></svg></span>
+                        <h2>{{ $cat->name }}</h2>
+                        <p>{{ $Ui::excerpt($cat->short_description, 220) }}</p>
+                        <a href="{{ url($cat->slug) }}" class="btn btn--ghost btn--sm">View {{ $cat->name }} <svg class="icon arr"><use href="#i-arrow"/></svg></a>
+                    </div>
+
+                    @php
+                        $children = $cat->subcategories->count()
+                            ? $cat->subcategories
+                            : $cat->services->take(8);
+                    @endphp
+                    @if($children->count())
+                        <div class="sublist rv">
+                            @foreach($children as $child)
+                                <a href="{{ url($child->slug) }}">
+                                    <svg class="icon"><use href="#i-chev-r"/></svg>
+                                    <span>
+                                        <strong>{{ $child->name }}</strong>
+                                        <span>{{ $Ui::excerpt($child->short_description, 90) }}</span>
+                                    </span>
+                                </a>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+            @endforeach
+        @else
+            @foreach($staticServices as $i => [$name, $desc, $items])
+                <div class="catb">
+                    <div class="catb__head rv">
+                        <span class="cell__ico"><svg class="icon"><use href="#{{ $Ui::icon($name) }}"/></svg></span>
+                        <h2>{{ $name }}</h2>
+                        <p>{{ $desc }}</p>
+                        <a href="{{ url('contact-us') }}" class="btn btn--ghost btn--sm">Get a quote <svg class="icon arr"><use href="#i-arrow"/></svg></a>
+                    </div>
+                    <div class="sublist rv">
+                        @foreach($items as $item)
+                            <a href="{{ url('contact-us') }}"><svg class="icon"><use href="#i-chev-r"/></svg><span><strong>{{ $item }}</strong></span></a>
+                        @endforeach
+                    </div>
+                </div>
+            @endforeach
+        @endif
     </div>
 </section>
 
+@include('frontend.partials.cta', [
+    'ctaTitle'     => 'Not sure which service fits? <span style="color:var(--faint)">Ask an engineer.</span>',
+    'ctaText'      => 'Book a free 30-minute consultation and we’ll help you scope the right solution.',
+    'ctaSecondary' => ['Read the FAQ' => url('faq')],
+])
 @endsection

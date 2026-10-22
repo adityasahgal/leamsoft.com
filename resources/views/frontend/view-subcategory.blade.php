@@ -1,269 +1,94 @@
 @extends('layouts.master')
 
-
 @section('content')
-<style>
-    .leam-sub-hero {
-        padding: 80px 24px 60px;
-        position: relative;
-        overflow: hidden;
-        border-bottom: 1px solid var(--border);
+@php
+    $Ui = \App\Support\Ui::class;
+    $trail = ['Home' => url('/'), 'Services' => url('services')];
+    if ($categories) {
+        $trail[$categories->name] = url($categories->slug);
     }
-    .leam-sub-hero::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(0,180,255,0.10) 0%, transparent 70%);
-        pointer-events: none;
-    }
-    .leam-sub-hero-inner {
-        max-width: 1280px;
-        margin: 0 auto;
-        position: relative;
-        z-index: 1;
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 40px;
-        align-items: center;
-    }
-    .leam-sub-hero .meta {
-        font-size: 12px;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        color: var(--muted);
-        margin-bottom: 14px;
-    }
-    .leam-sub-hero .meta a { color: var(--muted); text-decoration: none; }
-    .leam-sub-hero .meta a:hover { color: #fff; }
-    .leam-sub-hero h1 {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: clamp(40px, 6vw, 68px);
-        letter-spacing: 2px;
-        line-height: 1;
-        margin: 0 0 16px;
-        color: #fff;
-    }
-    .leam-sub-hero .icon-big {
-        width: clamp(240px, 30vw, 360px);
-        height: clamp(240px, 30vw, 360px);
-        border-radius: 32px;
-        background: var(--card);
-        border: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: clamp(110px, 14vw, 160px);
-        position: relative;
-    }
-    .leam-sub-hero .icon-big::before {
-        content: '';
-        position: absolute;
-        inset: -2px;
-        border-radius: 34px;
-        background: var(--rainbow);
-        background-size: 300%;
-        animation: shift 5s linear infinite;
-        z-index: -1;
-        opacity: 0.5;
-    }
-    /* The image is rounded rather than clipped by the parent, so the ::before rainbow ring stays visible. */
-    .leam-sub-hero .icon-big img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: inherit;
-    }
-    .leam-sub-hero p {
-        font-size: 16px;
-        color: var(--muted);
-        max-width: 600px;
-        margin: 0 0 28px;
-        line-height: 1.7;
-        font-weight: 300;
-    }
+    $trail[$subcategory->name] = null;
+    $fallbackIcon = $Ui::icon($subcategory->name, $Ui::icon(optional($categories)->name));
+@endphp
 
-    @media (max-width: 800px) {
-        .leam-sub-hero-inner { grid-template-columns: 1fr; }
-        .leam-sub-hero .icon-big { width: 100%; max-width: 320px; height: 240px; font-size: 80px; border-radius: 24px; }
-    }
-
-    .leam-service-card-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 22px;
-    }
-    .leam-service-tile {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        overflow: hidden;
-        transition: all .25s;
-        text-decoration: none;
-        color: inherit;
-        display: block;
-    }
-    .leam-service-tile:hover {
-        transform: translateY(-6px);
-        border-color: rgba(0,180,255,0.25);
-        box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-        text-decoration: none;
-        color: inherit;
-    }
-    .leam-service-tile-thumb {
-        height: 200px;
-        background: linear-gradient(135deg, var(--card2) 0%, #1a1a2e 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 60px;
-        position: relative;
-        overflow: hidden;
-    }
-    .leam-service-tile-thumb img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform .3s;
-    }
-    .leam-service-tile:hover .leam-service-tile-thumb img { transform: scale(1.05); }
-    .leam-service-tile-body { padding: 22px 24px 24px; }
-    .leam-service-tile .tag {
-        font-size: 11px;
-        padding: 3px 10px;
-        border-radius: 100px;
-        background: rgba(0,180,255,0.1);
-        color: #00b4ff;
-        display: inline-block;
-        margin-bottom: 10px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-    }
-    .leam-service-tile h3 {
-        font-size: 17px;
-        font-weight: 600;
-        margin-bottom: 8px;
-        color: #fff;
-    }
-    .leam-service-tile p {
-        font-size: 13.5px;
-        color: var(--muted);
-        line-height: 1.6;
-        margin: 0 0 14px;
-    }
-    .leam-service-tile .arrow {
-        color: #00b4ff;
-        font-size: 13px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-    }
-
-    .leam-sub-desc-block {
-        padding: 70px 24px;
-        background: var(--dark);
-        border-top: 1px solid var(--border);
-    }
-    .leam-sub-desc-content {
-        max-width: 800px;
-        margin: 0 auto;
-        font-size: 16px;
-        color: var(--muted);
-        line-height: 1.8;
-        font-weight: 300;
-    }
-    .leam-sub-desc-content h2, .leam-sub-desc-content h3, .leam-sub-desc-content h4 {
-        color: #fff;
-        font-family: 'Bebas Neue', sans-serif;
-        letter-spacing: 1px;
-        margin-top: 32px;
-        margin-bottom: 14px;
-    }
-    .leam-sub-desc-content h2 { font-size: 32px; }
-    .leam-sub-desc-content h3 { font-size: 24px; }
-    .leam-sub-desc-content h4 { font-size: 20px; }
-    .leam-sub-desc-content p { margin: 0 0 16px; }
-    .leam-sub-desc-content ul, .leam-sub-desc-content ol { padding-left: 22px; margin: 14px 0; }
-    .leam-sub-desc-content li { margin-bottom: 8px; }
-    .leam-sub-desc-content strong, .leam-sub-desc-content b { color: #fff; font-weight: 600; }
-    .leam-sub-desc-content a { color: #00b4ff; }
-    .leam-sub-desc-content img { max-width: 100%; height: auto; border-radius: 12px; margin: 14px 0; }
-    .leam-sub-desc-content table { width: 100%; border-collapse: collapse; margin: 16px 0; }
-    .leam-sub-desc-content th, .leam-sub-desc-content td { border: 1px solid var(--border); padding: 10px; text-align: left; }
-</style>
-
-<!-- SUBCATEGORY HERO -->
-<section class="leam-sub-hero">
-    <div class="leam-sub-hero-inner">
+<section class="phero">
+    <div class="hero__guides" aria-hidden="true"><div></div></div>
+    <div class="container phero__split">
         <div>
-            <div class="meta">
-                <a href="{{ url('/') }}">Home</a> &nbsp;›&nbsp;
-                <a href="{{ url('services') }}">Services</a> &nbsp;›&nbsp;
+            @include('frontend.partials.crumbs', ['trail' => $trail])
+            <h1>{!! $Ui::dimTail($subcategory->name, 1) !!}</h1>
+            @if($subcategory->short_description)
+                <p class="lead">{{ $Ui::excerpt($subcategory->short_description, 320) }}</p>
+            @endif
+            <div class="phero__cta">
+                <a href="{{ url('contact-us') }}" class="btn btn--primary">Request a quote <svg class="icon arr"><use href="#i-arrow"/></svg></a>
                 @if($categories)
-                    <a href="{{ url($categories->slug) }}">{{ $categories->name }}</a> &nbsp;›&nbsp;
+                    <a href="{{ url($categories->slug) }}" class="btn btn--ghost">More in {{ $categories->name }}</a>
                 @endif
-                <span style="color:#00b4ff;">{{ $subcategory->name }}</span>
             </div>
-            <h1>{{ $subcategory->name }}</h1>
-            <p>{{ $subcategory->short_description }}</p>
-            <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-primary">Request a Quote ↗</a>
         </div>
-        <div class="icon-big">
+        <div class="phero__media">
             @if($subcategory->thumb_url)
-                <img src="{{ $subcategory->thumb_url }}" alt="{{ $subcategory->image_alt ?? $subcategory->name }}">
+                <img src="{{ $subcategory->thumb_url }}" alt="{{ $subcategory->image_alt ?? $subcategory->name }}" fetchpriority="high" decoding="async">
             @else
-                {{ $subcategory->icon ?? '🔧' }}
+                <span class="ph"><svg class="icon"><use href="#{{ $fallbackIcon }}"/></svg></span>
             @endif
         </div>
     </div>
 </section>
 
-<!-- SERVICES UNDER THIS SUBCATEGORY -->
-@if($services->count() > 0)
-<section class="leam-section">
-    <div class="leam-container">
-        <div class="leam-section-head" style="text-align:left; margin-bottom:32px;">
-            <div class="leam-section-label">Services</div>
-            <h2 class="leam-section-title">{{ $subcategory->name }} <span class="rainbow-text">offerings</span></h2>
-        </div>
-        <div class="leam-service-card-grid">
-            @foreach($services as $service)
-                <a href="{{ url($service->slug) }}" class="leam-service-tile">
-                    <div class="leam-service-tile-thumb">
-                        @if(!empty($service->thumbnail_img))
-                            <img src="{{ url('storage/'.$service->thumbnail_img) }}" alt="{{ $service->image_alt ?? $service->name }}">
-                        @else
-                            <span class="rainbow-text" style="font-family:'Bebas Neue'; font-size:42px; letter-spacing:2px;">{{ $service->icon ?? 'SVC' }}</span>
-                        @endif
-                    </div>
-                    <div class="leam-service-tile-body">
-                        <span class="tag">{{ $subcategory->name }}</span>
-                        <h3>{{ $service->name }}</h3>
-                        <p>{{ \Illuminate\Support\Str::limit(strip_tags($service->short_description ?? ''), 110) }}</p>
-                        <span class="arrow">View details →</span>
-                    </div>
-                </a>
-            @endforeach
-        </div>
+<section class="section">
+    <div class="container">
+        @if($services->count() > 0)
+            <div class="sec-head rv">
+                <div>
+                    <span class="label">Offerings</span>
+                    <h2 class="h2">{{ $subcategory->name }} <span class="dim">services.</span></h2>
+                </div>
+            </div>
+            <div class="cards">
+                @foreach($services as $service)
+                    <a href="{{ url($service->slug) }}" class="card rv">
+                        <div class="card__media">
+                            @if($service->thumb_url)
+                                <img src="{{ $service->thumb_url }}" alt="{{ $service->image_alt ?? $service->name }}" loading="lazy" decoding="async">
+                            @else
+                                <span class="ph"><svg class="icon"><use href="#{{ $Ui::icon($service->name, $fallbackIcon) }}"/></svg></span>
+                            @endif
+                        </div>
+                        <div class="card__body">
+                            <span class="card__kicker">{{ $subcategory->name }}</span>
+                            <h3>{{ $service->name }}</h3>
+                            <p>{{ $Ui::excerpt($service->short_description, 120) }}</p>
+                            <span class="tlink">View details <svg class="icon"><use href="#i-arrow"/></svg></span>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        @else
+            <div class="empty rv">
+                <h2>Services coming soon</h2>
+                <p>We’re documenting our {{ $subcategory->name }} offerings. In the meantime, tell us what you need.</p>
+                <a href="{{ url('contact-us') }}" class="btn btn--primary">Contact us <svg class="icon arr"><use href="#i-arrow"/></svg></a>
+            </div>
+        @endif
     </div>
 </section>
-@else
-<section class="leam-section">
-    <div class="leam-container" style="text-align:center; padding: 60px 20px;">
-        <h3 style="font-family:'Bebas Neue'; font-size:28px; color:#fff;">No services listed yet</h3>
-        <p style="color:var(--muted); margin: 12px 0 24px;">We're working on it. In the meantime, reach out — we'd love to build with you.</p>
-        <a href="{{ url('contact-us') }}" class="leam-btn leam-btn-primary">Contact Us</a>
-    </div>
-</section>
-@endif
 
-<!-- DESCRIPTION -->
 @if(!empty($subcategory->description))
-<section class="leam-sub-desc-block">
-    <div class="leam-sub-desc-content">
-        <div class="leam-section-label">More about</div>
-        <h2 class="leam-section-title" style="margin-bottom:24px;">{{ $subcategory->name }} <span class="rainbow-text">in detail</span></h2>
-        {!! $subcategory->description !!}
+<section class="section section--soft">
+    <div class="container split">
+        <div class="rv">
+            <span class="label">In detail</span>
+            <h2 class="h2">{{ $subcategory->name }}, <span class="dim">explained.</span></h2>
+        </div>
+        <div class="prose rv">{!! $subcategory->description !!}</div>
     </div>
 </section>
 @endif
 
+@include('frontend.partials.cta')
+@push('schema')
+<script type="application/ld+json">{!! json_encode(\App\Support\Seo::serviceSchema($subcategory, url($subcategory->slug), optional($categories)->name), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) !!}</script>
+@endpush
 @endsection

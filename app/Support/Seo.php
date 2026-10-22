@@ -68,6 +68,16 @@ class Seo
                 strtolower($subject),
                 config('seo.brand')
             );
+        } elseif ($name !== '' && mb_strlen($desc) < 110 && $subject !== 'Articles') {
+            // A one-liner like "Image & video understanding." is too thin
+            // for a snippet; lead with the name and add who/where.
+            $lead = stripos($desc, $name) === false ? $name . ': ' . rtrim($desc, '. ') : rtrim($desc, '. ');
+            $desc = sprintf(
+                '%s. Delivered by %s for businesses in %s and across India.',
+                $lead,
+                config('seo.short_brand'),
+                self::cityPhrase()
+            );
         }
 
         // Keywords: admin list first, then generated permutations of the name
@@ -79,8 +89,29 @@ class Seo
             'description' => $desc,
             'keywords'    => self::keywords($terms, $seed),
             'type'        => 'website',
-            'image'       => !empty($row->image) ? url('storage/' . $row->image) : null,
+            'image'       => self::shareImage($row),
+            'image_alt'   => trim($row->image_alt ?? '') ?: $name,
         ], $overrides));
+    }
+
+    /**
+     * Social share image for a record: blog banner, then thumbnail. SVG is
+     * skipped -- Facebook, LinkedIn and WhatsApp don't render it -- so those
+     * records fall back to the site default image.
+     */
+    public static function shareImage($row): ?string
+    {
+        foreach (['banner', 'thumbnail_img', 'image'] as $field) {
+            $path = $row->{$field} ?? null;
+            if (empty($path) || str_ends_with(strtolower($path), '.svg')) {
+                continue;
+            }
+            if (file_exists(storage_path('app/public/' . $path))) {
+                return url('storage/' . $path);
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -223,20 +254,110 @@ class Seo
         if (!empty($setting->email)) {
             $node['email'] = $setting->email;
         }
-        if (!empty($setting->address)) {
+        $addr = config('seo.address');
+        if (!empty($addr['street'])) {
             $node['address'] = [
                 '@type'           => 'PostalAddress',
-                'streetAddress'   => $setting->address,
-                'addressLocality' => $geo['primary'][0] ?? 'Noida',
-                'addressRegion'   => 'Uttar Pradesh',
-                'addressCountry'  => 'IN',
+                'streetAddress'   => $addr['street'],
+                'addressLocality' => $addr['locality'],
+                'addressRegion'   => $addr['region'],
+                'postalCode'      => $addr['postcode'],
+                'addressCountry'  => $addr['country'],
             ];
+        } elseif (!empty($setting->address)) {
+            $node['address'] = [
+                '@type'          => 'PostalAddress',
+                'streetAddress'  => $setting->address,
+                'addressCountry' => 'IN',
+            ];
+        }
+        if (config('seo.opening_hours')) {
+            $node['openingHours'] = config('seo.opening_hours');
+        }
+        if (!empty($setting->phone) || !empty($setting->email)) {
+            $node['contactPoint'] = array_filter([
+                '@type'             => 'ContactPoint',
+                'contactType'       => 'sales',
+                'telephone'         => $setting->phone ?? null,
+                'email'             => $setting->email ?? null,
+                'areaServed'        => 'IN',
+                'availableLanguage' => ['English', 'Hindi'],
+            ]);
         }
         if ($socials) {
             $node['sameAs'] = $socials;
         }
 
         return $node;
+    }
+
+    /**
+     * WebSite node -- tells search engines the site name and publisher.
+     */
+    public static function websiteSchema(): array
+    {
+        return [
+            '@context'   => 'https://schema.org',
+            '@type'      => 'WebSite',
+            '@id'        => url('/') . '#website',
+            'url'        => url('/'),
+            'name'       => config('seo.short_brand'),
+            'alternateName' => config('seo.brand'),
+            'inLanguage' => 'en-IN',
+            'publisher'  => ['@id' => url('/') . '#organization'],
+        ];
+    }
+
+    /**
+     * BlogPosting for a single post.
+     */
+    public static function articleSchema($blog, array $meta): array
+    {
+        $url = url('blog/' . $blog->slug);
+        $image = !empty($blog->banner) ? url('storage/' . $blog->banner) : $meta['image'];
+        $words = str_word_count(strip_tags((string) $blog->description));
+
+        return [
+            '@context'         => 'https://schema.org',
+            '@type'            => 'BlogPosting',
+            '@id'              => $url . '#article',
+            'mainEntityOfPage' => $url,
+            'headline'         => self::trim($blog->name, 110),
+            'description'      => $meta['description'],
+            'image'            => [$image],
+            'datePublished'    => optional($blog->created_at)->toIso8601String(),
+            'dateModified'     => optional($blog->updated_at ?? $blog->created_at)->toIso8601String(),
+            'wordCount'        => $words,
+            'keywords'         => self::splitList($blog->keywords ?? ''),
+            'inLanguage'       => 'en-IN',
+            'author'           => ['@type' => 'Organization', 'name' => config('seo.brand'), 'url' => url('/')],
+            'publisher'        => ['@id' => url('/') . '#organization'],
+            'isPartOf'         => ['@id' => url('/') . '#website'],
+        ];
+    }
+
+    /**
+     * Service node for a category, subcategory or service page.
+     */
+    public static function serviceSchema($row, string $url, ?string $category = null): array
+    {
+        $geo = config('seo.geo');
+
+        return array_filter([
+            '@context'    => 'https://schema.org',
+            '@type'       => 'Service',
+            '@id'         => $url . '#service',
+            'name'        => $row->name,
+            'serviceType' => $category ?: $row->name,
+            'description' => self::trim(strip_tags((string) ($row->short_description ?: $row->meta_description ?? '')), 300) ?: null,
+            'url'         => $url,
+            'image'       => self::shareImage($row),
+            'provider'    => ['@id' => url('/') . '#organization'],
+            'areaServed'  => array_map(
+                fn ($c) => ['@type' => 'City', 'name' => $c],
+                array_merge($geo['primary'], $geo['secondary'])
+            ),
+        ]);
     }
 
     /**
@@ -403,13 +524,25 @@ class Seo
         $keywords = $meta['keywords'] ?? [];
         $meta['keywords'] = array_slice($keywords, 0, config('seo.keyword_max', 25));
 
-        $meta['canonical'] = $meta['canonical'] ?? url()->current();
+        // Paginated listings: page 2+ is its own canonical page, otherwise
+        // Google treats everything past page 1 as a duplicate and drops it.
+        $page = (int) request()->query('page', 1);
+        if (empty($meta['canonical'])) {
+            $meta['canonical'] = url()->current() . ($page > 1 ? '?page=' . $page : '');
+        }
+        if ($page > 1 && !str_contains($meta['title'], 'Page ' . $page)) {
+            $meta['title'] = self::trim($meta['title'], $max - 9) . ' – Page ' . $page;
+        }
+
         $meta['type']      = $meta['type'] ?? 'website';
-        $meta['robots']    = $meta['robots'] ?? 'index, follow, max-image-preview:large, max-snippet:-1';
+        $meta['robots']    = $meta['robots'] ?? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
 
         if (empty($meta['image'])) {
             $meta['image'] = url(config('seo.default_image'));
+            [$meta['image_width'], $meta['image_height']] = config('seo.default_image_size', [1200, 630]);
+            $meta['image_alt'] = $brand;
         }
+        $meta['image_alt'] = $meta['image_alt'] ?? $meta['title'];
 
         return $meta;
     }

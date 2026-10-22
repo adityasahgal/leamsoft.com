@@ -29,6 +29,7 @@ class SuperAdminSeeder extends Seeder
             }
         }
         $permissionNames[] = 'enquiry-read';
+        $permissionNames[] = 'meeting-read';
         $permissionNames[] = 'general-setting';
         $permissionNames[] = 'setting';
 

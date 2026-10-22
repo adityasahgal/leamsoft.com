@@ -1,65 +1,48 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+@section('title', 'Choose a new password')
+@section('heading')
+    Set a new password. <span class="dim">Then you’re back in.</span>
+@endsection
+@section('lead', 'Use at least 8 characters. A short phrase is easier to remember and harder to guess.')
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('password.update') }}">
-                        @csrf
+@section('form')
+    <span class="label">Password reset</span>
+    <h2>Choose a new password</h2>
+    <p class="sub">Enter your email and your new password below.</p>
 
-                        <input type="hidden" name="token" value="{{ $token }}">
+    <form class="auth__form" method="POST" action="{{ route('password.update') }}" data-loading-form novalidate>
+        @csrf
+        <input type="hidden" name="token" value="{{ $token }}">
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+        <div class="field @error('email') bad @enderror">
+            <label for="email">Email address</label>
+            <input id="email" type="email" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email"
+                   @error('email') aria-invalid="true" aria-describedby="email-err" @enderror>
+            @error('email') <div class="ferr" id="email-err">{{ $message }}</div> @enderror
+        </div>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
+        <div class="field @error('password') bad @enderror">
+            <label for="password">New password</label>
+            <div class="pw">
+                <input id="password" type="password" name="password" required autocomplete="new-password" autofocus minlength="8"
+                       @error('password') aria-invalid="true" aria-describedby="password-err" @enderror>
+                <button type="button" data-toggle-password="password" aria-label="Show password" aria-pressed="false"><svg class="icon"><use href="#i-eye"/></svg></button>
+            </div>
+            <div class="caps" data-caps-for="password" role="status">Caps Lock is on</div>
+            @error('password') <div class="ferr" id="password-err">{{ $message }}</div> @enderror
+        </div>
 
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+        <div class="field">
+            <label for="password-confirm">Confirm new password</label>
+            <div class="pw">
+                <input id="password-confirm" type="password" name="password_confirmation" required autocomplete="new-password" minlength="8">
+                <button type="button" data-toggle-password="password-confirm" aria-label="Show password" aria-pressed="false"><svg class="icon"><use href="#i-eye"/></svg></button>
             </div>
         </div>
-    </div>
-</div>
+
+        <button type="submit" class="btn btn--primary">Update password <svg class="icon arr"><use href="#i-arrow"/></svg></button>
+    </form>
+
+    <p class="auth__alt"><a href="{{ route('login') }}">Back to sign in</a></p>
 @endsection

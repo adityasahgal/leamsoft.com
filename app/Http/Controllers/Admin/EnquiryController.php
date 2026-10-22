@@ -31,7 +31,7 @@ class EnquiryController extends Controller
 
     public function show(Request $request)
     {
-        $row = Enquiry::where('id', $request->id)->first();
+        $row = Enquiry::findOrFail($request->id);
         echo '<div class="modal-header">
             <h4 class="modal-title">Enquiry Details</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -43,21 +43,21 @@ class EnquiryController extends Controller
             <tbody>
             <tr>
               <th>Date</th>
-              <td> ' . $row->created_at . '</td>
+              <td> ' . e($row->created_at) . '</td>
               <th>Name</th>
-              <td> ' . $row->name . '</td>
+              <td> ' . e($row->name) . '</td>
             </tr>
             <tr>
               <th>Email</th>
-              <td> ' . $row->email . '</td>
+              <td> ' . e($row->email) . '</td>
               <th>Phone</th>
-              <td> ' . $row->phone . '</td>
+              <td> ' . e($row->phone) . '</td>
             </tr>
             <tr>
               <th colspan="4">Message</th>
             </tr>
             <tr>
-              <td colspan="4"> ' . $row->message . '</td>
+              <td colspan="4"> ' . nl2br(e($row->message)) . '</td>
             </tr>
             </tbody>
             </table>

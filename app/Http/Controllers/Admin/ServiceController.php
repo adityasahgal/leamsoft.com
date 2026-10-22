@@ -217,7 +217,7 @@ class ServiceController extends Controller
             if (file_exists('storage/' . $res->thumbnail_img) && !empty($res->thumbnail_img)) {
                 unlink('storage/' . $res->thumbnail_img);
             }
-            Service::where('id', $request->id)->delete();
+            Service::where('id', $request->id)->get()->each->delete(); // per-model so cache-flush events fire
             $data = [
                 'status' => 'success',
                 'message' => 'Your Record has been deleted'

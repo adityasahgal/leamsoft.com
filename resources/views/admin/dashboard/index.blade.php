@@ -45,8 +45,61 @@
                 <!-- /.info-box -->
             </div>
             <!-- /.col -->
+            <div class="col-12 col-sm-6 col-md-3">
+                <a href="{{ route('meetings.index') }}" class="info-box mb-3 text-dark">
+                    <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-calendar-alt"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Upcoming meetings</span>
+                        <span class="info-box-number">{{ $meetingCounts }}</span>
+                    </div>
+                </a>
+            </div>
         </div>
         <!-- /.row -->
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">Upcoming Meetings</h3>
+                        <div class="card-tools">
+                            <a href="{{ route('meetings.index') }}" class="btn btn-sm btn-primary">View All</a>
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th>When (IST)</th>
+                                    <th>Name</th>
+                                    <th>Company</th>
+                                    <th>Phone</th>
+                                    <th>Mode</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php $mBadge = ['pending' => 'warning', 'confirmed' => 'primary', 'completed' => 'success', 'cancelled' => 'secondary']; @endphp
+                                @forelse($upcomingMeetings as $m)
+                                <tr>
+                                    <td>{{ $m->startsAt()->format('D, j M · g:i A') }}</td>
+                                    <td>{{ $m->name }}</td>
+                                    <td>{{ $m->company ?: '—' }}</td>
+                                    <td><a href="tel:{{ $m->phone }}">{{ $m->phone }}</a></td>
+                                    <td>{{ $m->mode_label }}</td>
+                                    <td><span class="badge badge-{{ $mBadge[$m->status] ?? 'secondary' }}">{{ $m->status_label }}</span></td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="6" class="text-center">No upcoming meetings.</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-12">
                 <div class="card card-primary card-outline">
