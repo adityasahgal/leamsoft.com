@@ -15,8 +15,16 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\SeoController;
+use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\Admin\MeetingController as AdminMeetingController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+// Machine-readable endpoints (built from the DB, cached)
+Route::get('sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
+Route::get('feed.xml', [SeoController::class, 'feed'])->name('feed');
+Route::get('llms.txt', [SeoController::class, 'llms'])->name('llms');
 
 Route::group(['middleware' => 'XssSanitizer'], function () {
     Route::get('/', [MainController::class, 'index'])->name('index');
@@ -26,6 +34,9 @@ Route::group(['middleware' => 'XssSanitizer'], function () {
     Route::get('/near_by', [MainController::class, 'near_by'])->name('near_by');
     Route::get('/privacy-policy', [MainController::class, 'privacy_policy']);
     Route::get('/contact-us', [MainController::class, 'contact_us']);
+    Route::get('/schedule-meeting', [MeetingController::class, 'create'])->name('meeting.create');
+    Route::post('/schedule-meeting', [MeetingController::class, 'store'])->name('meeting.store')->middleware('throttle:6,1');
+    Route::get('/schedule-meeting/confirmed', [MeetingController::class, 'thanks'])->name('meeting.thanks');
     Route::post('showEnquiryModal', [MainController::class, 'showEnquiryModal']);
     Route::post('storeEnquiry', [MainController::class, 'storeEnquiry']);
     Route::post('enquiry', [MainController::class, 'enquiry']);
@@ -45,6 +56,11 @@ Route::group(['middleware' => 'XssSanitizer'], function () {
             // Setting Routes
             Route::get('enquiry', [EnquiryController::class, 'index'])->name('enquiry.index');
             Route::post('enquiry/show', [EnquiryController::class, 'show'])->name('enquiry.show');
+
+            // Meetings booked from /schedule-meeting
+            Route::get('meetings', [AdminMeetingController::class, 'index'])->name('meetings.index');
+            Route::post('meetings/show', [AdminMeetingController::class, 'show'])->name('meetings.show');
+            Route::post('meetings/status', [AdminMeetingController::class, 'status'])->name('meetings.status');
 
             // Setting Routes
             Route::get('setting', [SettingController::class, 'index'])->name('setting.index');

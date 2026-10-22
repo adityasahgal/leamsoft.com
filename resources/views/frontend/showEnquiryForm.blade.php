@@ -1,29 +1,24 @@
-            <form action="{{ url('/storeEnquiry') }}" method="POST">
-                @csrf
-              <div class="form-group">
-                <label for="email">Product Name</label>
-                <input type="text" readonly class="form-control" name="pname" value="{{ $data->product_name }}" style="height: 36px;padding: 4px 10px;" required>
-              </div>
-               <div class="form-group">
-                <label for="email">Name</label>
-                <input type="text" class="form-control" name="name" style="height: 36px;padding: 4px 10px;background: whitesmoke;" required>
-              </div>
-               <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" name="email" style="height: 36px;padding: 4px 10px;background: whitesmoke;" required>
-              </div>
-                <div class="form-group">
-                <label for="email">Phone</label>
-                <input type="number" class="form-control" name="phone" style="height: 36px;padding: 4px 10px;background: whitesmoke;" required>
-              </div>
-                <div class="form-group">
-                <label for="email">Your Requirement</label>
-                <textarea class="form-control" style="background: whitesmoke;" name="message"></textarea>
-              </div>
-              <!--<div class="checkbox">-->
-              <!--  <label><input type="checkbox" required> Remember me</label>-->
-              <!--</div>-->
-              <div class="text-center">
-              <button type="submit" class="btn btn-info">Send Enquiry</button>
-              </div>
-            </form>
+<form class="qform" action="{{ url('/storeEnquiry') }}" method="POST">
+    @csrf
+    <div class="field">
+        <label for="m-pname">Service</label>
+        <input id="m-pname" type="text" readonly name="pname" value="{{ $data->product_name ?? $data->name ?? '' }}" required>
+    </div>
+    <div class="field">
+        <label for="m-name">Name</label>
+        <input id="m-name" type="text" name="name" autocomplete="name" required>
+    </div>
+    <div class="field">
+        <label for="m-email">Email</label>
+        <input id="m-email" type="email" name="email" autocomplete="email" required>
+    </div>
+    <div class="field">
+        <label for="m-phone">Phone</label>
+        <input id="m-phone" type="tel" name="phone" autocomplete="tel" required>
+    </div>
+    <div class="field">
+        <label for="m-msg">Message</label>
+        <textarea id="m-msg" name="message"></textarea>
+    </div>
+    <button type="submit" class="btn btn--primary">Send enquiry <svg class="icon arr"><use href="#i-arrow"/></svg></button>
+</form>

@@ -25,8 +25,20 @@ return [
     'keyword_max'     => 25,  // keep the tag from looking spammy
 
     // Default social share image, relative to public/
-    'default_image'   => env('SEO_DEFAULT_IMAGE', 'assets/images/leamsoft-og.jpg'),
+    'default_image'   => env('SEO_DEFAULT_IMAGE', 'assets/images/leamsoft-og.png'),
+    'default_image_size' => [1200, 630],
     'twitter_handle'  => env('SEO_TWITTER_HANDLE', ''),
+
+    // Registered office -- feeds the Organization / LocalBusiness schema.
+    // The free-text address from admin settings is still shown on the site.
+    'address' => [
+        'street'   => 'Royal Tower, 5, Unione Residency, Bahrampur, Vijay Nagar',
+        'locality' => 'Ghaziabad',
+        'region'   => 'Uttar Pradesh',
+        'postcode' => '201009',
+        'country'  => 'IN',
+    ],
+    'opening_hours' => 'Mo-Sa 09:00-19:00',
 
     /*
     |--------------------------------------------------------------------
@@ -146,6 +158,11 @@ return [
             'title'       => 'IT & Software Services in {cities_short}',
             'description' => 'Custom software, web and mobile development, AI/ML, cloud, DevOps, cyber security and digital marketing for clients across Noida, Delhi and Ghaziabad.',
             'terms'       => ['IT services', 'software development', 'web development', 'app development'],
+        ],
+        'meeting' => [
+            'title'       => 'Schedule a Meeting - Free Consultation',
+            'description' => 'Book a free 30-minute call with a {brand} engineer. Pick a time that suits you — Google Meet, phone or in person across Noida, Delhi and Ghaziabad.',
+            'terms'       => ['free IT consultation', 'book a meeting software company', 'software consultation Noida'],
         ],
         'contact' => [
             'title'       => 'Contact Us - Software Company in Noida',

@@ -65,6 +65,21 @@
         </li>
         @endcanany
 
+        @can('meeting-read')
+        <li class="nav-item">
+            <a href="{{ route('meetings.index') }}" class="nav-link {{ request()->routeIs('meetings.*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-calendar-alt"></i>
+                <p>
+                    Meetings
+                    @php $pendingMeetings = \App\Models\Meeting::upcoming()->where('status', 'pending')->count(); @endphp
+                    @if($pendingMeetings)
+                        <span class="badge badge-warning right">{{ $pendingMeetings }}</span>
+                    @endif
+                </p>
+            </a>
+        </li>
+        @endcan
+
         <li class="nav-item">
             <a href="{{ route('setting.index') }}" class="nav-link">
                 <i class="nav-icon fas fa-table"></i>

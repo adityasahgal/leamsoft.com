@@ -197,7 +197,7 @@ class ClientController extends Controller
             if (file_exists('storage/' . $res->logo) && !empty($res->logo)) {
                 unlink('storage/' . $res->logo);
             }
-            Client::where('id', $request->id)->delete();
+            Client::where('id', $request->id)->get()->each->delete(); // per-model so cache-flush events fire
             $data = [
                 'status' => 'success',
                 'message' => 'Your Record has been deleted'

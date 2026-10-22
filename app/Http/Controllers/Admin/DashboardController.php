@@ -26,17 +26,22 @@ class DashboardController extends Controller
         $blogCounts = Blog::count();
         $enquiryCounts = Enquiry::count();
         $latestEnquiries = Enquiry::orderBy('created_at', 'DESC')->take(10)->get();
-        return view('admin.dashboard.index', compact(['serviceCounts', 'blogCounts', 'enquiryCounts', 'latestEnquiries']));
+        $meetingCounts = \App\Models\Meeting::upcoming()->count();
+        $upcomingMeetings = \App\Models\Meeting::upcoming()->take(5)->get();
+        return view('admin.dashboard.index', compact(['serviceCounts', 'blogCounts', 'enquiryCounts', 'latestEnquiries', 'meetingCounts', 'upcomingMeetings']));
     }
 
 
+    /**
+     * The sitemap is now built live from the database at /sitemap.xml.
+     * This just drops the cached copy so the next request rebuilds it.
+     */
     public function generate()
     {
-        $appurl = env('APP_URL');
-        $sitemap = SitemapGenerator::create($appurl);
+        foreach (\App\Http\Controllers\SeoController::CACHE_KEYS as $key) {
+            \Illuminate\Support\Facades\Cache::forget($key);
+        }
 
-        $sitemap->writeToFile(public_path('sitemap.xml'));
-
-        return 'Sitemap generated successfully!';
+        return redirect()->route('sitemap');
     }
 }

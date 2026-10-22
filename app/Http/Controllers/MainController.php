@@ -20,8 +20,9 @@ class MainController extends Controller
 {
     public function index()
     {
-        $categories = Category::where('status', 1)->orderBy('sort_order')->take(6)->get();
-        $featuredServices = Service::where('status', 1)
+        $categories = Category::with('subcategories')->where('status', 1)->orderBy('sort_order')->take(6)->get();
+        $featuredServices = Service::with(['category', 'subcategory'])
+            ->where('status', 1)
             ->where('featured', 1)
             ->orderBy('sort_order')
             ->take(6)
@@ -97,7 +98,7 @@ class MainController extends Controller
 
     public function gallery()
     {
-        $services = Service::where('status', 1)->latest()->get();
+        $services = Service::with(['category', 'subcategory'])->where('status', 1)->latest()->get();
         return view('frontend.gallery', compact('services'))
             ->with('seo', Seo::page('gallery'));
     }
@@ -257,6 +258,9 @@ class MainController extends Controller
             'email' => 'required|email|max:255',
             'phone' => 'required|numeric|digits_between:10,15',
             'message' => 'required',
+            'company' => 'nullable|string|max:255',
+            'interest' => 'nullable|array',
+            'interest.*' => 'string|max:100',
         ];
         if ($recaptchaEnabled) {
             $rules['g-recaptcha-response'] = 'required';
@@ -297,7 +301,7 @@ class MainController extends Controller
             $enquiry->name = $request->name;
             $enquiry->email = $request->email;
             $enquiry->phone = $request->phone;
-            $enquiry->message = $request->message;
+            $enquiry->message = $this->composeMessage($request);
 
             if ($enquiry->save()) {
                 $this->notifyEnquiry($enquiry);
@@ -308,6 +312,26 @@ class MainController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with(['status' => 'danger', 'message' => $e->getMessage()]);
         }
+    }
+
+    /**
+     * The enquiries table only has a message column, so the optional company
+     * and "what can we help with" picks from the contact form are prepended.
+     */
+    private function composeMessage(Request $request): string
+    {
+        $lines = [];
+        if ($request->filled('company')) {
+            $lines[] = 'Company: ' . $request->company;
+        }
+        $interests = array_filter((array) $request->input('interest', []));
+        if ($interests) {
+            $lines[] = 'Interested in: ' . implode(', ', $interests);
+        }
+
+        return $lines
+            ? implode("\n", $lines) . "\n\n" . $request->message
+            : (string) $request->message;
     }
 
     /**
