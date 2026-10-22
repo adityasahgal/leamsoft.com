@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Cache;
  */
 class SeoController extends Controller
 {
-    public const CACHE_KEYS = ['seo.sitemap', 'seo.feed', 'seo.llms'];
+    public const CACHE_KEYS = ['seo.sitemap', 'seo.feed', 'seo.llms', 'chatbot.system'];
 
     /** Public static pages: path => [priority, changefreq] */
     private const PAGES = [
@@ -87,7 +87,18 @@ class SeoController extends Controller
 
     public function llms()
     {
-        $text = Cache::remember('seo.llms', 3600, function () {
+        $text = Cache::remember('seo.llms', 3600, fn () => self::buildLlms());
+
+        return response($text, 200, ['Content-Type' => 'text/plain; charset=UTF-8']);
+    }
+
+    /**
+     * Plain-text site summary (services, blog, company, contact). Served as
+     * /llms.txt and reused as the website chatbot's knowledge.
+     */
+    public static function buildLlms(): string
+    {
+        return (function () {
             $setting = Setting::first();
             $categories = Category::with('subcategories')->where('status', 1)->orderBy('sort_order')->get();
             $posts = Blog::where('status', 1)->latest()->take(30)->get();
@@ -154,9 +165,7 @@ class SeoController extends Controller
             $out[] = '- [Terms & conditions](' . url('terms-condition') . ')';
 
             return implode("\n", $out) . "\n";
-        });
-
-        return response($text, 200, ['Content-Type' => 'text/plain; charset=UTF-8']);
+        })();
     }
 
     /**
