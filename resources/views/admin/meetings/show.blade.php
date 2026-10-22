@@ -17,7 +17,7 @@
             </tr>
             <tr>
                 <th>Mode</th>
-                <td>{{ $row->mode_label }}</td>
+                <td>{{ $row->mode_label }}@if($row->mode !== 'video') · {{ $row->locationText() }}@endif</td>
             </tr>
             <tr>
                 <th>Name</th>
@@ -54,19 +54,48 @@
     </table>
 
     <div class="form-group">
+        <label for="meeting_link">Meeting link</label>
+        <div class="input-group">
+            <input type="url" id="meeting_link" class="form-control" value="{{ $row->meeting_link }}" placeholder="https://meet.google.com/… or https://meet.jit.si/…">
+            <div class="input-group-append">
+                @if($row->meeting_link)
+                    <a href="{{ $row->meeting_link }}" target="_blank" rel="noopener" class="btn btn-outline-secondary" title="Open link"><i class="fas fa-external-link-alt"></i></a>
+                @endif
+                <button type="button" class="btn btn-outline-secondary" onclick='newMeetingLink({{ (int) $row->id }})' title="Generate a new video link">New video link</button>
+            </div>
+        </div>
+        <small class="form-text text-muted">
+            Paste a Google Meet / Zoom link, or generate a free video link. Use “Save &amp; email client” to send the updated details.
+            @if($row->client_notified_at)
+                Client last emailed {{ $row->client_notified_at->timezone(config('meetings.timezone'))->format('j M, g:i A') }}.
+            @else
+                <span class="text-danger">Client has not been emailed yet.</span>
+            @endif
+        </small>
+    </div>
+
+    <div class="form-group">
         <label for="admin_note">Internal note</label>
-        <textarea id="admin_note" class="form-control" rows="3" placeholder="Meeting link, who's attending, follow-up…">{{ $row->admin_note }}</textarea>
+        <textarea id="admin_note" class="form-control" rows="3" placeholder="Who's attending, follow-up…">{{ $row->admin_note }}</textarea>
+    </div>
+
+    <div class="form-group mb-0">
+        <label for="meeting_status">Status</label>
+        <select id="meeting_status" class="form-control" style="max-width:220px">
+            @foreach(config('meetings.statuses') as $value => $label)
+                <option value="{{ $value }}" @selected($value === $row->status)>{{ $label }}</option>
+            @endforeach
+        </select>
     </div>
 </div>
 <div class="modal-footer justify-content-between">
+    <a href="{{ $row->googleCalendarUrl('Leamsoft call with ' . $row->name) }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary">
+        <i class="far fa-calendar-plus"></i> Add to my calendar
+    </a>
     <div>
-        @foreach(config('meetings.statuses') as $value => $label)
-            @if($value !== $row->status)
-                <button type="button" class="btn btn-sm btn-outline-{{ $badge[$value] ?? 'secondary' }}" onclick='setMeetingStatus({{ (int) $row->id }}, @json($value))'>
-                    Mark {{ strtolower($label) }}
-                </button>
-            @endif
-        @endforeach
+        <button type="button" class="btn btn-sm btn-outline-primary" onclick='saveMeeting({{ (int) $row->id }}, false)'>Save</button>
+        <button type="button" class="btn btn-sm btn-primary" onclick='saveMeeting({{ (int) $row->id }}, true)'>
+            <i class="fas fa-paper-plane"></i> Save &amp; email client
+        </button>
     </div>
-    <button type="button" class="btn btn-sm btn-primary" onclick='setMeetingStatus({{ (int) $row->id }}, @json($row->status))'>Save note</button>
 </div>

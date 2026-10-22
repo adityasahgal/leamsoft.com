@@ -61,6 +61,7 @@ Route::group(['middleware' => 'XssSanitizer'], function () {
             Route::get('meetings', [AdminMeetingController::class, 'index'])->name('meetings.index');
             Route::post('meetings/show', [AdminMeetingController::class, 'show'])->name('meetings.show');
             Route::post('meetings/status', [AdminMeetingController::class, 'status'])->name('meetings.status');
+            Route::post('meetings/new-link', [AdminMeetingController::class, 'newLink'])->name('meetings.newLink');
 
             // Setting Routes
             Route::get('setting', [SettingController::class, 'index'])->name('setting.index');

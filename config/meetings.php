@@ -28,10 +28,15 @@ return [
 
     // How the call can happen: value => label
     'modes' => [
-        'google_meet' => 'Google Meet',
-        'phone'       => 'Phone call',
-        'in_person'   => 'In person (Delhi NCR)',
+        'video'     => 'Video call',
+        'phone'     => 'Phone call',
+        'in_person' => 'In person (Delhi NCR)',
     ],
+
+    // Video calls get a link generated at booking time. Jitsi Meet needs no
+    // account or API key, so the link works immediately. The team can swap
+    // it for a Google Meet / Zoom link from admin > Meetings and re-send.
+    'video_base_url' => env('MEETING_VIDEO_BASE_URL', 'https://meet.jit.si'),
 
     'statuses' => [
         'pending'   => 'Pending',

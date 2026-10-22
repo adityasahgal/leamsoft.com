@@ -84,7 +84,7 @@
                         <legend class="flabel">How should we meet?</legend>
                         <div class="chips">
                             @foreach(config('meetings.modes') as $value => $label)
-                                <input type="radio" id="mode-{{ $value }}" name="mode" value="{{ $value }}" @checked(old('mode', 'google_meet') === $value)>
+                                <input type="radio" id="mode-{{ $value }}" name="mode" value="{{ $value }}" @checked(old('mode', 'video') === $value)>
                                 <label for="mode-{{ $value }}">{{ $label }}</label>
                             @endforeach
                         </div>

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MeetingConfirmation;
 use App\Mail\MeetingScheduled;
 use App\Models\Meeting;
 use App\Support\Seo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -72,38 +73,59 @@ class MeetingController extends Controller
 
         [$date, $time] = explode(' ', $request->slot);
 
-        // Hold the slot while we check and write, so two people can't take it at once
-        $lock = Cache::lock("meeting-slot:{$date}:{$time}", 10);
-        if (! $lock->get()) {
+        if (! Meeting::isAvailable($date, $time)) {
             return $this->slotGone();
         }
 
         try {
-            if (! Meeting::isAvailable($date, $time)) {
-                return $this->slotGone();
-            }
+            // Row-lock the slot inside a transaction so two people can't
+            // book it at once. Needs only the meetings table -- no cache
+            // store or cache_locks table involved.
+            $meeting = DB::transaction(function () use ($request, $date, $time) {
+                $taken = Meeting::active()
+                    ->whereDate('meeting_date', $date)
+                    ->where('meeting_time', $time)
+                    ->lockForUpdate()
+                    ->exists();
 
-            $meeting = Meeting::create([
-                'name'         => $request->name,
-                'email'        => $request->email,
-                'phone'        => $request->phone,
-                'company'      => $request->company,
-                'topic'        => $request->topic,
-                'mode'         => $request->mode,
-                'meeting_date' => $date,
-                'meeting_time' => $time,
-                'notes'        => $request->notes,
-                'status'       => 'pending',
-                'ip'           => $request->ip(),
-            ]);
-        } finally {
-            $lock->release();
+                if ($taken) {
+                    return null;
+                }
+
+                return Meeting::create([
+                    'name'         => $request->name,
+                    'email'        => $request->email,
+                    'phone'        => $request->phone,
+                    'company'      => $request->company,
+                    'topic'        => $request->topic,
+                    'mode'         => $request->mode,
+                    'meeting_link' => $request->mode === 'video' ? Meeting::newVideoLink($date, $time) : null,
+                    'meeting_date' => $date,
+                    'meeting_time' => $time,
+                    'notes'        => $request->notes,
+                    'status'       => 'pending',
+                    'ip'           => $request->ip(),
+                ]);
+            });
+        } catch (\Throwable $e) {
+            Log::error('Meeting booking failed: ' . $e->getMessage(), ['exception' => $e]);
+
+            return back()
+                ->withErrors(['slot' => 'We couldn’t save your booking just now. Please try again, or call/WhatsApp us and we’ll set it up for you.'])
+                ->withInput();
         }
+
+        if (! $meeting) {
+            return $this->slotGone();
+        }
+
+        // Visitor first, so the admin email can say whether it went out
+        self::sendClientConfirmation($meeting);
 
         try {
             Mail::to(config('mail.enquiry_to'))->send(new MeetingScheduled($meeting));
-        } catch (\Exception $e) {
-            Log::error('Meeting mail failed: ' . $e->getMessage());
+        } catch (\Throwable $e) {
+            Log::error('Meeting admin mail failed: ' . $e->getMessage());
         }
 
         // Remember which booking this browser may view on the thank-you page
@@ -125,6 +147,24 @@ class MeetingController extends Controller
             'meeting' => $meeting,
             'seo'     => Seo::page('meeting', ['robots' => 'noindex, follow', 'title' => 'Meeting scheduled']),
         ]);
+    }
+
+    /**
+     * Email the visitor their date, time and join link. Records when it
+     * went out; failures are logged, never shown to the visitor.
+     */
+    public static function sendClientConfirmation(Meeting $meeting, bool $updated = false): bool
+    {
+        try {
+            Mail::to($meeting->email, $meeting->name)->send(new MeetingConfirmation($meeting, $updated));
+            $meeting->forceFill(['client_notified_at' => now()])->save();
+
+            return true;
+        } catch (\Throwable $e) {
+            Log::error('Meeting client mail failed: ' . $e->getMessage());
+
+            return false;
+        }
     }
 
     private function slotGone()

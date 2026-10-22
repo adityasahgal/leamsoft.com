@@ -43,21 +43,46 @@ class MeetingController extends Controller
     public function status(Request $request)
     {
         $request->validate([
-            'id'         => 'required|integer|exists:meetings,id',
-            'status'     => ['required', Rule::in(array_keys(config('meetings.statuses')))],
-            'admin_note' => 'nullable|string|max:2000',
+            'id'           => 'required|integer|exists:meetings,id',
+            'status'       => ['required', Rule::in(array_keys(config('meetings.statuses')))],
+            'admin_note'   => 'nullable|string|max:2000',
+            'meeting_link' => 'nullable|url|max:500',
+            'notify'       => 'nullable|boolean',
         ]);
 
         $meeting = Meeting::findOrFail($request->id);
+        $linkChanged = $request->has('meeting_link') && $request->meeting_link !== $meeting->meeting_link;
+
         $meeting->status = $request->status;
         if ($request->has('admin_note')) {
             $meeting->admin_note = $request->admin_note;
         }
+        if ($request->has('meeting_link')) {
+            $meeting->meeting_link = $request->meeting_link ?: null;
+        }
         $meeting->save();
 
+        $message = 'Meeting saved as ' . strtolower($meeting->status_label) . '.';
+
+        if ($request->boolean('notify')) {
+            $sent = \App\Http\Controllers\MeetingController::sendClientConfirmation($meeting, true);
+            $message .= $sent
+                ? ' Updated details emailed to ' . $meeting->email . '.'
+                : ' But the email to the client could not be sent — check the mail settings.';
+        } elseif ($linkChanged) {
+            $message .= ' The client has not been emailed the new link yet.';
+        }
+
+        return response()->json(['status' => 'success', 'message' => $message]);
+    }
+
+    /** Fresh video link for a meeting (not saved until "Save"). */
+    public function newLink(Request $request)
+    {
+        $meeting = Meeting::findOrFail($request->id);
+
         return response()->json([
-            'status'  => 'success',
-            'message' => 'Meeting marked as ' . strtolower($meeting->status_label) . '.',
+            'link' => Meeting::newVideoLink($meeting->meeting_date->format('Y-m-d'), $meeting->meeting_time),
         ]);
     }
 

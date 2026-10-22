@@ -116,18 +116,48 @@
     });
   }
 
-  function setMeetingStatus(id, status) {
+  function postMeeting(payload, closeModal) {
+    payload._token = "{{ csrf_token() }}";
     $.ajax({
       url: "{{ route('meetings.status') }}",
       type: 'POST',
-      data: { _token: "{{ csrf_token() }}", id: id, status: status, admin_note: $('#admin_note').length ? $('#admin_note').val() : undefined },
+      data: payload,
       success: function(res) {
-        $('#meetingModal').modal('hide');
-        Swal.fire({ icon: 'success', title: 'Updated', text: res.message, timer: 1600, showConfirmButton: false });
-        var page = $('#pageUrl').val();
-        loadMeetings(page);
+        if (closeModal) $('#meetingModal').modal('hide');
+        Swal.fire({ icon: 'success', title: 'Saved', text: res.message });
+        loadMeetings($('#pageUrl').val());
       },
-      error: function() { Swal.fire({ icon: 'error', title: 'Error', text: 'Could not update the meeting.' }); }
+      error: function(xhr) {
+        var msg = 'Could not update the meeting.';
+        if (xhr.responseJSON && xhr.responseJSON.errors) {
+          msg = Object.values(xhr.responseJSON.errors).map(function(e) { return e[0]; }).join(' ');
+        }
+        Swal.fire({ icon: 'error', title: 'Error', text: msg });
+      }
+    });
+  }
+
+  // Quick action from the table (e.g. Confirm) -- keeps link and note as they are
+  function setMeetingStatus(id, status) {
+    postMeeting({ id: id, status: status }, false);
+  }
+
+  // Save from the details modal; notify = also email the client the details
+  function saveMeeting(id, notify) {
+    var link = $.trim($('#meeting_link').val());
+    if (notify && !link && !confirm('There is no meeting link. Email the client anyway?')) return;
+    postMeeting({
+      id: id,
+      status: $('#meeting_status').val(),
+      admin_note: $('#admin_note').val(),
+      meeting_link: link,
+      notify: notify ? 1 : 0
+    }, true);
+  }
+
+  function newMeetingLink(id) {
+    $.post("{{ route('meetings.newLink') }}", { _token: "{{ csrf_token() }}", id: id }, function(res) {
+      $('#meeting_link').val(res.link).trigger('focus');
     });
   }
 </script>
